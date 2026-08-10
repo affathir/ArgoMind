@@ -1,0 +1,132 @@
+# =============================================================================
+#  AgriMind – docker-compose.yml
+#  Orchestrates: backend (Node.js/Express) · frontend (Next.js) · ml (Python)
+#  Reverse-proxy: Nginx (infra/nginx)
+# =============================================================================
+
+version: "3.9"
+
+# ---------------------------------------------------------------------------
+# Named volumes
+# ---------------------------------------------------------------------------
+volumes:
+  ml_models:          # shared between ml service and backend
+  postgres_data:      # optional: swap for TimescaleDB for time-series data
+
+# ---------------------------------------------------------------------------
+# Shared network
+# ---------------------------------------------------------------------------
+networks:
+  agrimind_net:
+    driver: bridge
+
+# ---------------------------------------------------------------------------
+# Services
+# ---------------------------------------------------------------------------
+services:
+
+  # ── 1. PostgreSQL (TimescaleDB-compatible) ────────────────────────────────
+  db:
+    image: postgres:16-alpine
+    container_name: agrimind_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB:       ${POSTGRES_DB:-agrimind}
+      POSTGRES_USER:     ${POSTGRES_USER:-agrimind}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - agrimind_net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-agrimind}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── 2. ML Service (Python / scikit-learn) ─────────────────────────────────
+  ml:
+    build:
+      context: ./ml
+      dockerfile: Dockerfile
+    container_name: agrimind_ml
+    restart: unless-stopped
+    environment:
+      MODEL_OUTPUT_DIR: /app/models
+    volumes:
+      - ml_models:/app/models          # expose trained models to backend
+      - ./ml/data:/app/data:ro         # read-only dataset mount
+    networks:
+      - agrimind_net
+    # The ML container trains on startup then exposes a lightweight
+    # prediction micro-service on port 5001
+    expose:
+      - "5001"
+
+  # ── 3. Backend (Node.js / Express) ────────────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: agrimind_backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+      ml:
+        condition: service_started
+    environment:
+      NODE_ENV:            ${NODE_ENV:-production}
+      PORT:                4000
+      DATABASE_URL:        postgresql://${POSTGRES_USER:-agrimind}:${POSTGRES_PASSWORD:-changeme}@db:5432/${POSTGRES_DB:-agrimind}
+      ML_SERVICE_URL:      http://ml:5001
+      IBM_WATSONX_API_KEY: ${IBM_WATSONX_API_KEY}
+      IBM_WATSONX_URL:     ${IBM_WATSONX_URL:-https://us-south.ml.cloud.ibm.com}
+      IBM_PROJECT_ID:      ${IBM_PROJECT_ID}
+      JWT_SECRET:          ${JWT_SECRET:-changeme_jwt}
+    volumes:
+      - ml_models:/app/ml_models:ro   # read trained models from shared volume
+    ports:
+      - "4000:4000"
+    networks:
+      - agrimind_net
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:4000/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+
+  # ── 4. Frontend (Next.js) ─────────────────────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:4000}
+    container_name: agrimind_frontend
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    environment:
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:4000}
+    ports:
+      - "3000:3000"
+    networks:
+      - agrimind_net
+
+  # ── 5. Nginx Reverse Proxy ────────────────────────────────────────────────
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: agrimind_nginx
+    restart: unless-stopped
+    depends_on:
+      - frontend
+      - backend
+    volumes:
+      - ./infra/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "80:80"
+      # - "443:443"   # uncomment when TLS certs are added
+    networks:
+      - agrimind_net

@@ -1,0 +1,9 @@
+# Normalise line endings for the whole repo
+* text=auto eol=lf
+
+# Force binary files
+*.png  binary
+*.jpg  binary
+*.ico  binary
+*.pkl  binary
+*.joblib binary

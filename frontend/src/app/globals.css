@@ -1,0 +1,22 @@
+/* =============================================================================
+   AgriMind – Global CSS (Tailwind base + custom font import)
+============================================================================= */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Ensure full-height layout */
+html, body {
+  height: 100%;
+}
+
+/* Blinking cursor animation used in AIPanel streaming */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+.animate-blink {
+  animation: blink 1s step-end infinite;
+}
