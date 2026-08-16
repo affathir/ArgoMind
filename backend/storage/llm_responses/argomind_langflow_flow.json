@@ -1,0 +1,1225 @@
+{
+  "id": "argomind-flow-v1",
+  "name": "ArgoMind Smart Farming Advisor",
+  "description": "RAG + LLM: saran pertanian Bahasa Indonesia dari data sensor IoT + knowledge base pertanian (Chroma vector store)",
+  "is_component": false,
+  "last_tested_version": "1.0.19",
+  "data": {
+    "nodes": [
+
+      {
+        "id": "ChatInput-001",
+        "type": "genericNode",
+        "position": { "x": 80, "y": 300 },
+        "selected": false,
+        "width": 320,
+        "height": 280,
+        "data": {
+          "id": "ChatInput-001",
+          "type": "ChatInput",
+          "display_name": "Chat Input",
+          "description": "Input context dari ArgoMind Backend (sensor + weather + ML prediction)",
+          "selected": false,
+          "node": {
+            "base_classes": ["Message"],
+            "display_name": "Chat Input",
+            "description": "Input context dari ArgoMind Backend",
+            "documentation": "",
+            "edited": false,
+            "template": {
+              "_type": "Component",
+              "input_value": {
+                "advanced": false,
+                "display_name": "Text",
+                "dynamic": false,
+                "info": "Context sensor dari backend ArgoMind. Format: 'farm_id=X | soil_moisture=Y | ...'",
+                "input_types": [],
+                "list": false,
+                "load_from_db": false,
+                "name": "input_value",
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "tool_mode": false,
+                "trace_as_input": true,
+                "trace_as_metadata": true,
+                "type": "str",
+                "value": ""
+              },
+              "sender": {
+                "advanced": false,
+                "display_name": "Sender",
+                "dynamic": false,
+                "info": "",
+                "name": "sender",
+                "options": ["Machine", "User"],
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "trace_as_metadata": true,
+                "type": "str",
+                "value": "User"
+              },
+              "sender_name": {
+                "advanced": false,
+                "display_name": "Sender Name",
+                "dynamic": false,
+                "info": "",
+                "input_types": [],
+                "list": false,
+                "load_from_db": false,
+                "name": "sender_name",
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "trace_as_metadata": true,
+                "type": "str",
+                "value": "ArgoMind Backend"
+              },
+              "session_id": {
+                "advanced": true,
+                "display_name": "Session ID",
+                "dynamic": false,
+                "info": "Gunakan farm_id sebagai session identifier",
+                "input_types": ["Message"],
+                "list": false,
+                "load_from_db": false,
+                "name": "session_id",
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "trace_as_metadata": true,
+                "type": "str",
+                "value": ""
+              },
+              "should_store_message": {
+                "advanced": true,
+                "display_name": "Store Messages",
+                "dynamic": false,
+                "info": "",
+                "list": false,
+                "name": "should_store_message",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "trace_as_metadata": false,
+                "type": "bool",
+                "value": true
+              }
+            }
+          }
+        }
+      },
+
+      {
+        "id": "File-001",
+        "type": "genericNode",
+        "position": { "x": 80, "y": 650 },
+        "selected": false,
+        "width": 320,
+        "height": 240,
+        "data": {
+          "id": "File-001",
+          "type": "File",
+          "display_name": "File (farming_knowledge_base.txt)",
+          "description": "UPLOAD: farming_knowledge_base.txt — knowledge base penyakit tanaman, irigasi, pupuk, dll.",
+          "selected": false,
+          "node": {
+            "base_classes": ["Data"],
+            "display_name": "File",
+            "description": "Load dokumen knowledge base pertanian",
+            "documentation": "",
+            "edited": false,
+            "template": {
+              "_type": "Component",
+              "path": {
+                "advanced": false,
+                "display_name": "Path",
+                "dynamic": false,
+                "file_types": [".txt", ".pdf", ".md", ".docx"],
+                "fileTypes": [".txt", ".pdf", ".md", ".docx"],
+                "info": "Upload farming_knowledge_base.txt dari folder backend/storage/llm_responses/",
+                "list": false,
+                "name": "path",
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "trace_as_metadata": false,
+                "type": "file",
+                "value": ""
+              },
+              "silent_errors": {
+                "advanced": true,
+                "display_name": "Silent Errors",
+                "dynamic": false,
+                "info": "",
+                "list": false,
+                "name": "silent_errors",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "trace_as_metadata": false,
+                "type": "bool",
+                "value": false
+              }
+            }
+          }
+        }
+      },
+
+      {
+        "id": "SplitText-001",
+        "type": "genericNode",
+        "position": { "x": 460, "y": 650 },
+        "selected": false,
+        "width": 320,
+        "height": 320,
+        "data": {
+          "id": "SplitText-001",
+          "type": "SplitText",
+          "display_name": "Split Text",
+          "description": "Pecah dokumen KB menjadi chunk 600 karakter untuk vector store",
+          "selected": false,
+          "node": {
+            "base_classes": ["Data"],
+            "display_name": "Split Text",
+            "description": "Memecah dokumen menjadi chunk untuk RAG",
+            "documentation": "",
+            "edited": false,
+            "template": {
+              "_type": "Component",
+              "data_inputs": {
+                "advanced": false,
+                "display_name": "Data Inputs",
+                "dynamic": false,
+                "info": "",
+                "input_types": ["Data"],
+                "list": true,
+                "name": "data_inputs",
+                "placeholder": "",
+                "required": true,
+                "show": true,
+                "title_case": false,
+                "trace_as_input": true,
+                "type": "other",
+                "value": ""
+              },
+              "chunk_size": {
+                "advanced": false,
+                "display_name": "Chunk Size",
+                "dynamic": false,
+                "info": "Ukuran tiap potongan teks dalam karakter",
+                "list": false,
+                "name": "chunk_size",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "trace_as_metadata": false,
+                "type": "int",
+                "value": 600
+              },
+              "chunk_overlap": {
+                "advanced": false,
+                "display_name": "Chunk Overlap",
+                "dynamic": false,
+                "info": "Tumpang tindih karakter antar chunk",
+                "list": false,
+                "name": "chunk_overlap",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "trace_as_metadata": false,
+                "type": "int",
+                "value": 80
+              },
+              "separator": {
+                "advanced": false,
+                "display_name": "Separator",
+                "dynamic": false,
+                "info": "",
+                "input_types": [],
+                "list": false,
+                "load_from_db": false,
+                "name": "separator",
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "trace_as_metadata": false,
+                "type": "str",
+                "value": "\n\n"
+              }
+            }
+          }
+        }
+      },
+
+      {
+        "id": "OpenAIEmbeddings-001",
+        "type": "genericNode",
+        "position": { "x": 460, "y": 1040 },
+        "selected": false,
+        "width": 320,
+        "height": 360,
+        "data": {
+          "id": "OpenAIEmbeddings-001",
+          "type": "OpenAIEmbeddings",
+          "display_name": "OpenAI Embeddings [GANTI PROVIDER]",
+          "description": "Embedding model untuk Chroma. Ganti dengan WatsonxEmbeddings jika pakai IBM.",
+          "selected": false,
+          "node": {
+            "base_classes": ["Embeddings"],
+            "display_name": "OpenAI Embeddings",
+            "description": "Model embedding untuk vector store",
+            "documentation": "",
+            "edited": false,
+            "template": {
+              "_type": "Component",
+              "model": {
+                "advanced": false,
+                "display_name": "Model",
+                "dynamic": false,
+                "info": "Untuk IBM WatsonX: hapus node ini, ganti dengan WatsonxEmbeddings",
+                "name": "model",
+                "options": [
+                  "text-embedding-3-small",
+                  "text-embedding-3-large",
+                  "text-embedding-ada-002"
+                ],
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "type": "str",
+                "value": "text-embedding-3-small"
+              },
+              "openai_api_key": {
+                "advanced": false,
+                "display_name": "OpenAI API Key",
+                "dynamic": false,
+                "info": "WAJIB DIISI dengan API key provider embedding-mu",
+                "input_types": [],
+                "list": false,
+                "load_from_db": false,
+                "name": "openai_api_key",
+                "password": true,
+                "placeholder": "sk-...",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "type": "str",
+                "value": ""
+              },
+              "openai_api_base": {
+                "advanced": true,
+                "display_name": "OpenAI API Base",
+                "dynamic": false,
+                "info": "Kosongkan untuk OpenAI. Isi jika pakai proxy atau Azure.",
+                "input_types": [],
+                "list": false,
+                "load_from_db": false,
+                "name": "openai_api_base",
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "type": "str",
+                "value": ""
+              }
+            }
+          }
+        }
+      },
+
+      {
+        "id": "Chroma-001",
+        "type": "genericNode",
+        "position": { "x": 840, "y": 800 },
+        "selected": false,
+        "width": 320,
+        "height": 500,
+        "data": {
+          "id": "Chroma-001",
+          "type": "Chroma",
+          "display_name": "Chroma — Vector Store KB Pertanian",
+          "description": "Local vector DB. Simpan & cari knowledge base pertanian. Ganti dengan Pinecone/AstraDB untuk cloud.",
+          "selected": false,
+          "node": {
+            "base_classes": ["VectorStore", "BaseRetriever"],
+            "display_name": "Chroma",
+            "description": "Vector store lokal berbasis Chroma",
+            "documentation": "",
+            "edited": false,
+            "template": {
+              "_type": "Component",
+              "collection_name": {
+                "advanced": false,
+                "display_name": "Collection Name",
+                "dynamic": false,
+                "info": "Nama koleksi Chroma untuk knowledge base pertanian",
+                "input_types": [],
+                "list": false,
+                "load_from_db": false,
+                "name": "collection_name",
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "type": "str",
+                "value": "argomind_farming_kb"
+              },
+              "persist_directory": {
+                "advanced": false,
+                "display_name": "Persist Directory",
+                "dynamic": false,
+                "info": "Folder penyimpanan Chroma DB di server Langflow",
+                "input_types": [],
+                "list": false,
+                "load_from_db": false,
+                "name": "persist_directory",
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "type": "str",
+                "value": "./argomind_chroma_db"
+              },
+              "embedding": {
+                "advanced": false,
+                "display_name": "Embedding",
+                "dynamic": false,
+                "info": "",
+                "input_types": ["Embeddings"],
+                "list": false,
+                "name": "embedding",
+                "placeholder": "",
+                "required": true,
+                "show": true,
+                "title_case": false,
+                "trace_as_input": true,
+                "type": "other",
+                "value": ""
+              },
+              "ingest_data": {
+                "advanced": false,
+                "display_name": "Ingest Data",
+                "dynamic": false,
+                "info": "",
+                "input_types": ["Data"],
+                "list": true,
+                "name": "ingest_data",
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "trace_as_input": true,
+                "type": "other",
+                "value": ""
+              },
+              "search_query": {
+                "advanced": false,
+                "display_name": "Search Query",
+                "dynamic": false,
+                "info": "Query pencarian dari ChatInput",
+                "input_types": ["Message"],
+                "list": false,
+                "name": "search_query",
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "trace_as_input": true,
+                "type": "other",
+                "value": ""
+              },
+              "number_of_results": {
+                "advanced": false,
+                "display_name": "Number of Results",
+                "dynamic": false,
+                "info": "Jumlah chunk relevan yang dikembalikan ke Prompt",
+                "list": false,
+                "name": "number_of_results",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "trace_as_metadata": false,
+                "type": "int",
+                "value": 4
+              },
+              "allow_duplicates": {
+                "advanced": true,
+                "display_name": "Allow Duplicates",
+                "dynamic": false,
+                "info": "",
+                "list": false,
+                "name": "allow_duplicates",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "trace_as_metadata": false,
+                "type": "bool",
+                "value": false
+              },
+              "search_type": {
+                "advanced": false,
+                "display_name": "Search Type",
+                "dynamic": false,
+                "info": "",
+                "name": "search_type",
+                "options": ["Similarity", "MMR"],
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "type": "str",
+                "value": "Similarity"
+              }
+            }
+          }
+        }
+      },
+
+      {
+        "id": "ParseData-001",
+        "type": "genericNode",
+        "position": { "x": 1220, "y": 800 },
+        "selected": false,
+        "width": 320,
+        "height": 300,
+        "data": {
+          "id": "ParseData-001",
+          "type": "ParseData",
+          "display_name": "Parse Data",
+          "description": "Ubah hasil RAG menjadi teks untuk dikirim ke Prompt sebagai {rag_context}",
+          "selected": false,
+          "node": {
+            "base_classes": ["Message"],
+            "display_name": "Parse Data",
+            "description": "Format Data RAG menjadi teks",
+            "documentation": "",
+            "edited": false,
+            "template": {
+              "_type": "Component",
+              "data": {
+                "advanced": false,
+                "display_name": "Data",
+                "dynamic": false,
+                "info": "",
+                "input_types": ["Data"],
+                "list": true,
+                "name": "data",
+                "placeholder": "",
+                "required": true,
+                "show": true,
+                "title_case": false,
+                "trace_as_input": true,
+                "type": "other",
+                "value": ""
+              },
+              "template": {
+                "advanced": false,
+                "display_name": "Template",
+                "dynamic": false,
+                "info": "Template tiap dokumen RAG. {text} diganti isi dokumen.",
+                "input_types": [],
+                "list": false,
+                "load_from_db": false,
+                "name": "template",
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "type": "str",
+                "value": "{text}"
+              },
+              "sep": {
+                "advanced": false,
+                "display_name": "Separator",
+                "dynamic": false,
+                "info": "Pemisah antar dokumen RAG",
+                "input_types": [],
+                "list": false,
+                "load_from_db": false,
+                "name": "sep",
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "type": "str",
+                "value": "\n---\n"
+              }
+            }
+          }
+        }
+      },
+
+      {
+        "id": "Prompt-001",
+        "type": "genericNode",
+        "position": { "x": 840, "y": 280 },
+        "selected": false,
+        "width": 320,
+        "height": 460,
+        "data": {
+          "id": "Prompt-001",
+          "type": "Prompt",
+          "display_name": "Prompt — System ArgoMind",
+          "description": "Gabungkan data sensor + prediksi ML + RAG knowledge base menjadi prompt untuk LLM",
+          "selected": false,
+          "node": {
+            "base_classes": ["Message"],
+            "display_name": "Prompt",
+            "description": "Template prompt ArgoMind",
+            "documentation": "",
+            "edited": false,
+            "template": {
+              "_type": "Component",
+              "template": {
+                "advanced": false,
+                "display_name": "Template",
+                "dynamic": false,
+                "info": "",
+                "list": false,
+                "load_from_db": false,
+                "name": "template",
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "type": "prompt",
+                "value": "Kamu adalah ArgoMind, asisten virtual pertanian cerdas yang membantu petani Indonesia membuat keputusan berdasarkan data sensor IoT real-time.\n\nGunakan BAHASA INDONESIA yang sederhana, ramah, dan mudah dipahami petani awam. Hindari istilah teknis yang berlebihan.\n\n---\n\n## DATA SENSOR REAL-TIME KEBUN\n- Kebun ID         : {farm_id}\n- Jenis Tanaman    : {crop_type}\n- Kelembapan Tanah : {soil_moisture}%\n- pH Tanah         : {soil_ph}\n- Suhu Udara       : {temperature} derajat C\n- Kelembapan Udara : {humidity}%\n- Curah Hujan Hari Ini : {rainfall_mm} mm\n- Lama Sinar Matahari  : {sunlight_hours} jam\n\n---\n\n## PREDIKSI PENYAKIT (MODEL ML)\n{ml_disease_prediction}\n\n---\n\n## PENGETAHUAN DARI DATABASE PERTANIAN\n{rag_context}\n\n---\n\n## TUGASMU\nBerdasarkan SEMUA informasi di atas, berikan respons dengan format:\n\n**Ringkasan Kondisi Kebun:**\n[1-2 kalimat kondisi terkini dengan bahasa sederhana]\n\n**Tindakan yang Harus Dilakukan Sekarang:**\n- [Tindakan 1 paling mendesak]\n- [Tindakan 2]\n- [Tindakan 3 jika diperlukan]\n\n**Peringatan Penting:**\n[Jika ada risiko tinggi, tulis dengan jelas. Jika aman, tulis: Kondisi kebun aman.]\n\nJawab langsung tanpa basa-basi pembuka."
+              },
+              "farm_id": {
+                "advanced": false,
+                "display_name": "farm_id",
+                "dynamic": false,
+                "field_type": "str",
+                "info": "",
+                "input_types": ["Message", "Text"],
+                "list": false,
+                "load_from_db": false,
+                "name": "farm_id",
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "type": "str",
+                "value": ""
+              },
+              "crop_type": {
+                "advanced": false,
+                "display_name": "crop_type",
+                "dynamic": false,
+                "field_type": "str",
+                "info": "",
+                "input_types": ["Message", "Text"],
+                "list": false,
+                "load_from_db": false,
+                "name": "crop_type",
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "type": "str",
+                "value": ""
+              },
+              "soil_moisture": {
+                "advanced": false,
+                "display_name": "soil_moisture",
+                "dynamic": false,
+                "field_type": "str",
+                "info": "",
+                "input_types": ["Message", "Text"],
+                "list": false,
+                "load_from_db": false,
+                "name": "soil_moisture",
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "type": "str",
+                "value": ""
+              },
+              "soil_ph": {
+                "advanced": false,
+                "display_name": "soil_ph",
+                "dynamic": false,
+                "field_type": "str",
+                "info": "",
+                "input_types": ["Message", "Text"],
+                "list": false,
+                "load_from_db": false,
+                "name": "soil_ph",
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "type": "str",
+                "value": ""
+              },
+              "temperature": {
+                "advanced": false,
+                "display_name": "temperature",
+                "dynamic": false,
+                "field_type": "str",
+                "info": "",
+                "input_types": ["Message", "Text"],
+                "list": false,
+                "load_from_db": false,
+                "name": "temperature",
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "type": "str",
+                "value": ""
+              },
+              "humidity": {
+                "advanced": false,
+                "display_name": "humidity",
+                "dynamic": false,
+                "field_type": "str",
+                "info": "",
+                "input_types": ["Message", "Text"],
+                "list": false,
+                "load_from_db": false,
+                "name": "humidity",
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "type": "str",
+                "value": ""
+              },
+              "rainfall_mm": {
+                "advanced": false,
+                "display_name": "rainfall_mm",
+                "dynamic": false,
+                "field_type": "str",
+                "info": "",
+                "input_types": ["Message", "Text"],
+                "list": false,
+                "load_from_db": false,
+                "name": "rainfall_mm",
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "type": "str",
+                "value": ""
+              },
+              "sunlight_hours": {
+                "advanced": false,
+                "display_name": "sunlight_hours",
+                "dynamic": false,
+                "field_type": "str",
+                "info": "",
+                "input_types": ["Message", "Text"],
+                "list": false,
+                "load_from_db": false,
+                "name": "sunlight_hours",
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "type": "str",
+                "value": ""
+              },
+              "ml_disease_prediction": {
+                "advanced": false,
+                "display_name": "ml_disease_prediction",
+                "dynamic": false,
+                "field_type": "str",
+                "info": "",
+                "input_types": ["Message", "Text"],
+                "list": false,
+                "load_from_db": false,
+                "name": "ml_disease_prediction",
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "type": "str",
+                "value": ""
+              },
+              "rag_context": {
+                "advanced": false,
+                "display_name": "rag_context",
+                "dynamic": false,
+                "field_type": "str",
+                "info": "Hasil RAG dari Chroma — diisi otomatis dari ParseData",
+                "input_types": ["Message", "Text"],
+                "list": false,
+                "load_from_db": false,
+                "name": "rag_context",
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "type": "str",
+                "value": ""
+              }
+            }
+          }
+        }
+      },
+
+      {
+        "id": "OpenAIModel-001",
+        "type": "genericNode",
+        "position": { "x": 1220, "y": 280 },
+        "selected": false,
+        "width": 320,
+        "height": 480,
+        "data": {
+          "id": "OpenAIModel-001",
+          "type": "OpenAIModel",
+          "display_name": "OpenAI [GANTI PROVIDER]",
+          "description": "LLM utama. Ganti dengan WatsonxLLM / GroqModel / MistralAIModel sesuai provider.",
+          "selected": false,
+          "node": {
+            "base_classes": ["Message", "LanguageModel"],
+            "display_name": "OpenAI",
+            "description": "LLM model untuk generate saran pertanian",
+            "documentation": "",
+            "edited": false,
+            "template": {
+              "_type": "Component",
+              "input_value": {
+                "advanced": false,
+                "display_name": "Input",
+                "dynamic": false,
+                "info": "",
+                "input_types": ["Message"],
+                "list": false,
+                "name": "input_value",
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "trace_as_input": true,
+                "type": "other",
+                "value": ""
+              },
+              "model_name": {
+                "advanced": false,
+                "display_name": "Model Name",
+                "dynamic": false,
+                "info": "WatsonX: ibm/granite-13b-chat-v2 | Mistral: mistral-small-latest | Groq: llama3-70b-8192",
+                "name": "model_name",
+                "options": [
+                  "gpt-4o",
+                  "gpt-4o-mini",
+                  "gpt-4-turbo",
+                  "gpt-3.5-turbo"
+                ],
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "type": "str",
+                "value": "gpt-4o-mini"
+              },
+              "api_key": {
+                "advanced": false,
+                "display_name": "OpenAI API Key",
+                "dynamic": false,
+                "info": "WAJIB DIISI dengan API key provider LLM-mu",
+                "input_types": [],
+                "list": false,
+                "load_from_db": false,
+                "name": "api_key",
+                "password": true,
+                "placeholder": "sk-...",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "type": "str",
+                "value": ""
+              },
+              "api_base": {
+                "advanced": true,
+                "display_name": "OpenAI API Base",
+                "dynamic": false,
+                "info": "Kosongkan untuk OpenAI. Groq: https://api.groq.com/openai/v1",
+                "input_types": [],
+                "list": false,
+                "load_from_db": false,
+                "name": "api_base",
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "type": "str",
+                "value": ""
+              },
+              "temperature": {
+                "advanced": false,
+                "display_name": "Temperature",
+                "dynamic": false,
+                "info": "0.3 = konsisten untuk saran teknis pertanian",
+                "list": false,
+                "name": "temperature",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "trace_as_metadata": false,
+                "type": "float",
+                "value": 0.3
+              },
+              "max_tokens": {
+                "advanced": false,
+                "display_name": "Max Tokens",
+                "dynamic": false,
+                "info": "",
+                "list": false,
+                "name": "max_tokens",
+                "placeholder": "768",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "trace_as_metadata": false,
+                "type": "int",
+                "value": 600
+              },
+              "stream": {
+                "advanced": true,
+                "display_name": "Stream",
+                "dynamic": false,
+                "info": "",
+                "list": false,
+                "name": "stream",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "trace_as_metadata": false,
+                "type": "bool",
+                "value": false
+              }
+            }
+          }
+        }
+      },
+
+      {
+        "id": "ChatOutput-001",
+        "type": "genericNode",
+        "position": { "x": 1600, "y": 280 },
+        "selected": false,
+        "width": 320,
+        "height": 300,
+        "data": {
+          "id": "ChatOutput-001",
+          "type": "ChatOutput",
+          "display_name": "Chat Output",
+          "description": "Output saran pertanian — dikembalikan ke ArgoMind backend via API",
+          "selected": false,
+          "node": {
+            "base_classes": ["Message"],
+            "display_name": "Chat Output",
+            "description": "Output saran ke ArgoMind backend",
+            "documentation": "",
+            "edited": false,
+            "template": {
+              "_type": "Component",
+              "input_value": {
+                "advanced": false,
+                "display_name": "Text",
+                "dynamic": false,
+                "info": "",
+                "input_types": ["Message"],
+                "list": false,
+                "name": "input_value",
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "trace_as_input": true,
+                "type": "other",
+                "value": ""
+              },
+              "data_template": {
+                "advanced": true,
+                "display_name": "Data Template",
+                "dynamic": false,
+                "info": "",
+                "input_types": [],
+                "list": false,
+                "load_from_db": false,
+                "name": "data_template",
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "type": "str",
+                "value": "{text}"
+              },
+              "sender": {
+                "advanced": false,
+                "display_name": "Sender",
+                "dynamic": false,
+                "info": "",
+                "name": "sender",
+                "options": ["Machine", "User"],
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "trace_as_metadata": true,
+                "type": "str",
+                "value": "Machine"
+              },
+              "sender_name": {
+                "advanced": false,
+                "display_name": "Sender Name",
+                "dynamic": false,
+                "info": "",
+                "input_types": [],
+                "list": false,
+                "load_from_db": false,
+                "name": "sender_name",
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "trace_as_metadata": true,
+                "type": "str",
+                "value": "ArgoMind AI"
+              },
+              "session_id": {
+                "advanced": true,
+                "display_name": "Session ID",
+                "dynamic": false,
+                "info": "",
+                "input_types": ["Message"],
+                "list": false,
+                "load_from_db": false,
+                "name": "session_id",
+                "placeholder": "",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "trace_as_metadata": true,
+                "type": "str",
+                "value": ""
+              },
+              "should_store_message": {
+                "advanced": true,
+                "display_name": "Store Messages",
+                "dynamic": false,
+                "info": "",
+                "list": false,
+                "name": "should_store_message",
+                "required": false,
+                "show": true,
+                "title_case": false,
+                "trace_as_metadata": false,
+                "type": "bool",
+                "value": true
+              }
+            }
+          }
+        }
+      }
+
+    ],
+
+    "edges": [
+      {
+        "id": "e1-file-to-split",
+        "animated": false,
+        "className": "",
+        "data": {
+          "sourceHandle": {
+            "dataType": "File",
+            "id": "File-001",
+            "name": "data",
+            "output_types": ["Data"]
+          },
+          "targetHandle": {
+            "fieldName": "data_inputs",
+            "id": "SplitText-001",
+            "inputTypes": ["Data"],
+            "type": "other"
+          }
+        },
+        "source": "File-001",
+        "sourceHandle": "File-001|data|0",
+        "target": "SplitText-001",
+        "targetHandle": "SplitText-001|data_inputs|0",
+        "type": "default"
+      },
+      {
+        "id": "e2-split-to-chroma",
+        "animated": false,
+        "className": "",
+        "data": {
+          "sourceHandle": {
+            "dataType": "SplitText",
+            "id": "SplitText-001",
+            "name": "chunks",
+            "output_types": ["Data"]
+          },
+          "targetHandle": {
+            "fieldName": "ingest_data",
+            "id": "Chroma-001",
+            "inputTypes": ["Data"],
+            "type": "other"
+          }
+        },
+        "source": "SplitText-001",
+        "sourceHandle": "SplitText-001|chunks|0",
+        "target": "Chroma-001",
+        "targetHandle": "Chroma-001|ingest_data|0",
+        "type": "default"
+      },
+      {
+        "id": "e3-embed-to-chroma",
+        "animated": false,
+        "className": "",
+        "data": {
+          "sourceHandle": {
+            "dataType": "OpenAIEmbeddings",
+            "id": "OpenAIEmbeddings-001",
+            "name": "embeddings",
+            "output_types": ["Embeddings"]
+          },
+          "targetHandle": {
+            "fieldName": "embedding",
+            "id": "Chroma-001",
+            "inputTypes": ["Embeddings"],
+            "type": "other"
+          }
+        },
+        "source": "OpenAIEmbeddings-001",
+        "sourceHandle": "OpenAIEmbeddings-001|embeddings|0",
+        "target": "Chroma-001",
+        "targetHandle": "Chroma-001|embedding|0",
+        "type": "default"
+      },
+      {
+        "id": "e4-chatinput-to-chroma-query",
+        "animated": false,
+        "className": "",
+        "data": {
+          "sourceHandle": {
+            "dataType": "ChatInput",
+            "id": "ChatInput-001",
+            "name": "message",
+            "output_types": ["Message"]
+          },
+          "targetHandle": {
+            "fieldName": "search_query",
+            "id": "Chroma-001",
+            "inputTypes": ["Message"],
+            "type": "other"
+          }
+        },
+        "source": "ChatInput-001",
+        "sourceHandle": "ChatInput-001|message|0",
+        "target": "Chroma-001",
+        "targetHandle": "Chroma-001|search_query|0",
+        "type": "default"
+      },
+      {
+        "id": "e5-chroma-to-parsedata",
+        "animated": false,
+        "className": "",
+        "data": {
+          "sourceHandle": {
+            "dataType": "Chroma",
+            "id": "Chroma-001",
+            "name": "search_results",
+            "output_types": ["Data"]
+          },
+          "targetHandle": {
+            "fieldName": "data",
+            "id": "ParseData-001",
+            "inputTypes": ["Data"],
+            "type": "other"
+          }
+        },
+        "source": "Chroma-001",
+        "sourceHandle": "Chroma-001|search_results|0",
+        "target": "ParseData-001",
+        "targetHandle": "ParseData-001|data|0",
+        "type": "default"
+      },
+      {
+        "id": "e6-parsedata-to-prompt",
+        "animated": false,
+        "className": "",
+        "data": {
+          "sourceHandle": {
+            "dataType": "ParseData",
+            "id": "ParseData-001",
+            "name": "text",
+            "output_types": ["Message"]
+          },
+          "targetHandle": {
+            "fieldName": "rag_context",
+            "id": "Prompt-001",
+            "inputTypes": ["Message", "Text"],
+            "type": "str"
+          }
+        },
+        "source": "ParseData-001",
+        "sourceHandle": "ParseData-001|text|0",
+        "target": "Prompt-001",
+        "targetHandle": "Prompt-001|rag_context|0",
+        "type": "default"
+      },
+      {
+        "id": "e7-prompt-to-llm",
+        "animated": false,
+        "className": "",
+        "data": {
+          "sourceHandle": {
+            "dataType": "Prompt",
+            "id": "Prompt-001",
+            "name": "prompt",
+            "output_types": ["Message"]
+          },
+          "targetHandle": {
+            "fieldName": "input_value",
+            "id": "OpenAIModel-001",
+            "inputTypes": ["Message"],
+            "type": "other"
+          }
+        },
+        "source": "Prompt-001",
+        "sourceHandle": "Prompt-001|prompt|0",
+        "target": "OpenAIModel-001",
+        "targetHandle": "OpenAIModel-001|input_value|0",
+        "type": "default"
+      },
+      {
+        "id": "e8-llm-to-output",
+        "animated": false,
+        "className": "",
+        "data": {
+          "sourceHandle": {
+            "dataType": "OpenAIModel",
+            "id": "OpenAIModel-001",
+            "name": "text_output",
+            "output_types": ["Message"]
+          },
+          "targetHandle": {
+            "fieldName": "input_value",
+            "id": "ChatOutput-001",
+            "inputTypes": ["Message"],
+            "type": "other"
+          }
+        },
+        "source": "OpenAIModel-001",
+        "sourceHandle": "OpenAIModel-001|text_output|0",
+        "target": "ChatOutput-001",
+        "targetHandle": "ChatOutput-001|input_value|0",
+        "type": "default"
+      }
+    ],
+
+    "viewport": { "x": 0, "y": 0, "zoom": 0.65 }
+  }
+}

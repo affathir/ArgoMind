@@ -8,20 +8,14 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // AgriMind brand palette
         brand: {
-          green:  "#16a34a",  // primary – healthy/ok state
-          yellow: "#ca8a04",  // warning state
-          red:    "#dc2626",  // critical / alert state
-          blue:   "#2563eb",  // accent / info
-          soil:   "#92400e",  // thematic earth tone
+          50:  "#f0fdf4",
+          100: "#dcfce7",
+          500: "#22c55e",
+          600: "#16a34a",
+          700: "#15803d",
+          900: "#14532d",
         },
-      },
-      fontFamily: {
-        sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
-      },
-      animation: {
-        pulse_slow: "pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
       },
     },
   },

@@ -1,0 +1,294 @@
+# ArgoMind — Farming Knowledge Base
+# Dokumen ini digunakan sebagai sumber pengetahuan untuk RAG di Langflow.
+# Upload file ini melalui node "File" di Langflow, lalu sambungkan ke SplitText -> Chroma.
+
+==============================================================================
+BAGIAN 1: PENYAKIT TANAMAN DAN CARA PENANGANANNYA
+==============================================================================
+
+## 1.1 Penyakit Blast (Pyricularia oryzae)
+Tanaman terkena: Padi
+
+Gejala:
+- Bercak berbentuk berlian/belah ketupat pada daun, berwarna cokelat keabu-abuan
+- Tepi bercak berwarna kuning atau oranye
+- Pada serangan berat, daun mengering dari ujung ke pangkal
+- Serangan pada batang menyebabkan patahnya tangkai malai (neck blast)
+
+Kondisi lingkungan yang mendukung perkembangan blast:
+- Kelembapan udara di bawah 40% (kondisi kering)
+- Suhu udara antara 28-35°C
+- Kelembapan tanah rendah (di bawah 25%)
+- Curah hujan sangat sedikit (kurang dari 2 mm/hari)
+- Embun pagi yang tebal
+
+Pencegahan:
+- Jaga kelembapan tanah di atas 40% dengan irigasi teratur
+- Gunakan varietas padi tahan blast (Ciherang, Inpari 32)
+- Hindari pemupukan nitrogen berlebihan
+- Tanam dengan jarak yang cukup untuk sirkulasi udara
+
+Penanganan:
+- Semprotkan fungisida berbahan aktif Tricyclazole atau Isoprothiolane
+- Untuk serangan ringan: campurkan 2 sendok makan baking soda dalam 1 liter air, semprotkan pada daun
+- Cabut dan bakar tanaman yang terinfeksi parah
+- Lakukan penyemprotan pada pagi hari saat embun masih ada
+
+---
+
+## 1.2 Penyakit Bercak Daun (Helminthosporium oryzae)
+Tanaman terkena: Padi, Jagung, Gandum
+
+Gejala:
+- Bercak oval atau lonjong berwarna cokelat tua pada daun
+- Tepi bercak berwarna kuning pucat
+- Pada serangan berat, bercak menyatu dan daun mengering
+
+Kondisi lingkungan yang mendukung:
+- Suhu udara tinggi (30-35°C)
+- pH tanah di atas 7.0 (cenderung basa)
+- Kelembapan udara rendah (30-40%)
+- Pertanaman yang terlalu rapat
+
+Pencegahan:
+- Jaga pH tanah antara 5.5-7.0 dengan pengapuran yang tepat
+- Kurangi kepadatan tanaman, beri jarak tanam yang cukup
+- Hindari irigasi berlebihan yang menciptakan kondisi lembap stagnan
+- Rotasi tanaman untuk memutus siklus patogen
+
+Penanganan:
+- Semprotkan fungisida berbahan aktif Mancozeb atau Propiconazole
+- Buang daun yang terinfeksi dan musnahkan (jangan dijadikan kompos)
+- Tingkatkan drainase lahan jika ada genangan air
+
+---
+
+## 1.3 Penyakit Busuk Akar (Pythium spp. / Fusarium solani)
+Tanaman terkena: Semua jenis tanaman
+
+Gejala:
+- Akar berwarna cokelat kehitaman, lunak, dan berbau busuk
+- Tanaman layu meskipun tanah basah
+- Daun menguning dari bawah ke atas
+- Pertumbuhan terhambat
+
+Kondisi lingkungan yang mendukung:
+- Tanah tergenang air (kelembapan > 80%)
+- pH tanah sangat asam (di bawah 5.0)
+- Suhu rendah (18-24°C)
+- Drainase tanah buruk
+- Kelembapan udara sangat tinggi (> 85%)
+
+Pencegahan:
+- Perbaiki sistem drainase lahan sebelum tanam
+- Jangan biarkan air menggenang lebih dari 24 jam
+- Jaga pH tanah di atas 5.5 dengan kapur pertanian (dolomit)
+- Tambahkan bahan organik untuk memperbaiki struktur tanah
+
+Penanganan (SEGERA):
+- Kurangi irigasi secara drastis
+- Perbaiki saluran drainase segera
+- Siramkan fungisida berbahan aktif Metalaxyl ke zona akar
+- Tambahkan kapur pertanian untuk menaikkan pH jika di bawah 5.5
+- Untuk tanaman parah: cabut dan musnahkan, sterilkan tanah dengan formalin 2%
+
+---
+
+## 1.4 Penyakit Layu Fusarium (Fusarium oxysporum)
+Tanaman terkena: Tomat, Cabai, Semangka, Melon, Pisang
+
+Gejala:
+- Tanaman layu tiba-tiba meskipun tanah tidak kering
+- Daun menguning dari satu sisi terlebih dahulu
+- Batang bagian bawah berwarna cokelat jika dibelah
+- Tanaman mati secara perlahan
+
+Kondisi lingkungan yang mendukung:
+- pH tanah basa (di atas 7.5)
+- Suhu tinggi (32-37°C)
+- Kelembapan tanah rendah (15-25%)
+- Kondisi stres kekeringan berkepanjangan
+
+Pencegahan:
+- Jaga pH tanah antara 5.5-6.5 untuk tanaman rentan
+- Gunakan benih bersertifikat dan bebas penyakit
+- Rotasi tanaman setiap musim (jangan tanam solanacea terus-menerus)
+- Tambahkan Trichoderma harzianum ke tanah sebagai agen hayati
+
+Penanganan:
+- Cabut segera tanaman yang terinfeksi, jangan tinggalkan di lahan
+- Siramkan fungisida sistemik berbahan aktif Carbendazim ke lubang bekas
+- Sterilkan tanah dengan solarisasi (tutup plastik hitam 2-4 minggu)
+- Jangan gunakan alat yang terkena tanaman sakit tanpa disterilkan
+
+---
+
+## 1.5 Kondisi Tanaman Sehat
+Indikator tanaman sehat:
+
+Kelembapan tanah ideal:
+- Padi: 40-70%
+- Sayuran: 50-70%
+- Buah-buahan: 45-65%
+- Tanaman keras: 35-55%
+
+pH tanah ideal:
+- Padi: 5.5-7.0
+- Sayuran: 6.0-7.0
+- Kacang-kacangan: 6.0-7.0
+- Ubi-ubian: 5.5-6.5
+
+Suhu udara optimal:
+- Padi: 22-32°C
+- Jagung: 21-30°C
+- Sayuran daun: 15-25°C
+- Cabai/tomat: 22-30°C
+
+==============================================================================
+BAGIAN 2: TEKNIK IRIGASI
+==============================================================================
+
+## 2.1 Panduan Irigasi Berdasarkan Kelembapan Tanah
+
+Kelembapan < 20% (KRITIS):
+- Lakukan irigasi SEGERA
+- Durasi: 45-60 menit untuk irigasi tetes, 30 menit untuk sprinkler
+- Frekuensi: setiap hari sampai kelembapan mencapai 50%
+- Perhatian: jangan irigasi langsung di bawah sinar matahari terik (sebelum jam 09.00 atau setelah jam 16.00)
+
+Kelembapan 20-35% (RENDAH):
+- Irigasi diperlukan dalam 24 jam
+- Durasi: 30-45 menit
+- Pantau setiap 6 jam
+
+Kelembapan 35-65% (NORMAL):
+- Irigasi terjadwal biasa
+- Cek kondisi cuaca: jika hujan diprediksi > 5mm, tunda irigasi
+
+Kelembapan > 75% (TERLALU BASAH):
+- Hentikan irigasi
+- Periksa dan buka saluran drainase
+- Risiko busuk akar meningkat
+
+## 2.2 Tips Irigasi Efisien
+- Waktu terbaik irigasi: pagi hari (06.00-09.00) atau sore (16.00-18.00)
+- Hindari irigasi malam hari karena meningkatkan risiko jamur
+- Gunakan mulsa jerami atau plastik hitam untuk mengurangi penguapan
+- Cek prediksi cuaca sebelum irigasi — hemat air jika hujan diprediksi
+
+==============================================================================
+BAGIAN 3: PENGELOLAAN pH TANAH
+==============================================================================
+
+## 3.1 Cara Menaikkan pH Tanah (Tanah Terlalu Asam)
+
+pH < 5.5 (Terlalu Asam):
+- Tambahkan kapur pertanian (CaCO3) atau dolomit
+- Dosis: 1-2 ton/hektar untuk setiap 0.5 unit pH yang ingin dinaikkan
+- Cara aplikasi: taburkan merata, lalu cangkul/bajak ke dalam tanah
+- Tunggu 2-4 minggu sebelum tanam setelah pengapuran
+- Ulangi pemeriksaan pH setelah 1 bulan
+
+pH 5.5-6.0 (Agak Asam):
+- Tambahkan 500 kg dolomit per hektar
+- Aplikasikan bahan organik (kompos) untuk buffer pH
+
+## 3.2 Cara Menurunkan pH Tanah (Tanah Terlalu Basa)
+
+pH > 7.5 (Terlalu Basa):
+- Tambahkan belerang (sulfur) pertanian
+- Dosis: 100-200 kg/hektar untuk menurunkan 1 unit pH
+- Tambahkan kompos matang atau pupuk kandang
+- Siramkan larutan asam humat
+- Proses lebih lambat daripada pengapuran — butuh 4-8 minggu
+
+pH 7.0-7.5 (Agak Basa):
+- Tambahkan bahan organik secara rutin
+- Hindari pengapuran berlebihan
+
+==============================================================================
+BAGIAN 4: PEMUPUKAN
+==============================================================================
+
+## 4.1 Panduan Pemupukan Berdasarkan Kondisi Cuaca
+
+Sebelum/Saat Hujan Lebat (> 15 mm/hari):
+- TUNDA pemupukan kimia (NPK, Urea)
+- Alasan: pupuk akan tercuci bersama air hujan (leaching)
+- Lakukan pemupukan 2-3 hari setelah hujan berhenti
+
+Cuaca Panas Kering (suhu > 35°C, hujan < 2 mm):
+- TUNDA pemupukan Urea (mudah menguap karena panas)
+- Pupuk pada pagi/sore hari jika terpaksa
+- Pastikan tanah cukup lembap sebelum pemupukan
+
+Kondisi Normal:
+- Waktu terbaik pemupukan: pagi hari setelah embun turun
+- Pupuk dasar (sebelum tanam): Pupuk kandang/kompos + SP36
+- Pupuk susulan (3-4 minggu setelah tanam): NPK
+- Pupuk susulan kedua (6-7 minggu): KCl + Urea
+
+## 4.2 Gejala Kekurangan Nutrisi
+
+Kekurangan Nitrogen (N):
+- Daun menguning mulai dari daun tua (bawah)
+- Tanaman tumbuh kerdil
+- Solusi: siram Urea 1 sendok makan per 10 liter air
+
+Kekurangan Fosfor (P):
+- Daun berwarna ungu/kemerahan
+- Akar berkembang buruk
+- Solusi: tambahkan SP36 atau pupuk TSP
+
+Kekurangan Kalium (K):
+- Tepi daun mengering/terbakar (scorching)
+- Batang lemah dan mudah rebah
+- Solusi: tambahkan KCl atau pupuk MKP
+
+==============================================================================
+BAGIAN 5: PENGELOLAAN CUACA EKSTREM
+==============================================================================
+
+## 5.1 Penanganan Kekeringan (Hujan < 2 mm selama > 7 hari)
+- Prioritaskan irigasi untuk tanaman fase berbunga/berbuah
+- Pasang mulsa untuk mengurangi penguapan tanah
+- Kurangi kepadatan tanaman jika memungkinkan
+- Semprot air ke daun pada pagi hari (foliar spray)
+- Tambahkan silika untuk meningkatkan ketahanan kekeringan
+
+## 5.2 Penanganan Curah Hujan Ekstrem (> 50 mm/hari)
+- Pastikan saluran drainase terbuka dan tidak tersumbat
+- Buat parit sementara untuk mengalirkan kelebihan air
+- Tunda semua aplikasi pupuk dan pestisida
+- Setelah hujan, segera periksa kondisi akar tanaman
+- Waspada serangan penyakit jamur yang meningkat setelah hujan lebat
+
+## 5.3 Penanganan Suhu Tinggi (> 38°C)
+- Lakukan irigasi pada pagi dan sore hari
+- Pasang paranet 30-50% untuk mengurangi paparan sinar matahari langsung
+- Semprotkan air ke kanopi tanaman saat siang hari
+- Hindari stres ganda: jangan pupuk saat suhu tinggi
+
+==============================================================================
+BAGIAN 6: KALENDER TANAM DAN ROTASI
+==============================================================================
+
+## 6.1 Rotasi Tanaman yang Direkomendasikan
+
+Mencegah akumulasi patogen di tanah:
+- Musim 1: Padi / Jagung
+- Musim 2: Kacang-kacangan (memperbaiki nitrogen tanah)
+- Musim 3: Sayuran daun
+- Musim 4: Kembali ke Padi / Jagung
+
+Jangan tanam tanaman satu famili berturut-turut:
+- Solanaceae: tomat, cabai, terong, kentang
+- Cucurbitaceae: semangka, melon, mentimun, labu
+- Gramineae: padi, jagung, gandum
+
+## 6.2 Waktu Tanam Optimal (Indonesia)
+- Padi Sawah: Oktober-November (musim hujan) atau Maret-April (gadu)
+- Jagung: Oktober-November atau Februari-Maret
+- Cabai: Mei-Juni (musim kemarau, lebih sedikit penyakit)
+- Tomat: Mei-Juli
+- Kacang kedelai: Oktober-Desember

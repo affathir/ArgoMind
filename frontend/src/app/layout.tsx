@@ -1,14 +1,12 @@
-// =============================================================================
-//  Root Layout – wraps all pages with fonts, global CSS, and metadata
-// =============================================================================
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
+const inter = Inter({ subsets: ["latin"] });
+
 export const metadata: Metadata = {
-  title: "AgriMind – Decision Intelligence for Farming",
-  description:
-    "Real-time IoT sensor dashboard with AI-powered crop recommendations powered by IBM watsonx.ai",
-  icons: { icon: "/favicon.ico" },
+  title: "ArgoMind — Smart Farming Dashboard",
+  description: "Pantau kondisi kebun Anda secara real-time dengan AI",
 };
 
 export default function RootLayout({
@@ -18,7 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="id">
-      <body className="min-h-screen bg-gray-50 font-sans text-gray-900 antialiased">
+      <body className={`${inter.className} bg-gray-50 text-gray-900 antialiased`}>
         {children}
       </body>
     </html>
