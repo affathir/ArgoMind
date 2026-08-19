@@ -1,0 +1,163 @@
+# ArgoMind Knowledge Base — Long Beans & Soybean Cultivation Guide
+# Language: English
+
+==============================================================================
+SECTION: LONG BEANS (Vigna unguiculata subsp. sesquipedalis) &
+         SOYBEAN (Glycine max) — COMPLETE CULTIVATION GUIDE
+==============================================================================
+
+## OVERVIEW
+Long beans and soybean are leguminous crops that fix atmospheric nitrogen through
+root nodule bacteria (Rhizobium). This makes them excellent rotation crops after
+rice or corn. They improve soil fertility for the next planting season.
+Both crops are moderately drought-tolerant but sensitive to waterlogging.
+
+---
+
+## OPTIMAL GROWING CONDITIONS — LONG BEANS
+
+Soil moisture: 50–70%
+Soil pH: 6.0–7.0 (optimal 6.2–6.8)
+Air temperature: 22–35°C (optimal 25–30°C)
+Air humidity: 60–80%
+Sunlight: minimum 8 hours per day
+Growing period: 45–60 days from planting to first harvest
+Continuous harvest: every 3–5 days for 2–3 months
+
+## OPTIMAL GROWING CONDITIONS — SOYBEAN
+
+Soil moisture: 50–70% (drought-tolerant after establishment)
+Soil pH: 6.0–7.0 (Rhizobium bacteria prefer near-neutral pH)
+Air temperature: 22–32°C (optimal 25–28°C)
+Air humidity: 60–80%
+Sunlight: photoperiod-sensitive — performs best with 12–14 hours daylight
+Growing period: 75–100 days depending on variety
+
+---
+
+## GROWTH STAGES & WATER MANAGEMENT — SOYBEAN
+
+Germination & Emergence (0–10 days):
+- Soil moisture: 60–70%
+- Critical — drought causes patchy emergence; waterlogging causes damping-off
+- Temperature: minimum 18°C for germination
+
+Vegetative growth (10–35 days):
+- Soil moisture: 55–70%
+- Most drought-tolerant stage
+- Inoculate with Bradyrhizobium japonicum if not previously grown in field
+- Nodule formation begins — do NOT apply nitrogen fertilizer (inhibits nodulation)
+
+Flowering — CRITICAL STAGE (35–55 days):
+- Soil moisture: 60–75%
+- Drought at flowering causes pod abortion (50–70% yield reduction)
+- If soil_moisture < 40%: irrigate immediately
+- Do not waterlog — increases purple seed stain and stem rot
+
+Pod filling — MOST CRITICAL (55–80 days):
+- Soil moisture: 65–75%
+- Pod filling requires consistent moisture — any drought directly reduces seed size
+- Temperature > 35°C + drought dramatically reduces protein content
+
+Maturation (80–100 days):
+- Reduce irrigation — soil moisture: 40–50%
+- Harvest when 90% of pods have turned brown and rattle when shaken
+
+---
+
+## GROWTH STAGES & WATER MANAGEMENT — LONG BEANS
+
+Germination (0–7 days):
+- Soil moisture: 60–70%; avoid standing water
+
+Vegetative (7–25 days):
+- Soil moisture: 55–70%
+- Install trellis/bamboo support at 20 cm plant height
+
+Flowering & Harvest (25–60 days):
+- Soil moisture: 60–70%
+- Harvest pods at 35–40 cm length (before seeds bulge)
+- Reduce irrigation slightly 3 days before harvest for better pod texture
+
+---
+
+## DISEASE MANAGEMENT — LONG BEANS & SOYBEAN
+
+Cercospora Leaf Spot (Cercospora canescens / kikuchii):
+- Trigger: humidity > 80%, temperature 25–30°C
+- Symptoms: reddish-brown circular spots on leaves; purple stain on soybean seeds
+- Treatment: Mancozeb or Thiophanate-methyl spray every 10 days
+
+Soybean Rust (Phakopsora pachyrhizi):
+- Trigger: humidity > 75%, temperature 15–28°C, extended wet periods
+- Symptoms: small tan lesions with orange pustules on undersides of leaves
+- Most destructive soybean disease in Indonesia
+- Treatment: Trifloxystrobin or Azoxystrobin — apply at first symptom
+
+Root Rot (Phytophthora sojae / Pythium spp.):
+- Trigger: soil_moisture > 80%, pH < 5.5, poor drainage
+- Symptoms: damping-off in seedlings, brown rotting taproot
+- Prevention: improve drainage, pH management, avoid waterlogging
+
+Mosaic Virus (Soybean Mosaic Virus — transmitted by aphids):
+- Symptoms: mottled yellowing, leaf distortion, reduced pod set
+- Control: manage aphid populations with imidacloprid or neem oil
+- Use virus-free certified seeds
+
+Bacterial Pustule (Xanthomonas axonopodis):
+- Trigger: high humidity + rain splash + mechanical wounds
+- Symptoms: small yellow-green spots with raised centers on leaves
+- Treatment: copper-based bactericide
+
+---
+
+## NITROGEN FIXATION — KEY BENEFIT OF LEGUMES
+
+Both crops fix atmospheric nitrogen:
+- Long beans: 50–100 kg N/hectare per season
+- Soybean: 100–200 kg N/hectare per season
+
+To maximize nitrogen fixation:
+- Inoculate seeds with Rhizobium/Bradyrhizobium before planting
+- Soil pH must be 6.0–7.0 for bacteria to thrive
+- Do NOT apply nitrogen fertilizer (Urea/NPK) after establishment
+- Leave root system in soil after harvest to release nitrogen for next crop
+
+---
+
+## FERTILIZATION SCHEDULE — SOYBEAN
+
+Basal (at planting):
+- Organic compost: 2 tons/hectare
+- SP36: 100 kg/hectare
+- KCl: 75 kg/hectare
+- Dolomite: 500 kg/hectare if pH below 6.0
+
+Starter nitrogen (at planting only):
+- Urea: 25–50 kg/hectare (small amount to support early growth before nodulation)
+
+After nodulation (DO NOT apply nitrogen):
+- Potassium sulfate: 50 kg/hectare at pod filling stage
+- Foliar spray: boron + molybdenum (improves nodulation efficiency)
+
+---
+
+## IRRIGATION DECISION GUIDE
+
+Sensor reading → Action:
+- soil_moisture < 35%: Irrigate immediately — critical if at flowering or pod filling
+- soil_moisture 35–50%: Irrigate within 24 hours
+- soil_moisture 50–70%: Normal condition
+- soil_moisture > 80%: Stop irrigation — root rot and bacterial disease risk
+
+Critical alert for soybean:
+- If soil_moisture < 40% AND at flowering stage (day 35–55): emergency irrigation
+- Yield loss from drought at flowering is permanent and not recoverable
+
+---
+
+## ROTATION BENEFIT FOR NEXT SEASON
+After harvest of legumes:
+- Reduce nitrogen fertilizer by 25–30% for next corn or rice crop
+- Soil organic matter increases from root residues
+- Naturally suppresses some soil-borne pathogens through microbial diversity

@@ -1,0 +1,64 @@
+# ── Secrets & Environment
+.env
+.env.*
+!.env.example
+!.env.local.example
+
+# ── Python
+__pycache__/
+*.py[cod]
+*.so
+build/
+dist/
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ── Virtual Environments
+venv/
+env/
+.venv/
+backend/venv/
+backend/env/
+backend/.venv/
+
+# ── Node / Next.js
+node_modules/
+.next/
+out/
+frontend/node_modules/
+frontend/.next/
+npm-debug.log*
+yarn-debug.log*
+
+# ── ML Models (re-train with: python -m ml.train --gen)
+backend/storage/ml/models/*.pkl
+backend/storage/ml/results/*.png
+
+# ── Chroma Vector Store DB
+argomind_chroma_db/
+chroma_db/
+
+# ── Langflow auto-generated response logs
+backend/storage/llm_responses/*_202*.json
+
+# ── Database
+*.sqlite3
+*.db
+
+# ── Logs
+*.log
+logs/
+
+# ── OS & Editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.swp
+*~
+
+# ── Jupyter checkpoints
+.ipynb_checkpoints/

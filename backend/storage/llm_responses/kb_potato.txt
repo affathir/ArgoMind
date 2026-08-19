@@ -1,0 +1,132 @@
+# ArgoMind Knowledge Base — Potato (Kentang) Cultivation Guide
+# Language: English
+
+==============================================================================
+SECTION: POTATO (Solanum tuberosum) — COMPLETE CULTIVATION GUIDE
+==============================================================================
+
+## OVERVIEW
+Potato is primarily grown in highland areas of Indonesia (Dieng, Karo, Garut) at
+elevations of 1000–3000 meters above sea level. It is the most disease-susceptible
+crop in the Solanaceae family. Late blight (Phytophthora infestans) is responsible
+for up to 80% of crop losses in Indonesia if not managed correctly.
+
+---
+
+## OPTIMAL GROWING CONDITIONS
+
+Soil moisture: 60–80% (uniform moisture critical — tuber cracking and hollow heart if fluctuating)
+Soil pH: 5.0–6.5 (optimal 5.5–6.0; potato is more acid-tolerant than most crops)
+Air temperature: 15–22°C (optimal 18–20°C; above 28°C tuberization stops)
+Air humidity: 70–85%
+Sunlight: minimum 8 hours per day (photoperiod affects tuberization)
+Altitude: 1000–3000 m above sea level (ideal for Indonesia)
+Growing period: 90–120 days
+
+---
+
+## GROWTH STAGES & WATER MANAGEMENT
+
+Planting / Sprouting (0–20 days):
+- Soil moisture: 60–70%
+- Plant certified seed tubers with 2–3 eyes per piece
+- Temperature must be 15–22°C for proper sprouting
+- Do not waterlog at planting — seed rot risk
+
+Vegetative growth (20–50 days):
+- Soil moisture: 65–75%
+- Hill up soil around base of stems at 30 cm height (2–3 times)
+- Earthing up prevents green tubers (solanine formation)
+
+Tuberization — MOST CRITICAL STAGE (50–75 days):
+- Soil moisture: 70–80% (critical — do not let drop below 55%)
+- Low temperature + short days promote tuber initiation
+- Drought at this stage causes irregularly shaped tubers and hollow heart
+- If soil_moisture < 50% during tuberization: irrigate immediately
+
+Tuber bulking (75–100 days):
+- Soil moisture: 65–75%
+- Consistent moisture prevents tuber cracking and secondary growth
+- Monitor closely for late blight — highest risk period
+
+Maturation (100–120 days):
+- Reduce irrigation — soil moisture: 50–60%
+- 2 weeks before harvest: stop irrigation completely (skin set)
+- Haulm (foliage) destruction 10 days before harvest helps skin hardening
+
+---
+
+## DISEASE MANAGEMENT FOR POTATO
+
+Late Blight (Phytophthora infestans) — MOST CRITICAL:
+- Trigger: temperature 15–22°C + humidity > 90% + rainfall > 5 mm
+- Symptoms: water-soaked dark lesions on leaves, white mold underside, rapid spread
+- Can destroy entire crop in 7–10 days if untreated
+- Treatment: Metalaxyl + Mancozeb (systemic) every 5–7 days during rainy season
+- PREVENTIVE spraying is essential — do not wait for symptoms
+
+Early Blight (Alternaria solani):
+- Trigger: high temperature (25–30°C), aging lower leaves, nutritional stress
+- Symptoms: dark concentric ring lesions with yellow halo
+- Treatment: Chlorothalonil or Iprodione fungicide
+
+Common Scab (Streptomyces scabies):
+- Trigger: soil pH > 6.5, dry conditions during tuberization
+- Symptoms: rough corky lesions on tuber surface
+- Prevention: keep soil pH between 5.0–6.0 (most effective control)
+- Increase soil moisture during tuberization
+
+Bacterial Soft Rot (Erwinia carotovora):
+- Trigger: waterlogged soil + warm temperature
+- Symptoms: soft, water-soaked, foul-smelling tuber rot
+- Prevention: strict drainage management, avoid mechanical damage at harvest
+
+Black Leg (Erwinia carotovora subsp. atroseptica):
+- Trigger: wet soil + infected seed tubers
+- Symptoms: black discoloration of stem base, plant yellowing
+- Use certified disease-free seed tubers only
+
+---
+
+## FERTILIZATION SCHEDULE
+
+Basal (at planting):
+- Organic compost: 20–30 tons/hectare (potato is a heavy feeder)
+- SP36: 250 kg/hectare
+- KCl: 200 kg/hectare (potassium is critical for tuber quality)
+- Dolomite: 1 ton/hectare if pH below 5.0
+
+First top-dressing (25–30 days):
+- Urea: 150 kg/hectare
+- NPK 15-15-15: 150 kg/hectare
+
+Second top-dressing (50–55 days — before tuberization):
+- KCl: 150 kg/hectare (increases tuber starch and reduces hollow heart)
+- Calcium nitrate: 100 kg/hectare
+
+Foliar spray during tuber bulking:
+- Potassium phosphite: improves disease resistance + late blight suppression
+- Boron + Molybdenum: improves internal tuber quality
+
+---
+
+## IRRIGATION DECISION GUIDE FOR POTATO
+
+Sensor reading → Action:
+- soil_moisture < 50%: Irrigate immediately — tuber deformity risk
+- soil_moisture 50–60%: Irrigate within 12 hours
+- soil_moisture 60–80%: Normal condition
+- soil_moisture > 85%: Stop irrigation — late blight + bacterial soft rot risk
+
+Late blight weather alert:
+- If temperature 15–22°C AND humidity > 85% AND rainfall > 5 mm → spray preventive fungicide immediately
+
+---
+
+## COMMON MISTAKES TO AVOID
+1. Planting after tomato, chili, or eggplant (same disease reservoir)
+2. Using non-certified seed tubers (main source of virus and late blight)
+3. Not earthing up (green tubers = toxic solanine)
+4. Skipping fungicide during overcast humid weather (late blight spreads fastest)
+5. Harvesting in wet soil conditions (skin damage + storage rot)
+6. Not drying tubers before storage (storage rot risk)

@@ -1,0 +1,128 @@
+# ArgoMind Knowledge Base — Tomato (Tomat) Cultivation Guide
+# Language: English
+
+==============================================================================
+SECTION: TOMATO (Solanum lycopersicum) — COMPLETE CULTIVATION GUIDE
+==============================================================================
+
+## OVERVIEW
+Tomato is a high-value vegetable crop in Indonesia, grown year-round in highlands
+and during dry season in lowlands. It belongs to the Solanaceae family and shares
+disease risks with chili, eggplant, and potato. Consistent moisture and strict pH
+management are the most important factors for disease prevention.
+
+---
+
+## OPTIMAL GROWING CONDITIONS
+
+Soil moisture: 55–75%
+Soil pH: 6.0–6.8 (strict — below 5.5 causes calcium deficiency; above 7.0 increases Fusarium risk)
+Air temperature: 20–28°C (optimal 22–26°C; above 32°C reduces fruit set significantly)
+Air humidity: 60–80% (above 85% triggers early blight and late blight)
+Sunlight: minimum 8 hours per day
+Rainfall: 100–150 mm per month (excess rain dramatically increases disease)
+Growing period: 60–90 days from transplanting to first harvest
+Continuous harvest: every 2–3 days for up to 4 months
+
+---
+
+## GROWTH STAGES & WATER MANAGEMENT
+
+Seedling / Nursery (0–25 days):
+- Soil moisture: 60–70%
+- Water lightly twice daily; avoid waterlogging
+- Temperature: 22–28°C for good germination
+
+Transplanting / Establishment (day 1–14 after transplanting):
+- Water daily; soil moisture 60–70%
+- Avoid wetting the crown and stem (damping-off risk)
+
+Vegetative stage (14–35 days):
+- Soil moisture: 60–70%
+- Irrigate every 2 days
+- Begin staking when plant reaches 30 cm height
+
+Flowering stage (35–55 days):
+- CRITICAL for fruit set
+- Soil moisture: 65–75%
+- Drought causes flower drop; excess moisture causes fruit cracking later
+- Temperature > 32°C at night causes blossom drop — shade if necessary
+
+Fruit development (55–90 days):
+- Soil moisture: 60–70% — keep consistent (fluctuations cause blossom-end rot)
+- Avoid any moisture stress — causes fruit cracking when re-irrigated
+- Calcium foliar spray every 2 weeks for blossom-end rot prevention
+
+---
+
+## DISEASE MANAGEMENT FOR TOMATO
+
+Early Blight (Alternaria solani):
+- Trigger: humidity > 80%, temperature 24–29°C, aging lower leaves
+- Symptoms: dark brown concentric ring lesions on older leaves
+- Treatment: Mancozeb or Chlorothalonil spray every 7 days
+- Remove infected lower leaves and destroy
+
+Late Blight (Phytophthora infestans):
+- Trigger: cool temperatures (15–22°C) + high humidity (>90%) + rainfall
+- Symptoms: water-soaked lesions on leaves, white mold beneath, rapid spread
+- Treatment: Metalaxyl + Mancozeb (systemic + contact) immediately
+- Most destructive tomato disease — act within 24 hours of first symptoms
+
+Fusarium Crown and Root Rot (Fusarium oxysporum f.sp. lycopersici):
+- Trigger: soil_ph > 7.0, soil_moisture < 30%, high temperature
+- Symptoms: yellowing one side, brown vascular tissue
+- Prevention: Trichoderma soil amendment, pH management
+- No cure after infection — remove plant immediately
+
+Bacterial Wilt (Ralstonia solanacearum):
+- Trigger: high temperature + high moisture
+- Symptoms: rapid wilting, milky stream when stem submerged in water
+- No chemical control — remove and destroy entire plant and surrounding soil
+
+Blossom-End Rot (calcium deficiency — not a disease):
+- Trigger: irregular irrigation, calcium deficiency, soil_moisture fluctuation
+- Symptoms: dark sunken area at blossom end of fruit
+- Treatment: calcium nitrate foliar spray (Ca(NO3)2) every 10 days
+- Fix irrigation schedule to prevent moisture fluctuation
+
+---
+
+## FERTILIZATION SCHEDULE
+
+Basal (1 week before transplanting):
+- Organic compost: 20–25 tons/hectare
+- SP36: 200 kg/hectare
+- KCl: 100 kg/hectare
+
+Vegetative top-dressing (every 10 days):
+- NPK 15-15-15: 5–7 grams per plant
+
+Flowering & fruiting (every 7–10 days):
+- High potassium formulation: NPK 12-12-17 or KNO3
+- Calcium-boron foliar spray every 14 days (blossom-end rot prevention)
+- Magnesium sulfate (MgSO4) foliar at 2 g/liter if leaf interveinal yellowing appears
+
+---
+
+## IRRIGATION DECISION GUIDE FOR TOMATO
+
+Sensor reading → Action:
+- soil_moisture < 40%: Irrigate immediately — blossom drop and wilt risk
+- soil_moisture 40–55%: Irrigate within 12 hours
+- soil_moisture 55–75%: Normal condition
+- soil_moisture > 80%: Stop irrigation — late blight and root rot risk
+
+Rainfall guidance:
+- rainfall_mm > 20: Spray preventive fungicide within 24 hours (late blight risk)
+- After heavy rain: check for standing water around stem base
+
+---
+
+## COMMON MISTAKES TO AVOID
+1. Planting after chili, eggplant, or potato (same Solanaceae family)
+2. Irregular irrigation causing soil moisture fluctuation (blossom-end rot)
+3. Overhead irrigation (water on leaves increases disease dramatically)
+4. Ignoring early blight on lower leaves (spreads rapidly to whole plant)
+5. Not removing suckers (axillary shoots) — reduces yield and increases disease
+6. Harvesting too late — overripe fruits attract pests and spread disease

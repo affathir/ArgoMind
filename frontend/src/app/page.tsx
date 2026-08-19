@@ -199,7 +199,7 @@ export default function DashboardPage() {
               <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-gray-500">
                 Data Sensor Real-Time
               </h3>
-              <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-4 animate-fadeInUp">
                 <SensorCard
                   label="Kelembapan Tanah"
                   value={sensor ? Math.round(sensor.soil_moisture ?? 0) : null}
@@ -239,7 +239,7 @@ export default function DashboardPage() {
               <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-gray-500">
                 Prakiraan Cuaca Hari Ini
               </h3>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 animate-fadeInUp">
                 <SensorCard
                   label="Prediksi Curah Hujan"
                   value={weather?.rainfall_mm?.toFixed(1) ?? null}

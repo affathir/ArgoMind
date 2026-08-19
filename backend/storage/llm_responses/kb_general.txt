@@ -1,0 +1,152 @@
+# ArgoMind Knowledge Base — General Crop Health & Disease Reference
+# Used as RAG source in Langflow. Upload to File node → SplitText → Chroma.
+# Language: English
+
+==============================================================================
+SECTION 1: CROP DISEASE IDENTIFICATION & TREATMENT
+==============================================================================
+
+## 1.1 Blast Disease (Pyricularia oryzae)
+Affected crops: Rice
+
+Symptoms:
+- Diamond-shaped or rhombus spots on leaves, grayish-brown in color
+- Yellow or orange borders around lesions
+- Severe infections cause leaves to dry from tip to base
+- Neck blast: panicle stem breaks at node, causing empty grains
+
+Environmental conditions favoring blast:
+- Air humidity below 40% (dry conditions)
+- Air temperature between 28–35°C
+- Soil moisture below 25%
+- Very low rainfall (less than 2 mm/day)
+- Heavy morning dew
+
+Prevention:
+- Maintain soil moisture above 40% through regular irrigation
+- Use blast-resistant rice varieties (Ciherang, Inpari 32)
+- Avoid excessive nitrogen fertilization
+- Plant with adequate spacing to improve air circulation
+
+Treatment:
+- Spray fungicide with active ingredient Tricyclazole or Isoprothiolane
+- For mild infection: dissolve 2 tablespoons baking soda in 1 liter water, spray on leaves
+- Remove and burn severely infected plants
+- Apply spraying in early morning when dew is still present
+
+---
+
+## 1.2 Leaf Blight / Brown Spot (Helminthosporium oryzae)
+Affected crops: Rice, Corn, Wheat
+
+Symptoms:
+- Oval or elongated dark brown spots on leaves
+- Pale yellow borders around spots
+- In severe cases, spots merge and entire leaves dry out
+
+Favorable conditions:
+- High air temperature (30–35°C)
+- Soil pH above 7.0 (alkaline tendency)
+- Low air humidity (30–40%)
+- Overly dense plant spacing
+
+Prevention:
+- Maintain soil pH between 5.5–7.0 with proper liming
+- Reduce plant density; maintain adequate row spacing
+- Avoid excessive irrigation that creates stagnant humid conditions
+- Crop rotation to break pathogen cycle
+
+Treatment:
+- Spray fungicide with active ingredient Mancozeb or Propiconazole
+- Remove infected leaves and destroy them (do not compost)
+- Improve field drainage if waterlogging is present
+
+---
+
+## 1.3 Root Rot (Pythium spp. / Fusarium solani)
+Affected crops: All crop types
+
+Symptoms:
+- Roots turn dark brown to black, soft, and emit foul odor
+- Plant wilts despite wet soil
+- Yellowing of leaves from bottom upward
+- Stunted growth
+
+Favorable conditions:
+- Waterlogged soil (moisture > 80%)
+- Very acidic soil pH (below 5.0)
+- Low temperature (18–24°C)
+- Poor field drainage
+- Very high air humidity (> 85%)
+
+Prevention:
+- Improve drainage system before planting
+- Never allow standing water for more than 24 hours
+- Keep soil pH above 5.5 using agricultural lime (dolomite)
+- Add organic matter to improve soil structure
+
+Treatment (Act immediately):
+- Drastically reduce irrigation
+- Open and clear drainage channels immediately
+- Apply fungicide with Metalaxyl to root zone
+- Add agricultural lime to raise pH if below 5.5
+- For severely infected plants: remove and destroy, sterilize soil with 2% formalin
+
+---
+
+## 1.4 Fusarium Wilt (Fusarium oxysporum)
+Affected crops: Tomato, Chili, Watermelon, Melon, Banana
+
+Symptoms:
+- Sudden wilting despite moist soil
+- Yellowing starting from one side of the plant
+- Brown discoloration inside lower stem when cut
+- Slow plant death
+
+Favorable conditions:
+- Alkaline soil pH (above 7.5)
+- High temperature (32–37°C)
+- Low soil moisture (15–25%)
+- Prolonged drought stress
+
+Prevention:
+- Keep soil pH between 5.5–6.5 for susceptible crops
+- Use certified disease-free seeds
+- Rotate crops every season (avoid continuous Solanaceae planting)
+- Add Trichoderma harzianum to soil as biological control agent
+
+Treatment:
+- Immediately remove infected plants; do not leave them in the field
+- Apply systemic fungicide with Carbendazim to planting hole
+- Sterilize soil through solarization (cover with black plastic for 2–4 weeks)
+- Sterilize all tools that contacted infected plants
+
+---
+
+## 1.5 Healthy Crop Indicators
+
+Optimal soil moisture by crop type:
+- Rice: 40–70%
+- Vegetables: 50–70%
+- Fruit crops: 45–65%
+- Tree crops: 35–55%
+
+Optimal soil pH by crop type:
+- Rice: 5.5–7.0
+- Vegetables: 6.0–7.0
+- Legumes: 6.0–7.0
+- Root crops (cassava, sweet potato): 5.5–6.5
+
+Optimal air temperature:
+- Rice: 22–32°C
+- Corn: 21–30°C
+- Leafy vegetables: 15–25°C
+- Chili/Tomato: 22–30°C
+
+Alert thresholds (trigger immediate action):
+- Soil moisture < 20%: Critical — irrigate immediately
+- Soil moisture > 80%: Critical — improve drainage
+- Soil pH < 5.5: Add agricultural lime
+- Soil pH > 7.5: Add agricultural sulfur or organic matter
+- Air temperature > 38°C: High stress risk — shade and irrigate
+- Air humidity < 30%: Increased disease risk

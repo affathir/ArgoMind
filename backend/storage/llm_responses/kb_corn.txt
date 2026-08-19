@@ -1,0 +1,135 @@
+# ArgoMind Knowledge Base — Corn (Jagung) Cultivation Guide
+# Language: English
+
+==============================================================================
+SECTION: CORN / MAIZE (Zea mays) — COMPLETE CULTIVATION GUIDE
+==============================================================================
+
+## OVERVIEW
+Corn is a high-yield cereal crop widely grown in Indonesia for food, animal feed,
+and industrial starch. It is more drought-tolerant than rice but very sensitive to
+waterlogging. Corn has a critical moisture window during tasseling and silking.
+
+---
+
+## OPTIMAL GROWING CONDITIONS
+
+Soil moisture: 50–75%
+Soil pH: 5.8–7.0 (optimal 6.0–6.8)
+Air temperature: 21–32°C (optimal 24–30°C)
+Air humidity: 60–80%
+Sunlight: minimum 8 hours per day (highly light-demanding)
+Rainfall: 100–200 mm per month
+Growing period: 90–120 days depending on variety
+
+---
+
+## GROWTH STAGES & WATER MANAGEMENT
+
+Germination (0–7 days):
+- Soil moisture: 60–70%
+- Critical — drought at this stage causes uneven emergence
+- Avoid waterlogging (seed rot risk)
+
+Seedling / Early vegetative (7–30 days):
+- Soil moisture: 55–70%
+- Irrigate every 3–4 days
+- Most drought-tolerant stage of corn
+
+Rapid vegetative growth — V6 to V12 (30–55 days):
+- Soil moisture: 60–75%
+- Corn grows 5–8 cm per day — high water demand
+- Nitrogen uptake peaks at this stage
+
+Tasseling & Silking — MOST CRITICAL STAGE (55–75 days):
+- Soil moisture: MUST stay above 55% at all times
+- Drought of even 1–2 days at silking causes severe yield loss (30–50%)
+- If soil_moisture < 40% during this stage: emergency irrigation required
+- High temperature (>35°C) + low humidity (<50%) damages pollen viability
+
+Grain filling (75–100 days):
+- Soil moisture: 55–70%
+- Gradual reduction acceptable in final 2 weeks
+- Adequate potassium essential for starch accumulation
+
+Maturation (100–120 days):
+- Reduce irrigation — soil moisture: 40–50%
+- Harvest when husk is dry and grain has black layer (physiological maturity)
+
+---
+
+## DISEASE MANAGEMENT FOR CORN
+
+Northern Corn Leaf Blight (Exserohilum turcicum):
+- Trigger: high humidity (>80%), temperature 18–27°C
+- Symptoms: long cigar-shaped gray-green lesions on leaves
+- Treatment: Mancozeb or Chlorothalonil spray
+- Use resistant hybrid varieties
+
+Ear Rot / Diplodia Stalk Rot (Stenocarpella maydis):
+- Trigger: soil_moisture > 80%, high temperature after silking
+- Symptoms: stalk rots from inside, white mold on ear
+- Prevention: maintain soil drainage, avoid plant stress
+
+Downy Mildew (Peronosclerospora maydis):
+- Trigger: rainfall > 20 mm + humidity > 85% during seedling stage
+- Symptoms: yellow striping on young leaves, white downy growth underneath
+- Treatment: systemic fungicide (Metalaxyl) as seed treatment
+
+Corn Smut (Ustilago maydis):
+- Triggered by plant wounds during high humidity
+- Symptoms: galls filled with black powdery spores
+- Remove and burn galls before they rupture
+
+---
+
+## FERTILIZATION SCHEDULE
+
+Basal application (at planting):
+- Organic compost: 2 tons/hectare
+- SP36 (phosphate): 100–150 kg/hectare
+- KCl (potassium): 75 kg/hectare
+
+First top-dressing (25–30 days after planting — V4 stage):
+- Urea: 150 kg/hectare
+- NPK 15-15-15: 100 kg/hectare
+
+Second top-dressing (45–50 days after planting — V8 stage):
+- Urea: 100 kg/hectare
+- KCl: 50 kg/hectare
+
+Fertilization rules:
+- Apply Urea by placing in furrow beside plant, not on top (reduces volatilization)
+- Do not fertilize when soil_moisture < 30% (poor uptake)
+- Do not fertilize when rainfall_mm > 15 (leaching)
+
+---
+
+## IRRIGATION DECISION GUIDE FOR CORN
+
+Sensor reading → Action:
+- soil_moisture < 30%: Irrigate immediately — especially critical at tasseling
+- soil_moisture 30–55%: Irrigate within 24 hours
+- soil_moisture 55–75%: Normal condition
+- soil_moisture > 80%: Stop irrigation, improve drainage — stalk rot risk
+
+Critical alert for tasseling stage (day 55–75):
+- If soil_moisture < 40% AND temperature > 32°C: emergency irrigation needed
+- Yield loss is irreversible if silks dry out before pollination is complete
+
+---
+
+## HARVEST INDICATORS
+- Husk turns completely brown and dry
+- Black layer visible at kernel base (kernel milk line gone)
+- Grain moisture: 30–35% at harvest; dry to 14% for storage
+- Kernels are hard and dented (for field corn varieties)
+
+---
+
+## COMMON MISTAKES TO AVOID
+1. Insufficient irrigation during silking stage (most common yield loss cause)
+2. Over-irrigating after pollination (stalk rot risk)
+3. Too high plant density (reduces ear development, increases disease)
+4. Skipping potassium fertilizer (weak stalks, lodging risk)
+5. Harvesting too early before physiological maturity (poor grain quality)

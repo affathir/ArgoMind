@@ -1,0 +1,143 @@
+# ArgoMind Knowledge Base — Melon & Watermelon Cultivation Guide
+# Language: English
+
+==============================================================================
+SECTION: MELON (Cucumis melo) & WATERMELON (Citrullus lanatus)
+COMPLETE CULTIVATION GUIDE
+==============================================================================
+
+## OVERVIEW
+Melon and watermelon belong to the Cucurbitaceae family and are grown in Indonesia
+during the dry season (May–September) for best fruit quality. Both crops are highly
+profitable but require strict water management — excess water dramatically reduces
+fruit sweetness (Brix) and increases fungal disease.
+
+---
+
+## OPTIMAL GROWING CONDITIONS
+
+Soil moisture: 50–70%
+Soil pH: 6.0–7.0 (optimal 6.2–6.8)
+Air temperature: 25–35°C (optimal 28–32°C)
+Air humidity: 50–70% (above 80% increases powdery mildew and gummy stem blight)
+Sunlight: minimum 8–10 hours per day (critical for sugar accumulation)
+Rainfall: < 100 mm per month (dry season crop — rain damages fruit quality)
+Growing period:
+  - Melon: 60–75 days after transplanting
+  - Watermelon: 65–80 days after transplanting
+
+---
+
+## GROWTH STAGES & WATER MANAGEMENT
+
+Seedling (0–14 days in polybag nursery):
+- Soil moisture: 60–70%
+- Transplant at 2–3 true leaf stage
+- Temperature: minimum 25°C
+
+Early vegetative (day 1–20 after transplanting):
+- Soil moisture: 60–70%
+- Irrigate every 2 days via drip or furrow
+- Train vines along trellis (melon) or along ground (watermelon)
+
+Vine development (20–35 days):
+- Soil moisture: 60–70%
+- Begin side branch pinching: keep 1–2 main vines for melon
+- For melon: manual pollination or bee access is critical
+
+Flowering & Fruit Set — CRITICAL (35–50 days):
+- Soil moisture: 55–65%
+- Reduce irrigation slightly during pollination to improve fruit set
+- Excess water causes flower drop and poor fruit set
+- If rainfall_mm > 10 during this period: suspend irrigation completely
+
+Fruit Development (50–65 days):
+- Soil moisture: 55–70%
+- Consistent irrigation for uniform fruit development
+- Do NOT irrigate with overhead — wets fruit, causes disease
+
+Sugar Accumulation / Ripening — MOST CRITICAL (65–75 days for melon):
+- DRASTICALLY reduce irrigation: soil moisture: 40–50%
+- Reducing water in final 2 weeks increases Brix (sweetness) by 2–4 degrees
+- Any rainfall > 10 mm during this period reduces fruit sweetness
+- For watermelon: final 10 days — soil moisture 35–45%
+
+---
+
+## DISEASE MANAGEMENT FOR MELON & WATERMELON
+
+Powdery Mildew (Podosphaera xanthii):
+- Trigger: humidity 50–70%, temperature 20–28°C, sudden temperature changes
+- Symptoms: white powdery coating on upper leaf surface
+- Treatment: sulfur-based fungicide or myclobutanil every 7 days
+- Very common in dry season — preventive spraying recommended
+
+Downy Mildew (Pseudoperonospora cubensis):
+- Trigger: humidity > 85%, temperature 15–25°C, morning dew
+- Symptoms: yellow angular lesions on upper leaf, gray mold underneath
+- Treatment: Metalaxyl + Mancozeb spray immediately
+- Spreads rapidly in cool humid weather
+
+Fusarium Wilt (Fusarium oxysporum f.sp. melonis / niveum):
+- Trigger: soil_pH > 7.5 or < 5.5, soil_moisture < 25%, high temperature
+- Symptoms: sudden wilting, brown vascular tissue, often kills plant
+- Prevention: Trichoderma soil amendment, pH management (6.0–7.0)
+- Use grafted seedlings on resistant rootstock for high-risk fields
+
+Gummy Stem Blight (Didymella bryoniae):
+- Trigger: humidity > 85%, plant wounds, overhead irrigation
+- Symptoms: tan lesions with dark gummy exudate on stems
+- Treatment: Iprodione or Thiophanate-methyl
+- Avoid any stem wounding during training
+
+Anthracnose (Colletotrichum orbiculare):
+- Trigger: rainfall > 15 mm, warm temperatures
+- Symptoms: dark sunken lesions on fruits, rapid fruit rot
+- Treatment: Mancozeb or Azoxystrobin spray
+- Critical to control — ruins market value of fruit
+
+---
+
+## FERTILIZATION SCHEDULE
+
+Basal (before transplanting):
+- Organic compost: 15 tons/hectare
+- SP36: 200 kg/hectare
+- KCl: 100 kg/hectare
+
+Vegetative top-dressing (every 10 days — days 10 to 35):
+- NPK 20-10-10: high nitrogen for rapid vine growth
+- 3–5 grams per plant per application
+
+Fruit development top-dressing (days 35–65):
+- NPK 10-10-20 or KNO3: shift to high potassium
+- Calcium nitrate: 3 g/plant every 10 days (prevents blossom-end rot)
+
+Sugar accumulation phase (days 55–75):
+- Stop nitrogen fertilizer completely
+- Potassium sulfate foliar spray (K2SO4) to boost Brix
+- Calcium foliar spray for skin firmness
+
+---
+
+## IRRIGATION DECISION GUIDE FOR MELON & WATERMELON
+
+Sensor reading → Action:
+- soil_moisture < 35%: Irrigate — especially during vine/fruit development
+- soil_moisture 35–55%: Normal for ripening phase
+- soil_moisture 55–70%: Normal for vegetative/fruit development phase
+- soil_moisture > 75%: Stop irrigation — powdery mildew and gummy stem blight risk
+
+Sweetness management rule:
+- Final 2 weeks before harvest: target soil_moisture 35–50% deliberately
+- Any irrigation above 55% in final 2 weeks reduces Brix significantly
+
+---
+
+## COMMON MISTAKES TO AVOID
+1. Planting after cucumber or pumpkin (same Cucurbitaceae disease pool)
+2. Overhead irrigation (destroys fruit appearance and spreads disease)
+3. Over-irrigating during ripening (kills sweetness — biggest quality issue)
+4. Not pinching lateral shoots in melon (too many fruits, all small)
+5. Harvesting too early — check slip (melon separates from vine) or tapping
+6. Insufficient sunlight — at least 8 hours daily required for high Brix

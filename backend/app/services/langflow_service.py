@@ -74,9 +74,9 @@ def _build_tweaks(ctx: Dict[str, Any]) -> Dict[str, Any]:
         "Chroma-001": {
             "number_of_results": 4,
         },
-        "ChatOpenAI-001": {
-            "temperature": 0.3,
-            "max_tokens":  600,
+        "GoogleGenerativeAIModel-001": {
+            "temperature":        0.3,
+            "max_output_tokens":  600,
         },
     }
 

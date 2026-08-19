@@ -1,0 +1,122 @@
+# ArgoMind Knowledge Base — Chili (Cabai) Cultivation Guide
+# Language: English
+
+==============================================================================
+SECTION: CHILI PEPPER (Capsicum annuum / Capsicum frutescens) — CULTIVATION GUIDE
+==============================================================================
+
+## OVERVIEW
+Chili is one of the highest-value vegetable crops in Indonesia. It is highly
+sensitive to waterlogging, fusarium wilt, and temperature extremes. Proper
+drainage and pH management are the most critical success factors.
+
+---
+
+## OPTIMAL GROWING CONDITIONS
+
+Soil moisture: 50–70%
+Soil pH: 6.0–7.0 (strict — fusarium wilt risk above 7.5)
+Air temperature: 24–32°C (optimal 26–30°C)
+Air humidity: 60–80%
+Sunlight: minimum 8 hours per day
+Rainfall: 100–200 mm per month
+Growing period: 90–120 days from transplanting to first harvest
+Continuous harvest: every 3–5 days for up to 6 months
+
+---
+
+## GROWTH STAGES & WATER MANAGEMENT
+
+Seedling stage (0–30 days in nursery):
+- Soil moisture: 60–70%
+- Avoid overwatering — root rot risk is high at this stage
+- Temperature: minimum 22°C for good germination
+
+Transplanting stage (day 1–14 after transplanting):
+- Water daily but lightly — do not flood
+- Soil moisture: 55–65%
+
+Vegetative stage (14–45 days after transplanting):
+- Soil moisture: 55–70%
+- Irrigate every 2–3 days depending on weather
+- Avoid wetting leaves during irrigation (use drip or furrow)
+
+Flowering stage (45–70 days):
+- CRITICAL — drought at this stage causes flower drop
+- Soil moisture must stay above 50% at all times
+- If soil moisture < 35%: irrigate immediately to prevent flower abortion
+
+Fruiting stage (70–120 days):
+- Soil moisture: 55–65%
+- Reduce irrigation slightly 2 weeks before harvest for better fruit color
+- Rainfall > 30 mm/day increases anthracnose risk significantly
+
+---
+
+## DISEASE MANAGEMENT FOR CHILI
+
+Fusarium Wilt (Fusarium oxysporum f.sp. capsici):
+- Trigger conditions: soil_ph > 7.5, temperature > 32°C, soil_moisture < 25%
+- Symptoms: sudden wilting from one side, brown vascular tissue
+- Treatment: remove infected plant, drench Carbendazim to planting hole
+- Prevention: Trichoderma harzianum soil amendment before planting
+
+Anthracnose / Fruit Rot (Colletotrichum spp.):
+- Trigger conditions: rainfall > 20 mm/day, humidity > 85%
+- Symptoms: sunken dark lesions on fruits, orange spore masses
+- Treatment: Mancozeb or Propineb spray every 7 days during rainy season
+- Prevention: avoid wetting fruits during irrigation
+
+Bacterial Wilt (Ralstonia solanacearum):
+- Trigger conditions: high temperature (32–38°C), high moisture
+- Symptoms: rapid wilting, slimy ooze from stem cross-section
+- No chemical cure — remove and burn infected plants immediately
+
+Leaf Curl Virus (Gemini virus, transmitted by whiteflies):
+- Symptoms: upward leaf curling, yellowing, stunted growth
+- Control: manage whitefly with imidacloprid or yellow sticky traps
+
+Powdery Mildew:
+- Trigger conditions: humidity < 50%, temperature 20–28°C
+- Symptoms: white powdery coating on leaves
+- Treatment: sulfur-based fungicide or neem oil spray
+
+---
+
+## FERTILIZATION SCHEDULE
+
+Basal (1 week before transplanting):
+- Organic compost: 15–20 tons/hectare
+- SP36: 150 kg/hectare
+- KCl: 100 kg/hectare
+
+Vegetative phase top-dressing (every 10 days):
+- NPK 15-15-15: 5 grams per plant
+- Urea: 3 grams per plant
+
+Flowering & fruiting phase (every 7 days):
+- Increase potassium: NPK 12-12-17 or KNO3
+- Add calcium-boron foliar spray to prevent blossom-end rot
+
+---
+
+## IRRIGATION DECISION GUIDE FOR CHILI
+
+Sensor reading → Action:
+- soil_moisture < 30%: Irrigate immediately — flower drop risk
+- soil_moisture 30–50%: Irrigate within 12 hours
+- soil_moisture 50–70%: Normal condition
+- soil_moisture > 75%: Stop irrigation, open drainage — anthracnose risk
+
+Rainfall guidance:
+- rainfall_mm > 20: Delay all pesticide/fungicide application
+- rainfall_mm > 50: Check drainage, inspect for anthracnose after rain
+
+---
+
+## COMMON MISTAKES TO AVOID
+1. Planting chili after tomato or eggplant (same Solanaceae family — wilt risk)
+2. Overhead irrigation during flowering (causes flower drop + disease)
+3. Ignoring pH above 7.5 (Fusarium wilt risk multiplies)
+4. Excessive nitrogen during fruiting (reduces fruit quality, increases disease)
+5. Not rotating crops — continuous chili planting builds up soil pathogens

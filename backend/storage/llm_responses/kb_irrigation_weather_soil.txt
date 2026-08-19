@@ -1,0 +1,245 @@
+# ArgoMind Knowledge Base — Irrigation, Soil pH, Fertilizer & Weather Management
+# Language: English
+
+==============================================================================
+SECTION: IRRIGATION MANAGEMENT
+==============================================================================
+
+## Irrigation Decision Guide by Soil Moisture Level
+
+CRITICAL — soil moisture < 20%:
+- Irrigate IMMEDIATELY — all crop types
+- Duration: 45–60 minutes for drip irrigation; 30 minutes for sprinkler
+- Frequency: daily until moisture reaches 50%
+- Warning: do NOT irrigate during peak heat (10:00–15:00) — risk of leaf burn
+- Best time: before 09:00 or after 16:00
+
+LOW — soil moisture 20–35%:
+- Irrigate within 6–12 hours
+- Duration: 30–45 minutes
+- Monitor every 6 hours
+- Check weather forecast — postpone if rain > 5 mm predicted within 12 hours
+
+NORMAL — soil moisture 35–65%:
+- Regular scheduled irrigation
+- Adjust based on weather: skip if rain > 5 mm expected
+- Morning irrigation preferred (reduces fungal disease risk)
+
+HIGH — soil moisture 65–80%:
+- No irrigation needed
+- Monitor drainage channels
+
+CRITICAL HIGH — soil moisture > 80%:
+- STOP all irrigation immediately
+- Open drainage channels and check for blockages
+- Increased risk of root rot (Pythium, Fusarium), stem rot, and leaf diseases
+- If waterlogging persists > 24 hours: check for root rot symptoms
+
+## Irrigation Timing Guidelines
+
+Best irrigation times:
+- Early morning: 06:00–09:00 (water absorbs before evaporation peaks)
+- Late afternoon: 16:00–18:00 (reduces fungal risk vs. night irrigation)
+
+Irrigation methods ranked by efficiency:
+1. Drip irrigation — most efficient, reduces leaf wetness and disease
+2. Furrow irrigation — good for row crops (corn, soybean)
+3. Sprinkler — avoid during flowering (flower drop) and fruiting (disease)
+4. Flood irrigation — only for paddy rice
+
+Mulching to conserve soil moisture:
+- Straw mulch (5 cm thick): reduces evaporation by 40–60%
+- Black plastic mulch: best for chili, tomato, melon
+- Apply mulch after first irrigation, not before
+
+==============================================================================
+SECTION: SOIL pH MANAGEMENT
+==============================================================================
+
+## Raising pH (Soil Too Acidic)
+
+pH below 5.0 (Very Acidic — act immediately):
+- Apply 2–3 tons agricultural lime (CaCO3) per hectare
+- Or dolomite (CaMg(CO3)2): 2 tons/hectare — also adds magnesium
+- Mix into top 20 cm of soil by plowing
+- Wait 4–6 weeks before planting after liming
+- Re-test pH after 6 weeks
+
+pH 5.0–5.5 (Moderately Acidic):
+- Apply 1–1.5 tons dolomite per hectare
+- Add organic compost (2–3 tons/hectare) for buffering effect
+- Suitable for rice; needs correction for most vegetables
+
+pH 5.5–6.0 (Slightly Acidic — acceptable for most crops):
+- Maintain with regular compost applications
+- Monitor annually
+
+## Lowering pH (Soil Too Alkaline)
+
+pH above 7.5 (Too Alkaline — Fusarium wilt risk high):
+- Apply elemental sulfur: 200–500 kg/hectare per 1 unit pH reduction
+- Process is slow: allow 6–8 weeks for full effect
+- Add organic matter (peat, compost) to buffer and gradually acidify
+- Apply iron sulfate (FeSO4) for faster action
+
+pH 7.0–7.5 (Slightly Alkaline):
+- Regular compost application gradually acidifies
+- Avoid any lime application
+- Use acidifying fertilizers: ammonium sulfate, ammonium phosphate
+
+## pH Impact on Nutrient Availability
+
+pH 4.0–5.5: Aluminum and manganese toxicity; phosphorus locked up
+pH 5.5–6.5: OPTIMAL — all nutrients available
+pH 6.5–7.5: Slightly reduced phosphorus availability; iron deficiency begins
+pH above 7.5: Iron, zinc, manganese become unavailable; Fusarium risk high
+
+==============================================================================
+SECTION: FERTILIZATION MANAGEMENT
+==============================================================================
+
+## Fertilization Decision by Weather
+
+When to DELAY or SKIP fertilization:
+- Rainfall > 15 mm/day: leaching risk — all granular fertilizers
+- Rainfall > 30 mm/day: delay by 3 days minimum
+- Temperature > 35°C: urea volatilizes rapidly — delay or apply in furrow
+- Soil moisture < 30%: poor nutrient uptake — irrigate first, then fertilize
+- Soil moisture > 80%: waterlogging reduces root uptake
+
+Best conditions for fertilization:
+- Soil moisture: 50–70%
+- Temperature: 20–32°C
+- No rain predicted for next 24 hours
+- Time of day: 06:00–09:00 (morning)
+
+## Nitrogen (N) Management
+
+Urea (46% N):
+- Use for vegetative growth stages
+- Do NOT use during fruiting/flowering — excess N causes flower drop
+- Application: place 5 cm beside plant base, cover with soil (reduces volatilization)
+- Split application every 2–3 weeks is more effective than single large dose
+
+Ammonium sulfate (21% N):
+- Preferred for alkaline soils (acidifying effect)
+- Lower volatilization than urea
+- Good choice when soil pH > 7.0
+
+Calcium nitrate (15.5% N):
+- Best for fruiting crops (tomato, chili, melon)
+- Provides calcium simultaneously (prevents blossom-end rot)
+- Water-soluble — can be applied via drip irrigation
+
+## Phosphorus (P) Management
+
+SP36 (36% P2O5):
+- Apply as basal fertilizer before planting
+- Mixes poorly with lime — do not apply together
+- Activates root development and flowering
+
+TSP (46% P2O5):
+- Higher concentration, lower application rate needed
+- Use in soil with pH 5.5–7.0 for best availability
+
+## Potassium (K) Management
+
+KCl (60% K2O):
+- Standard potassium source
+- Apply during fruiting for starch/sugar accumulation (corn, potato, melon)
+- Do not apply to acid soils (pH < 5.5) — increases toxicity
+
+KNO3 (potassium nitrate — 13% N, 44% K):
+- Premium choice for fruiting phase
+- Water-soluble — excellent for fertigation via drip
+
+## Symptoms of Nutrient Deficiency
+
+Nitrogen deficiency:
+- Pale yellow leaves starting from oldest (bottom) leaves
+- Thin stems, poor growth
+- Action: apply urea 1 tablespoon per 10 liters water as drench
+
+Phosphorus deficiency:
+- Reddish-purple coloration on leaf undersides
+- Stunted roots, delayed maturity
+- Action: apply SP36 or foliar phosphate spray
+
+Potassium deficiency:
+- Brown scorching on leaf edges (tip and margins)
+- Weak stems, lodging in corn
+- Reduced fruit size and sweetness
+- Action: apply KCl or potassium sulfate
+
+Calcium deficiency:
+- Blossom-end rot in tomato, chili, melon
+- Tip burn in lettuce and leafy vegetables
+- Action: calcium nitrate foliar spray (2 g/liter)
+
+Magnesium deficiency:
+- Interveinal yellowing (veins stay green, area between turns yellow)
+- Starts from older leaves
+- Action: magnesium sulfate (MgSO4) foliar 2 g/liter
+
+==============================================================================
+SECTION: WEATHER MANAGEMENT
+==============================================================================
+
+## Drought Management (Rainfall < 2 mm for more than 7 days)
+
+Immediate actions:
+- Priority irrigation: crops at flowering or fruiting stage
+- Apply straw mulch 5–7 cm thick to reduce evaporation
+- Spray water on leaf canopy in early morning (foliar cooling)
+- Reduce plant density if possible to lower competition
+- Add silicon fertilizer to improve drought tolerance
+
+Irrigation schedule during drought:
+- High-priority crops: irrigate every day
+- Medium-priority: every 2 days
+- Before irrigation: check forecast — delay if rain likely within 24 hours
+
+## Heavy Rainfall Management (> 50 mm/day)
+
+Immediate actions:
+- Ensure all drainage channels are open and not blocked
+- Create temporary diversion ditches if waterlogging occurs
+- DELAY all fertilizer application — leaching risk
+- DELAY all pesticide/fungicide — runoff makes it ineffective
+- After rain: inspect plants for fungal disease symptoms within 24–48 hours
+
+Post-rain disease prevention:
+- Spray preventive fungicide within 24 hours after heavy rain
+- Priority for: tomato (late blight), potato (late blight), melon (downy mildew)
+- Check soil surface for crusting — break with light cultivation if needed
+
+## High Temperature Management (> 38°C)
+
+- Irrigate in early morning AND late afternoon (two sessions)
+- Install shade net 30–50% for temperature-sensitive crops
+- Spray cool water on leaf canopy at midday
+- Do NOT apply urea or granular fertilizer during extreme heat
+- Monitor humidity closely — hot dry conditions trigger spider mites
+
+## Crop Rotation & Planting Calendar
+
+Recommended rotation to prevent disease buildup:
+- Season 1: Rice or Corn (Gramineae)
+- Season 2: Legumes — Soybean or Long Beans (fix nitrogen, break disease cycle)
+- Season 3: Leafy Vegetables
+- Season 4: Return to Rice or Corn
+
+Never plant same family consecutively:
+- Solanaceae: tomato, chili, eggplant, potato
+- Cucurbitaceae: watermelon, melon, cucumber, pumpkin
+- Gramineae: rice, corn, wheat
+
+Optimal planting calendar for Indonesia:
+- Rice (wet season): October–November
+- Rice (dry season): March–April
+- Corn: October–November or February–March
+- Chili: May–June (lower disease pressure)
+- Tomato: May–July (highland), year-round highland
+- Soybean: October–December
+- Melon/Watermelon: April–August (dry season)
+- Potato: June–September (highland dry season)
