@@ -1,5 +1,5 @@
 # ArgoMind Knowledge Base — General Crop Health & Disease Reference
-# Used as RAG source in Langflow. Upload to File node → SplitText → Chroma.
+# Used as RAG source in LangChain (FAISS vector store via langchain_service.py).
 # Language: English
 
 ==============================================================================

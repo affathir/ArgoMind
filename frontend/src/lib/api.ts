@@ -5,6 +5,9 @@ import type {
   AIInsight,
   FarmRegisterPayload,
   FarmOut,
+  SimulatorPayload,
+  SimulatorOut,
+  SimulatorPresets,
 } from "@/types";
 
 const BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000";
@@ -32,5 +35,15 @@ export async function getInsight(farmId: string): Promise<AIInsight> {
 
 export async function registerFarm(payload: FarmRegisterPayload): Promise<FarmOut> {
   const res = await api.post<FarmOut>("/api/farms/register", payload);
+  return res.data;
+}
+
+export async function getSimulatorPresets(): Promise<SimulatorPresets> {
+  const res = await api.get<SimulatorPresets>("/api/simulator/presets");
+  return res.data;
+}
+
+export async function sendSimulatedSensor(payload: SimulatorPayload): Promise<SimulatorOut> {
+  const res = await api.post<SimulatorOut>("/api/simulator/send", payload);
   return res.data;
 }

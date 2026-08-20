@@ -2,12 +2,12 @@
 AI Service — ML inference + LLM advice.
 
 ML layer  : XGBoost disease classifier loaded via ml/model_loader.py
-LLM layer : stub — replace get_llm_advice() with your Langflow/LLM call.
+LLM layer : LangChain RAG pipeline (FAISS + Google Gemini)
 """
 from __future__ import annotations
 
 import logging
-from typing import Dict, Any, Optional
+from typing import Dict, Any
 
 logger = logging.getLogger(__name__)
 
@@ -39,14 +39,14 @@ def predict_disease(sensor_payload: Dict[str, Any]) -> str:
         return f"⚠️ Prediksi gagal: {exc}"
 
 
-# ── LLM: Natural-Language Advice via Langflow RAG ────────────────────────────
+# ── LLM: Natural-Language Advice via LangChain RAG ───────────────────────────
 
 def get_llm_advice(context: Dict[str, Any]) -> str:
     """
-    Memanggil Langflow RAG+LLM flow untuk menghasilkan saran pertanian
+    Memanggil LangChain RAG+LLM pipeline untuk menghasilkan saran pertanian
     dalam Bahasa Indonesia berdasarkan context sensor + cuaca + prediksi ML.
 
-    Jika LANGFLOW_FLOW_ID belum diset di .env, fungsi ini akan mengembalikan
+    Jika GOOGLE_API_KEY belum diset di .env, fungsi ini akan mengembalikan
     saran statis yang context-aware sebagai fallback.
 
     Expected context keys:
@@ -57,10 +57,10 @@ def get_llm_advice(context: Dict[str, Any]) -> str:
     from app.config import get_settings
     settings = get_settings()
 
-    # --- Jika Langflow sudah dikonfigurasi, gunakan RAG+LLM ---
-    if getattr(settings, "LANGFLOW_FLOW_ID", ""):
-        from app.services.langflow_service import call_langflow
-        return call_langflow(context)
+    # --- Jika Google API Key tersedia, gunakan LangChain RAG+LLM ---
+    if getattr(settings, "GOOGLE_API_KEY", ""):
+        from app.services.langchain_service import call_langchain
+        return call_langchain(context)
 
     # --- Fallback: saran statis context-aware ---
     moisture    = context.get("soil_moisture")
@@ -92,7 +92,7 @@ def get_llm_advice(context: Dict[str, Any]) -> str:
         )
 
     advice_parts.append(
-        "\n[LLM tidak aktif] Isi LANGFLOW_FLOW_ID di .env untuk mengaktifkan "
+        "\n[LLM tidak aktif] Isi GOOGLE_API_KEY di .env untuk mengaktifkan "
         "saran AI berbasis RAG+LLM dari farming_knowledge_base.txt."
     )
     return "\n".join(advice_parts)

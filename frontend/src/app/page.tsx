@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Droplets, FlaskConical, Thermometer, Wind, CloudRain, Sun, PlusCircle, RefreshCw } from "lucide-react";
+import { Droplets, FlaskConical, Thermometer, Wind, CloudRain, Sun, PlusCircle, RefreshCw, Cpu } from "lucide-react";
+import Link from "next/link";
 import SensorCard from "@/components/SensorCard";
 import AIInsightPanel from "@/components/AIInsightPanel";
 import RegisterFarmModal from "@/components/RegisterFarmModal";
@@ -135,13 +136,22 @@ export default function DashboardPage() {
             </button>
           </form>
 
-          <button
-            onClick={() => setShowModal(true)}
-            className="flex items-center gap-2 rounded-lg border border-green-600 px-4 py-2 text-sm font-semibold text-green-700 hover:bg-green-50 transition-colors"
-          >
-            <PlusCircle className="h-4 w-4" />
-            Daftarkan Kebun
-          </button>
+          <div className="flex items-center gap-2">
+            <Link
+              href="/simulator"
+              className="flex items-center gap-2 rounded-lg border border-blue-500 px-4 py-2 text-sm font-semibold text-blue-600 hover:bg-blue-50 transition-colors"
+            >
+              <Cpu className="h-4 w-4" />
+              Simulator
+            </Link>
+            <button
+              onClick={() => setShowModal(true)}
+              className="flex items-center gap-2 rounded-lg border border-green-600 px-4 py-2 text-sm font-semibold text-green-700 hover:bg-green-50 transition-colors"
+            >
+              <PlusCircle className="h-4 w-4" />
+              Daftarkan Kebun
+            </button>
+          </div>
         </div>
       </header>
 

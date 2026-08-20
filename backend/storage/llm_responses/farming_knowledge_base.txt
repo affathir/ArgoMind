@@ -1,6 +1,6 @@
 # ArgoMind — Farming Knowledge Base
-# Dokumen ini digunakan sebagai sumber pengetahuan untuk RAG di Langflow.
-# Upload file ini melalui node "File" di Langflow, lalu sambungkan ke SplitText -> Chroma.
+# Dokumen ini digunakan sebagai sumber pengetahuan untuk RAG pipeline LangChain.
+# File ini dibaca otomatis oleh langchain_service.py (FAISS vector store).
 
 ==============================================================================
 BAGIAN 1: PENYAKIT TANAMAN DAN CARA PENANGANANNYA

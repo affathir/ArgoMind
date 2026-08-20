@@ -31,7 +31,7 @@
 - [Environment Variables](#-environment-variables)
 - [Alert Thresholds](#-alert-thresholds)
 - [Extending the AI Layer](#-extending-the-ai-layer)
-- [Langflow Integration](#-langflow-integration)
+- [LangChain Integration](#-langchain-integration)
 - [IBM Bob — AI Development Assistant](#-ibm-bob--ai-development-assistant)
 - [Contributing](#-contributing)
 - [License](#-license)
@@ -70,7 +70,7 @@ Instead of presenting raw sensor readings, ArgoMind:
 1. **Ingests** real-time sensor data via MQTT from IoT field devices
 2. **Enriches** it with daily weather forecast data from OpenWeatherMap
 3. **Analyzes** the combined context using a Machine Learning model for disease risk prediction
-4. **Translates** findings into natural-language recommendations via a Large Language Model (LLM / Langflow)
+4. **Translates** findings into natural-language recommendations via a Large Language Model (LangChain + Google Gemini)
 5. **Proactively alerts** farmers via Telegram the moment a critical threshold is breached
 
 Farmers receive a **clear, plain-language recommendation** — not a confusing number — enabling fast, confident, and correct action.
@@ -121,8 +121,8 @@ Farmers receive a **clear, plain-language recommendation** — not a confusing n
 │  └──────────┘                                                       │
 │                                                                     │
 │  ┌──────────────┐   ┌──────────────────┐   ┌───────────────────┐  │
-│  │OpenWeatherMap│   │  Langflow / LLM  │   │   ML Model (.pkl) │  │
-│  │     API      │   │   (pluggable)    │   │   (pluggable)     │  │
+│  │OpenWeatherMap│   │ LangChain + FAISS│   │   ML Model (.pkl) │  │
+│  │     API      │   │  + Google Gemini │   │   (pluggable)     │  │
 │  └──────────────┘   └──────────────────┘   └───────────────────┘  │
 └─────────────────────────────────────────────────────────────────────┘
 ```
@@ -348,7 +348,7 @@ Farmer clicks "Perbarui Analisis" on Dashboard
         ├─▶ predict_disease(sensor_dict)        ← ML model (pluggable)
         │     └─▶ Returns disease risk label
         │
-        ├─▶ get_llm_advice(context)             ← LLM / Langflow (pluggable)
+        ├─▶ get_llm_advice(context)             ← LangChain RAG + Gemini
         │     └─▶ Returns natural-language recommendation
         │
         ├─▶ Save JSON response to storage/llm_responses/
@@ -567,7 +567,7 @@ All thresholds are configurable via `.env` — no code changes required.
 
 ## 🔧 Extending the AI Layer
 
-The AI integration is deliberately left as pluggable stubs in [`backend/app/services/ai_service.py`](backend/app/services/ai_service.py). Replace the two functions with your real implementations:
+The AI integration is built on [`backend/app/services/ai_service.py`](backend/app/services/ai_service.py) with a pluggable ML layer and a LangChain RAG+LLM layer.
 
 ### ML Disease Prediction
 
@@ -589,25 +589,13 @@ def predict_disease(sensor_payload: dict) -> str:
     return f"Risiko terdeteksi: {label}"
 ```
 
-### LLM / Langflow Advice
-
-```python
-import httpx
-
-LANGFLOW_URL = "http://localhost:7860/api/v1/run/your-flow-id"
-
-def get_llm_advice(context: dict) -> str:
-    response = httpx.post(LANGFLOW_URL, json={"input_value": str(context)})
-    return response.json()["outputs"][0]["outputs"][0]["results"]["message"]["text"]
-```
-
 Place trained model files in `backend/storage/ml/models/` and dataset files in `backend/storage/ml/training_data/`. Both directories are git-ignored by default.
 
 ---
 
-## 🔀 Langflow Integration
+## 🔀 LangChain Integration
 
-Langflow is used as the **LLM orchestration layer** inside ArgoMind — it is the engine that takes raw sensor & weather context and produces **plain-language farming advice** for the farmer.
+LangChain is the **LLM orchestration layer** inside ArgoMind — it takes raw sensor & weather context, retrieves relevant knowledge from the farming knowledge base, and produces **plain-language farming advice** for the farmer.
 
 ### Role in the Architecture
 
@@ -616,54 +604,46 @@ FastAPI Backend (ai_service.py)
   │
   └─▶ get_llm_advice(context)
         │
-        └─▶ HTTP POST → Langflow API (http://localhost:7860/api/v1/run/<flow-id>)
-                          │
-                          └─▶ LLM Flow (built visually in Langflow UI)
-                                │
-                                └─▶ Returns natural-language recommendation → Dashboard
+        └─▶ langchain_service.call_langchain(context)
+              │
+              ├─▶ FAISS similarity_search (top-4 chunks from kb_*.txt)
+              │
+              └─▶ PromptTemplate + ChatGoogleGenerativeAI (Gemini)
+                    │
+                    └─▶ Returns natural-language recommendation → Dashboard
 ```
 
 ### How It Works
 
-When a farmer clicks **"Perbarui Analisis"**, the backend bundles the latest sensor snapshot and today's weather data into a context dict, then calls Langflow:
+When a farmer clicks **"Perbarui Analisis"**, the backend bundles the latest sensor snapshot and today's weather data into a context dict, then calls the LangChain pipeline:
 
 ```python
-# backend/app/services/ai_service.py
-import httpx
+# backend/app/services/langchain_service.py
+from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_community.vectorstores import FAISS
 
-LANGFLOW_URL = "http://localhost:7860/api/v1/run/your-flow-id"
+# 1. Retrieve top-4 relevant knowledge chunks via FAISS
+docs = vector_store.similarity_search(query, k=4)
 
-def get_llm_advice(context: dict) -> str:
-    response = httpx.post(LANGFLOW_URL, json={"input_value": str(context)})
-    return response.json()["outputs"][0]["outputs"][0]["results"]["message"]["text"]
+# 2. Fill prompt template and call Gemini
+llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", ...)
+advice = llm.invoke(filled_prompt).content
 ```
 
 - The **context** includes: `soil_moisture`, `soil_ph`, `temperature`, `humidity`, `rainfall_mm`, `sunlight_hours`, and `crop_type`
-- Langflow runs the configured **visual LLM flow** (prompt engineering, model selection, output parsing — all done in the Langflow UI)
+- The **FAISS vector store** is built in-process from all `kb_*.txt` files — no external server needed
 - The returned **natural-language string** is saved to `backend/storage/llm_responses/` and the `ai_insight_history` table, then rendered in the AI Insight Panel on the dashboard
 
-### Why Langflow?
+### Activation
 
-| Reason | Detail |
-|---|---|
-| **No-code flow builder** | LLM prompt logic is configured visually — no Python rewrite needed to change models |
-| **Pluggable** | Swap to any LLM (OpenAI, Mistral, IBM Granite, etc.) by editing the flow, not the code |
-| **Self-hosted** | Runs locally at `localhost:7860` — no external dependency during development |
-| **Hackathon-friendly** | Rapid iteration on prompts without touching backend code |
-
-### Running Langflow Locally
-
-```bash
-pip install langflow
-langflow run
-# Open http://localhost:7860 — build your flow and copy the Flow ID into LANGFLOW_FLOW_ID
-```
-
-Set the Flow ID in your `.env`:
+Set `GOOGLE_API_KEY` in your `.env`:
 ```env
-LANGFLOW_URL=http://localhost:7860
-LANGFLOW_FLOW_ID=your-flow-id-here
+GOOGLE_API_KEY=AIza...
+LANGCHAIN_MODEL=gemini-1.5-flash
+LANGCHAIN_TEMPERATURE=0.3
 ```
+
+No additional server to run — the pipeline starts inside the FastAPI process.
 
 ---
 
@@ -687,7 +667,7 @@ LANGFLOW_FLOW_ID=your-flow-id-here
 The `get_llm_advice()` function in [`backend/app/services/ai_service.py`](backend/app/services/ai_service.py) is **fully pluggable**. IBM Watsonx.ai (e.g., the Granite model family) can be dropped in as the LLM backend:
 
 ```python
-# Example: swap Langflow for IBM Watsonx.ai directly
+# Example: swap Google Gemini for IBM Watsonx.ai
 from ibm_watsonx_ai.foundation_models import ModelInference
 
 model = ModelInference(
@@ -708,7 +688,7 @@ Place the above in `backend/app/services/ai_service.py` and add the `ibm-watsonx
 | Tool | Role in ArgoMind |
 |---|---|
 | **IBM Bob** | AI coding assistant used during all phases of development |
-| **Langflow** | Visual LLM orchestration — produces natural-language farming advice |
+| **LangChain + FAISS** | RAG pipeline — retrieves farming knowledge and generates natural-language advice |
 | **IBM Watsonx.ai** | Optional drop-in LLM backend (Granite model family) — pluggable via `ai_service.py` |
 
 ---

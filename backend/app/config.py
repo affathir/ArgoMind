@@ -34,13 +34,10 @@ class Settings(BaseSettings):
     # Telegram
     TELEGRAM_BOT_TOKEN: str = ""
 
-    # Langflow (RAG + LLM)
-    LANGFLOW_API_URL: str = "http://localhost:7860"
-    LANGFLOW_FLOW_ID: str = ""    # UUID dari URL Langflow setelah import flow
-    LANGFLOW_API_KEY: str = ""    # API key Langflow (opsional, bukan Google API Key)
-
-    # Google Gemini
-    GOOGLE_API_KEY: str = ""      # https://aistudio.google.com/app/apikey
+    # Google Gemini (LangChain RAG + LLM)
+    GOOGLE_API_KEY: str = ""          # https://aistudio.google.com/app/apikey
+    LANGCHAIN_MODEL: str = "gemini-1.5-flash"  # model Gemini yang digunakan
+    LANGCHAIN_TEMPERATURE: float = 0.3         # 0.0–1.0
 
     # App
     APP_HOST: str = "0.0.0.0"

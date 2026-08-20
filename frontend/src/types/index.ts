@@ -33,6 +33,37 @@ export interface FarmRegisterPayload {
   longitude: number;
 }
 
+export interface SimulatorPayload {
+  farm_id: string;
+  soil_moisture: number;
+  soil_ph: number;
+  temperature: number;
+  humidity: number;
+}
+
+export interface SimulatorOut {
+  success: boolean;
+  message: string;
+  sensor_id: number;
+  farm_id: string;
+  soil_moisture: number;
+  soil_ph: number;
+  temperature: number;
+  humidity: number;
+}
+
+export interface SimulatorPreset {
+  label: string;
+  soil_moisture: number;
+  soil_ph: number;
+  temperature: number;
+  humidity: number;
+}
+
+export interface SimulatorPresets {
+  [key: string]: SimulatorPreset;
+}
+
 export interface FarmOut {
   farm_id: string;
   telegram_id: string;

@@ -11,7 +11,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.database import init_db
 from app.mqtt_client import start_mqtt_client, stop_mqtt_client
 from app.scheduler import start_scheduler, stop_scheduler
-from app.routes import farms_router, health_router
+from app.routes import farms_router, health_router, simulator_router
 
 logging.basicConfig(
     level=logging.INFO,
@@ -53,6 +53,7 @@ app.add_middleware(
 # ── Routes ─────────────────────────────────────────────────────────────────────
 app.include_router(health_router)
 app.include_router(farms_router)
+app.include_router(simulator_router)
 
 
 @app.get("/", include_in_schema=False)

@@ -1,6 +1,6 @@
 # llm_responses/
 
-Folder ini menyimpan **output JSON mentah** dari panggilan LLM (Langflow / WatsonX / OpenAI, dll).
+Folder ini menyimpan **output JSON mentah** dari panggilan LLM (LangChain + Google Gemini).
 
 ## Konvensi nama file
 
