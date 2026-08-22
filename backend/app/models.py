@@ -11,7 +11,6 @@ class Farm(Base):
     __tablename__ = "farms"
 
     farm_id = Column(String, primary_key=True, index=True)
-    telegram_id = Column(String, nullable=False)
     crop_type = Column(String, nullable=True)
     sowing_date = Column(Date, nullable=True)
     latitude = Column(Float, nullable=False)

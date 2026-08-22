@@ -17,7 +17,7 @@ const DEFAULT_FORM: Omit<SimulatorPayload, "farm_id"> = {
 };
 
 export default function SimulatorPage() {
-  const [farmId, setFarmId] = useState("");
+  const [farmId, setFarmId] = useState("demo-farm");
   const [form, setForm] = useState(DEFAULT_FORM);
   const [presets, setPresets] = useState<SimulatorPresets>({});
   const [loading, setLoading] = useState(false);
@@ -47,7 +47,7 @@ export default function SimulatorPage() {
   const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     if (!farmId.trim()) {
-      setResult({ success: false, message: "Farm ID wajib diisi." });
+      setResult({ success: false, message: "Farm ID is required." });
       return;
     }
     setLoading(true);
@@ -61,7 +61,7 @@ export default function SimulatorPage() {
     } catch (err: unknown) {
       const msg =
         (err as { response?: { data?: { detail?: string } } })?.response?.data?.detail ??
-        "Gagal mengirim data. Pastikan backend berjalan dan Farm ID sudah terdaftar.";
+        "Failed to send data. Make sure the backend is running and the Farm ID is registered.";
       setResult({ success: false, message: msg });
     } finally {
       setLoading(false);
@@ -98,14 +98,14 @@ export default function SimulatorPage() {
             <span className="text-3xl">🌱</span>
             <div>
               <h1 className="text-xl font-bold text-gray-900 leading-tight">ArgoMind</h1>
-              <p className="text-xs text-gray-500">Simulator Sensor IoT</p>
+              <p className="text-xs text-gray-500">IoT Sensor Simulator</p>
             </div>
           </div>
           <Link
             href="/"
             className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-semibold text-gray-600 hover:bg-gray-50 transition-colors"
           >
-            ← Kembali ke Dashboard
+            ← Back to Dashboard
           </Link>
         </div>
       </header>
@@ -118,23 +118,23 @@ export default function SimulatorPage() {
             <Cpu className="h-6 w-6 text-blue-600" />
           </div>
           <div>
-            <h2 className="text-xl font-bold text-gray-900">Simulator Sensor IoT</h2>
+            <h2 className="text-xl font-bold text-gray-900">IoT Sensor Simulator</h2>
             <p className="text-sm text-gray-500">
-              Kirim data sensor virtual ke dashboard tanpa perangkat hardware.
-              Cocok untuk demo dan pengujian AI Insight.
+              Send virtual sensor data to the dashboard without physical hardware.
+              Perfect for demos and testing AI Insight.
             </p>
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-          {/* ── Preset Skenario ──────────────────────────────────────────── */}
+          {/* ── Scenario Presets ──────────────────────────────────────────── */}
           <div className="lg:col-span-1 space-y-3">
             <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-500">
-              Preset Skenario
+              Scenario Presets
             </h3>
             {Object.keys(presets).length === 0 && (
-              <p className="text-xs text-gray-400">Memuat preset...</p>
+              <p className="text-xs text-gray-400">Loading presets...</p>
             )}
             {Object.entries(presets).map(([key, preset]) => (
               <button
@@ -160,7 +160,7 @@ export default function SimulatorPage() {
             {/* Live Preview */}
             <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
               <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-500 mb-4">
-                Preview Data Sensor
+                Sensor Data Preview
               </h3>
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
                 <div className="rounded-xl bg-gray-50 p-3 text-center">
@@ -168,28 +168,28 @@ export default function SimulatorPage() {
                   <p className={`text-2xl font-bold ${moistureColor(form.soil_moisture)}`}>
                     {form.soil_moisture.toFixed(1)}
                   </p>
-                  <p className="text-xs text-gray-400">Kelembapan %</p>
+                  <p className="text-xs text-gray-400">Moisture %</p>
                 </div>
                 <div className="rounded-xl bg-gray-50 p-3 text-center">
                   <FlaskConical className="h-5 w-5 mx-auto mb-1 text-purple-500" />
                   <p className={`text-2xl font-bold ${phColor(form.soil_ph)}`}>
                     {form.soil_ph.toFixed(1)}
                   </p>
-                  <p className="text-xs text-gray-400">pH Tanah</p>
+                  <p className="text-xs text-gray-400">Soil pH</p>
                 </div>
                 <div className="rounded-xl bg-gray-50 p-3 text-center">
                   <Thermometer className="h-5 w-5 mx-auto mb-1 text-orange-500" />
                   <p className={`text-2xl font-bold ${tempColor(form.temperature)}`}>
                     {form.temperature.toFixed(1)}
                   </p>
-                  <p className="text-xs text-gray-400">Suhu °C</p>
+                  <p className="text-xs text-gray-400">Temp °C</p>
                 </div>
                 <div className="rounded-xl bg-gray-50 p-3 text-center">
                   <Wind className="h-5 w-5 mx-auto mb-1 text-teal-500" />
                   <p className={`text-2xl font-bold ${humidityColor(form.humidity)}`}>
                     {form.humidity.toFixed(1)}
                   </p>
-                  <p className="text-xs text-gray-400">Kelembapan Udara %</p>
+                  <p className="text-xs text-gray-400">Humidity %</p>
                 </div>
               </div>
             </div>
@@ -200,7 +200,7 @@ export default function SimulatorPage() {
               className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm space-y-5"
             >
               <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-500">
-                Input Manual
+                Manual Input
               </h3>
 
               {/* Farm ID */}
@@ -211,11 +211,12 @@ export default function SimulatorPage() {
                 <input
                   value={farmId}
                   onChange={(e) => setFarmId(e.target.value)}
-                  placeholder="contoh: farm-001"
+                  placeholder="e.g. farm-001"
                   className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                 />
                 <p className="text-xs text-gray-400 mt-1">
-                  Farm ID harus sudah terdaftar terlebih dahulu di dashboard.
+                  <code className="bg-gray-100 px-1 rounded">demo-farm</code> is available by default.
+                  For real hardware, replace with the Farm ID you registered.
                 </p>
               </div>
 
@@ -225,7 +226,7 @@ export default function SimulatorPage() {
                 {/* Soil Moisture */}
                 <div>
                   <div className="flex justify-between mb-1">
-                    <label className="text-sm font-medium text-gray-700">Kelembapan Tanah</label>
+                    <label className="text-sm font-medium text-gray-700">Soil Moisture</label>
                     <span className={`text-sm font-bold ${moistureColor(form.soil_moisture)}`}>
                       {form.soil_moisture.toFixed(1)}%
                     </span>
@@ -238,7 +239,7 @@ export default function SimulatorPage() {
                   />
                   <div className="flex justify-between text-xs text-gray-400 mt-0.5">
                     <span>0%</span>
-                    <span className="text-red-400">Kritis &lt;20%</span>
+                    <span className="text-red-400">Critical &lt;20%</span>
                     <span>100%</span>
                   </div>
                 </div>
@@ -246,7 +247,7 @@ export default function SimulatorPage() {
                 {/* pH */}
                 <div>
                   <div className="flex justify-between mb-1">
-                    <label className="text-sm font-medium text-gray-700">pH Tanah</label>
+                    <label className="text-sm font-medium text-gray-700">Soil pH</label>
                     <span className={`text-sm font-bold ${phColor(form.soil_ph)}`}>
                       {form.soil_ph.toFixed(1)}
                     </span>
@@ -267,7 +268,7 @@ export default function SimulatorPage() {
                 {/* Temperature */}
                 <div>
                   <div className="flex justify-between mb-1">
-                    <label className="text-sm font-medium text-gray-700">Suhu Udara</label>
+                    <label className="text-sm font-medium text-gray-700">Air Temperature</label>
                     <span className={`text-sm font-bold ${tempColor(form.temperature)}`}>
                       {form.temperature.toFixed(1)}°C
                     </span>
@@ -280,7 +281,7 @@ export default function SimulatorPage() {
                   />
                   <div className="flex justify-between text-xs text-gray-400 mt-0.5">
                     <span>10°C</span>
-                    <span className="text-red-400">Kritis &gt;38°C</span>
+                    <span className="text-red-400">Critical &gt;38°C</span>
                     <span>55°C</span>
                   </div>
                 </div>
@@ -288,7 +289,7 @@ export default function SimulatorPage() {
                 {/* Humidity */}
                 <div>
                   <div className="flex justify-between mb-1">
-                    <label className="text-sm font-medium text-gray-700">Kelembapan Udara</label>
+                    <label className="text-sm font-medium text-gray-700">Air Humidity</label>
                     <span className={`text-sm font-bold ${humidityColor(form.humidity)}`}>
                       {form.humidity.toFixed(1)}%
                     </span>
@@ -301,7 +302,7 @@ export default function SimulatorPage() {
                   />
                   <div className="flex justify-between text-xs text-gray-400 mt-0.5">
                     <span>0%</span>
-                    <span className="text-red-400">Kritis &lt;30%</span>
+                    <span className="text-red-400">Critical &lt;30%</span>
                     <span>100%</span>
                   </div>
                 </div>
@@ -330,7 +331,7 @@ export default function SimulatorPage() {
                   className="flex-1 flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 disabled:opacity-60 transition-colors"
                 >
                   <Send className="h-4 w-4" />
-                  {loading ? "Mengirim..." : "Kirim Data Sensor"}
+                  {loading ? "Sending..." : "Send Sensor Data"}
                 </button>
                 <button
                   type="button"
@@ -344,11 +345,11 @@ export default function SimulatorPage() {
 
               {result?.success && (
                 <p className="text-center text-xs text-gray-400">
-                  Data terkirim! Kembali ke{" "}
+                  Data sent! Go back to{" "}
                   <Link href="/" className="text-blue-500 underline">
                     Dashboard
                   </Link>{" "}
-                  dan klik <strong>Perbarul Analisis</strong> untuk melihat AI Insight.
+                  and click <strong>Refresh Analysis</strong> to see the AI Insight.
                 </p>
               )}
             </form>

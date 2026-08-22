@@ -26,11 +26,11 @@ export interface AIInsight {
 
 export interface FarmRegisterPayload {
   farm_id: string;
-  telegram_id: string;
   crop_type?: string;
   sowing_date?: string;
-  latitude: number;
-  longitude: number;
+  location_name?: string;
+  latitude?: number;
+  longitude?: number;
 }
 
 export interface SimulatorPayload {
@@ -66,7 +66,6 @@ export interface SimulatorPresets {
 
 export interface FarmOut {
   farm_id: string;
-  telegram_id: string;
   crop_type: string | null;
   sowing_date: string | null;
   latitude: number;

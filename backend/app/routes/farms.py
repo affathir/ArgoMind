@@ -3,11 +3,13 @@ API route handlers for Farm, Sensor, Weather, and AI Insight endpoints.
 """
 import logging
 from datetime import date
-from typing import List
+from typing import List, Tuple
 
+import httpx
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
+from app.config import get_settings
 from app.database import get_db
 from app.models import Farm, SensorData, WeatherData, AIInsightHistory
 from app.schemas import (
@@ -20,6 +22,30 @@ logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/api/farms", tags=["farms"])
 
 
+# ── GET /api/farms ────────────────────────────────────────────────────────────
+
+@router.get(
+    "",
+    response_model=List[FarmOut],
+    summary="List all registered farms",
+)
+def list_farms(db: Session = Depends(get_db)):
+    """Return all registered farms ordered by farm_id."""
+    return db.query(Farm).order_by(Farm.farm_id).all()
+
+
+# ── GET /api/farms/{farm_id} ──────────────────────────────────────────────────
+
+@router.get(
+    "/{farm_id}",
+    response_model=FarmOut,
+    summary="Get a single farm by ID",
+)
+def get_farm(farm_id: str, db: Session = Depends(get_db)):
+    """Return metadata for a single farm."""
+    return _get_farm_or_404(farm_id, db)
+
+
 # ── POST /api/farms/register ──────────────────────────────────────────────────
 
 @router.post(
@@ -29,7 +55,7 @@ router = APIRouter(prefix="/api/farms", tags=["farms"])
     summary="Register a new farm",
 )
 def register_farm(payload: FarmRegister, db: Session = Depends(get_db)):
-    """Register a new farm with its coordinates and Telegram ID."""
+    """Register a new farm. Provide either location_name (e.g. 'Bandung') or latitude+longitude."""
     existing = db.query(Farm).filter(Farm.farm_id == payload.farm_id).first()
     if existing:
         raise HTTPException(
@@ -37,12 +63,64 @@ def register_farm(payload: FarmRegister, db: Session = Depends(get_db)):
             detail=f"Farm '{payload.farm_id}' is already registered.",
         )
 
-    farm = Farm(**payload.model_dump())
+    lat, lon = payload.latitude, payload.longitude
+
+    # Resolve location name → coordinates if lat/lon not provided manually
+    if (lat is None or lon is None) and payload.location_name:
+        lat, lon = _resolve_location(payload.location_name)
+
+    if lat is None or lon is None:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail="Isi nama lokasi (contoh: 'Bandung') atau koordinat lintang/bujur.",
+        )
+
+    farm = Farm(
+        farm_id=payload.farm_id,
+        crop_type=payload.crop_type,
+        sowing_date=payload.sowing_date,
+        latitude=lat,
+        longitude=lon,
+    )
     db.add(farm)
     db.commit()
     db.refresh(farm)
-    logger.info("Registered new farm: %s", farm.farm_id)
+    logger.info("Registered new farm: %s (%.4f, %.4f)", farm.farm_id, lat, lon)
     return farm
+
+
+def _resolve_location(name: str) -> Tuple[float, float]:
+    """Resolve a location name to (lat, lon) using OpenWeatherMap Geocoding API."""
+    settings = get_settings()
+    if not settings.OPENWEATHER_API_KEY:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="OPENWEATHER_API_KEY belum diset. Isi koordinat manual.",
+        )
+    try:
+        r = httpx.get(
+            "https://api.openweathermap.org/geo/1.0/direct",
+            params={"q": name, "limit": 1, "appid": settings.OPENWEATHER_API_KEY},
+            timeout=10,
+        )
+        r.raise_for_status()
+        results = r.json()
+    except httpx.HTTPError as exc:
+        logger.error("Geocoding request failed: %s", exc)
+        raise HTTPException(
+            status_code=status.HTTP_502_BAD_GATEWAY,
+            detail="Gagal menghubungi layanan geocoding. Coba lagi.",
+        )
+
+    if not results:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Lokasi '{name}' tidak ditemukan. Coba nama kota yang lebih spesifik.",
+        )
+
+    loc = results[0]
+    logger.info("Resolved '%s' → lat=%.4f, lon=%.4f (%s)", name, loc["lat"], loc["lon"], loc.get("country", ""))
+    return loc["lat"], loc["lon"]
 
 
 # ── GET /api/farms/{farm_id}/sensors ─────────────────────────────────────────

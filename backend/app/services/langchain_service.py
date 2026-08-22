@@ -25,11 +25,12 @@ from __future__ import annotations
 import json
 import logging
 import threading
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-from app.config import get_settings, LLM_RESPONSES_DIR
+from app.config import get_settings, LLM_RESPONSES_DIR, ML_MODELS_DIR
 
 logger   = logging.getLogger(__name__)
 settings = get_settings()
@@ -83,10 +84,48 @@ def _load_kb_texts() -> str:
     return "\n\n".join(parts)
 
 
+# Path untuk FAISS cache di disk
+_FAISS_CACHE_DIR = ML_MODELS_DIR / "faiss_index"
+
+# Chunk size besar → lebih sedikit chunks → lebih sedikit embed requests
+_CHUNK_SIZE      = 2000
+_CHUNK_OVERLAP   = 150
+# Kirim 5 chunk per batch, tunggu 65 detik → aman di bawah 100 req/menit free tier
+_EMBED_BATCH_SIZE  = 5
+_EMBED_BATCH_DELAY = 65.0
+
+
+def _embed_with_retry(vs: Any, batch: list, embeddings: Any, max_retries: int = 3) -> None:
+    """Tambahkan batch ke vector store dengan retry otomatis saat kena 429."""
+    for attempt in range(max_retries):
+        try:
+            vs.add_documents(batch)
+            return
+        except Exception as exc:
+            msg = str(exc)
+            if "429" in msg or "RESOURCE_EXHAUSTED" in msg:
+                # Coba parse retryDelay dari pesan error, fallback ke 65 detik
+                delay = _EMBED_BATCH_DELAY
+                import re
+                m = re.search(r"retry[_ ]in\s+([\d.]+)s", msg, re.IGNORECASE)
+                if m:
+                    delay = float(m.group(1)) + 5.0  # tambah buffer 5 detik
+                logger.warning(
+                    "Rate limit 429 (attempt %d/%d) — tunggu %.0fs...",
+                    attempt + 1, max_retries, delay,
+                )
+                time.sleep(delay)
+            else:
+                raise
+
+
 def _build_vector_store() -> Any:
     """
     Buat FAISS vector store dari knowledge-base texts.
-    Hanya dipanggil sekali; hasilnya di-cache di `_vector_store`.
+    - Chunk size besar agar jumlah chunks minimal.
+    - Embed batch kecil (5) dengan jeda 65 detik → aman di free tier (100 req/menit).
+    - Retry otomatis pakai retryDelay dari API saat kena 429.
+    - Cache ke disk — restart berikutnya load instan tanpa embed ulang.
     """
     from langchain_text_splitters import RecursiveCharacterTextSplitter
     from langchain_community.vectorstores import FAISS
@@ -99,21 +138,61 @@ def _build_vector_store() -> Any:
             "Dapatkan API key gratis dari https://aistudio.google.com/app/apikey"
         )
 
+    embeddings = GoogleGenerativeAIEmbeddings(
+        model="models/gemini-embedding-001",
+        google_api_key=api_key,
+    )
+
+    # ── Load dari cache jika sudah ada ────────────────────────────────────
+    if _FAISS_CACHE_DIR.exists():
+        try:
+            vs = FAISS.load_local(
+                str(_FAISS_CACHE_DIR),
+                embeddings,
+                allow_dangerous_deserialization=True,
+            )
+            logger.info("FAISS vector store dimuat dari cache (%d docs)", vs.index.ntotal)
+            return vs
+        except Exception as exc:
+            logger.warning("Cache FAISS tidak valid, rebuild: %s", exc)
+
+    # ── Build dari knowledge base ──────────────────────────────────────────
     raw_text = _load_kb_texts()
 
     splitter = RecursiveCharacterTextSplitter(
-        chunk_size=800,
-        chunk_overlap=100,
+        chunk_size=_CHUNK_SIZE,
+        chunk_overlap=_CHUNK_OVERLAP,
         separators=["\n\n---\n", "\n\n", "\n", " "],
     )
     chunks = splitter.create_documents([raw_text])
-    logger.info("Knowledge base: %d chunks siap untuk di-embed", len(chunks))
-
-    embeddings = GoogleGenerativeAIEmbeddings(
-        model="models/embedding-001",
-        google_api_key=api_key,
+    total  = len(chunks)
+    logger.info(
+        "Knowledge base: %d chunks (size=%d) akan di-embed dalam batch %d",
+        total, _CHUNK_SIZE, _EMBED_BATCH_SIZE,
     )
-    vs = FAISS.from_documents(chunks, embeddings)
+
+    # Embed batch pertama untuk membuat vector store
+    first_batch = chunks[:_EMBED_BATCH_SIZE]
+    vs = FAISS.from_documents(first_batch, embeddings)
+
+    # Embed sisa chunks secara bertahap dengan jeda
+    remaining   = chunks[_EMBED_BATCH_SIZE:]
+    total_batch = (len(remaining) + _EMBED_BATCH_SIZE - 1) // _EMBED_BATCH_SIZE + 1
+    for i in range(0, len(remaining), _EMBED_BATCH_SIZE):
+        batch      = remaining[i: i + _EMBED_BATCH_SIZE]
+        batch_num  = (i // _EMBED_BATCH_SIZE) + 2
+        logger.info("Embedding batch %d/%d (%d chunks)...", batch_num, total_batch, len(batch))
+        time.sleep(_EMBED_BATCH_DELAY)
+        _embed_with_retry(vs, batch, embeddings)
+
+    # ── Simpan ke cache ────────────────────────────────────────────────────
+    try:
+        _FAISS_CACHE_DIR.mkdir(parents=True, exist_ok=True)
+        vs.save_local(str(_FAISS_CACHE_DIR))
+        logger.info("FAISS vector store di-cache ke disk: %s", _FAISS_CACHE_DIR)
+    except Exception as exc:
+        logger.warning("Gagal menyimpan FAISS cache: %s", exc)
+
     logger.info("FAISS vector store berhasil dibangun (%d docs)", vs.index.ntotal)
     return vs
 
@@ -137,32 +216,25 @@ def _get_vector_store() -> Any:
 
 _PROMPT_TEMPLATE = """\
 Kamu adalah ArgoMind, asisten pertanian cerdas berbasis AI.
-Tugasmu adalah memberikan saran pertanian yang praktis, spesifik, dan dapat langsung ditindaklanjuti
-dalam Bahasa Indonesia kepada petani berdasarkan data sensor IoT dan prediksi ML.
+PENTING: Langsung berikan saran tanpa kalimat pembuka atau sapaan. Mulai langsung dengan poin pertama.
 
----
-DATA SENSOR DAN KONDISI FARM SAAT INI:
-- Farm ID      : {farm_id}
-- Jenis Tanaman: {crop_type}
+DATA SENSOR FARM "{farm_id}":
+- Jenis Tanaman   : {crop_type}
 - Kelembapan Tanah: {soil_moisture}%
-- pH Tanah     : {soil_ph}
-- Suhu Udara   : {temperature}°C
+- pH Tanah        : {soil_ph}
+- Suhu Udara      : {temperature}°C
 - Kelembapan Udara: {humidity}%
-- Curah Hujan Hari Ini: {rainfall_mm} mm
-- Jam Sinar Matahari  : {sunlight_hours} jam
-- Prediksi Penyakit ML: {ml_disease_prediction}
+- Curah Hujan     : {rainfall_mm} mm
+- Sinar Matahari  : {sunlight_hours} jam
+- Prediksi ML     : {ml_disease_prediction}
 
----
-PENGETAHUAN RELEVAN DARI BASIS DATA PERTANIAN:
+REFERENSI PERTANIAN:
 {retrieved_context}
 
----
-Berdasarkan data di atas dan pengetahuan yang diberikan, berikan saran pertanian yang:
-1. Spesifik terhadap kondisi sensor saat ini
-2. Fokus pada tindakan yang harus segera dilakukan (jika ada kondisi kritis)
-3. Mencakup rekomendasi pemupukan, irigasi, atau pengendalian hama jika relevan
-4. Menggunakan bahasa yang mudah dipahami petani
-5. Singkat namun padat informasi (maksimal 300 kata)
+Tulis saran tindakan dalam Bahasa Indonesia (maksimal 250 kata), format poin-poin singkat:
+1. Kondisi saat ini dan penilaian risiko
+2. Tindakan segera (irigasi/pemupukan/pengendalian hama)
+3. Rekomendasi jangka pendek (3-7 hari ke depan)
 
 Saran:
 """
@@ -222,14 +294,22 @@ def call_langchain(context: Dict[str, Any]) -> str:
             model=model_name,
             google_api_key=api_key,
             temperature=temperature,
-            max_output_tokens=600,
+            max_output_tokens=1024,
         )
         logger.info(
             "Calling Gemini (%s) for farm %s via LangChain",
             model_name, context.get("farm_id"),
         )
         response = llm.invoke(filled)
-        advice   = response.content.strip()
+        # Gemini newer models may return content as a list of blocks
+        raw = response.content
+        if isinstance(raw, list):
+            advice = " ".join(
+                block.get("text", "") if isinstance(block, dict) else str(block)
+                for block in raw
+            ).strip()
+        else:
+            advice = str(raw).strip()
 
         _save_to_disk(context, retrieved_context, advice)
         logger.info(

@@ -1,17 +1,36 @@
-<div align="center">
-
 # 🌱 ArgoMind
 ### Smart Farming IoT Dashboard
 
-**Turning raw sensor data into actionable farm intelligence — powered by AI**
+> **ArgoMind** is an end-to-end smart farming platform that connects IoT sensors, machine learning disease prediction, real-time weather data, and a Gemini-powered RAG advisory into a single production-ready dashboard.
 
-[![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=flat-square&logo=python&logoColor=white)](https://python.org)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.111-009688?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
-[![Next.js](https://img.shields.io/badge/Next.js-14-000000?style=flat-square&logo=nextdotjs&logoColor=white)](https://nextjs.org)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791?style=flat-square&logo=postgresql&logoColor=white)](https://postgresql.org)
+---
 
+## 🚀 Quick Start (Docker — Recommended)
 
-</div>
+### Windows
+```bat
+REM Double-click or run from PowerShell:
+.\start.bat
+```
+
+### macOS / Linux
+```bash
+chmod +x start.sh && ./start.sh
+```
+
+The script will:
+1. Check that Docker Desktop is running
+2. Copy `.env.docker.example` → `.env` if missing and prompt you to fill in API keys
+3. Run `docker compose up --build`
+
+Once all containers are healthy, open:
+
+| Service | URL |
+|---|---|
+| 🌐 Dashboard | http://localhost:3000 |
+| ⚙️ API Docs (Swagger) | http://localhost:8000/docs |
+| 💚 Health Check | http://localhost:8000/health |
+| 📡 MQTT Broker | `localhost:1883` |
 
 ---
 
@@ -33,47 +52,38 @@
 - [Extending the AI Layer](#-extending-the-ai-layer)
 - [LangChain Integration](#-langchain-integration)
 - [IBM Bob — AI Development Assistant](#-ibm-bob--ai-development-assistant)
-- [Contributing](#-contributing)
-- [License](#-license)
 
 ---
 
 ## 🏆 Challenge Theme
 
-> **Building Intelligent Systems for the Future of Work** *(Wild Card Category)*
+**IBM Hackathon — AI for Good: Smart Agriculture**
 
-ArgoMind directly addresses the gap between sophisticated IoT technology and the practical needs of farmers in the field — making advanced AI accessible to people who need it most, not just engineers.
+Leveraging artificial intelligence and IoT to help smallholder farmers make better, faster, data-driven decisions that improve crop yield, reduce disease loss, and optimize resource usage.
 
 ---
 
 ## ❗ Problem Statement
 
-IoT technology in agriculture can already collect vast amounts of environmental data — soil moisture, temperature, pH levels, and more. However, **the core problem is not data collection; it is data interpretation.**
+Smallholder farmers in developing countries face three critical challenges:
 
-Farmers — especially smallholders — are overwhelmed by dashboards full of raw numbers and technical charts. This cognitive overload leads to:
+1. **Delayed disease detection** — By the time symptoms are visible, crop loss is already significant
+2. **Inefficient resource use** — Overwatering, under-fertilising, or wrong-timing of inputs
+3. **Lack of expert access** — Agricultural advisors are expensive and geographically distant
 
-- ⏳ **Slow decision-making** when immediate action is needed
-- ❓ **Uncertainty** about whether to irrigate, fertilize, or treat for pests
-- 📉 **Crop losses** caused by delayed or incorrect responses to environmental stress
-- 🚫 **Low adoption** of IoT tools because they feel too complex to use
-
-The technology exists. The data exists. What is missing is an intelligent bridge that **translates data into human language and timely action**.
+These problems cost billions in annual crop losses worldwide and disproportionately affect small-scale farmers.
 
 ---
 
 ## 💡 Solution Overview
 
-ArgoMind transforms a traditional IoT monitoring dashboard into a **Smart Virtual Farm Assistant**.
+ArgoMind provides an affordable, open-source IoT + AI stack that any farmer can deploy:
 
-Instead of presenting raw sensor readings, ArgoMind:
-
-1. **Ingests** real-time sensor data via MQTT from IoT field devices
-2. **Enriches** it with daily weather forecast data from OpenWeatherMap
-3. **Analyzes** the combined context using a Machine Learning model for disease risk prediction
-4. **Translates** findings into natural-language recommendations via a Large Language Model (LangChain + Google Gemini)
-5. **Proactively alerts** farmers via Telegram the moment a critical threshold is breached
-
-Farmers receive a **clear, plain-language recommendation** — not a confusing number — enabling fast, confident, and correct action.
+- **IoT sensors** (ESP32 + soil/temperature/humidity sensors) publish data via MQTT
+- **XGBoost ML model** runs disease risk prediction on every incoming reading
+- **LangChain RAG pipeline** retrieves relevant farming knowledge and generates actionable advice via Google Gemini
+- **Real-time dashboard** shows live sensor readings, weather forecasts, and AI recommendations
+- **Demo mode** lets anyone try the full system without hardware using the built-in simulator
 
 ---
 
@@ -81,279 +91,283 @@ Farmers receive a **clear, plain-language recommendation** — not a confusing n
 
 | Feature | Description |
 |---|---|
-| 📡 **Real-time IoT Ingestion** | MQTT subscriber ingests sensor payloads from any ESP32/Arduino device |
-| 🗄️ **Persistent Storage** | All sensor readings, weather data, and AI insights stored in PostgreSQL |
-| ☁️ **Daily Weather Sync** | APScheduler fetches OpenWeatherMap forecasts every day at 06:00 UTC |
-| 🤖 **AI Insight Engine** | ML disease prediction + LLM natural-language advice (pluggable stubs) |
-| 📲 **Telegram Alerts** | Instant push notifications when sensor thresholds are breached |
-| 🌐 **Responsive Dashboard** | Next.js + TailwindCSS dashboard with color-coded status indicators |
-| 📝 **Farm Registration** | In-app modal to register farm ID, GPS coordinates, and Telegram ID |
-| 🔄 **Auto-polling** | Frontend refreshes sensor data every 15 seconds automatically |
-| 🔧 **Pluggable AI Layer** | ML and LLM stubs in `ai_service.py` — drop in your model with zero refactoring |
+| 📡 **Real-Time IoT Ingestion** | MQTT-based sensor data pipeline via Eclipse Mosquitto |
+| 🤖 **ML Disease Prediction** | XGBoost model trained on crop disease datasets |
+| 🧠 **RAG AI Advisory** | LangChain + FAISS + Google Gemini for contextual farming advice |
+| 🌤️ **Auto Weather Sync** | OpenWeatherMap integration, fetched on startup and daily at 06:00 UTC |
+| 🗺️ **Location Autocomplete** | Type a city name — coordinates resolved automatically via Geocoding API |
+| 🎮 **IoT Simulator** | Send virtual sensor data without hardware for demos and testing |
+| 📋 **ESP32 Code Generator** | Auto-generates ready-to-flash Arduino code after farm registration |
+| 🐳 **One-Command Deploy** | Full Docker Compose stack: DB + MQTT + Backend + Frontend |
 
 ---
 
 ## 🏛️ System Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────────────┐
-│                         ArgoMind System                             │
-│                                                                     │
-│  ┌──────────┐   MQTT    ┌──────────────────────────────────────┐   │
-│  │ IoT Node │──publish─▶│           FastAPI Backend             │   │
-│  │ ESP32 /  │           │                                       │   │
-│  │ Arduino  │           │  ┌────────────┐  ┌────────────────┐  │   │
-│  └──────────┘           │  │mqtt_client │  │  APScheduler   │  │   │
-│                         │  │  .py       │  │ (daily 06:00)  │  │   │
-│  ┌──────────┐           │  └─────┬──────┘  └───────┬────────┘  │   │
-│  │Mosquitto │           │        │                 │            │   │
-│  │  Broker  │           │  ┌─────▼─────────────────▼────────┐  │   │
-│  └──────────┘           │  │        PostgreSQL Database      │  │   │
-│                         │  │  farms │ sensor_data │ weather  │  │   │
-│  ┌──────────┐  REST API │  │        │ ai_insight_history     │  │   │
-│  │ Next.js  │◀─────────▶│  └────────────────────────────────┘  │   │
-│  │Dashboard │           │                                       │   │
-│  └──────────┘           │  ┌────────────┐  ┌────────────────┐  │   │
-│                         │  │ai_service  │  │telegram_service│  │   │
-│  ┌──────────┐           │  │(ML + LLM)  │  │    (alerts)    │  │   │
-│  │ Telegram │◀──alert───│  └────────────┘  └────────────────┘  │   │
-│  │   Bot    │           └──────────────────────────────────────┘   │
-│  └──────────┘                                                       │
-│                                                                     │
-│  ┌──────────────┐   ┌──────────────────┐   ┌───────────────────┐  │
-│  │OpenWeatherMap│   │ LangChain + FAISS│   │   ML Model (.pkl) │  │
-│  │     API      │   │  + Google Gemini │   │   (pluggable)     │  │
-│  └──────────────┘   └──────────────────┘   └───────────────────┘  │
-└─────────────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────┐
+│                        ArgoMind Platform                     │
+│                                                              │
+│  ┌──────────┐    MQTT     ┌─────────────────────────────┐   │
+│  │  ESP32   │────────────▶│        Mosquitto Broker      │   │
+│  │ Sensor   │             │         (port 1883)          │   │
+│  └──────────┘             └──────────────┬──────────────┘   │
+│                                          │ subscribe         │
+│  ┌──────────┐    HTTP     ┌──────────────▼──────────────┐   │
+│  │Simulator │────────────▶│       FastAPI Backend        │   │
+│  │  (UI)    │             │                              │   │
+│  └──────────┘             │  ┌─────────┐  ┌──────────┐  │   │
+│                           │  │XGBoost  │  │LangChain │  │   │
+│  ┌──────────┐    REST     │  │  ML     │  │RAG+Gemini│  │   │
+│  │ Next.js  │◀───────────▶│  └─────────┘  └──────────┘  │   │
+│  │Dashboard │             │                              │   │
+│  └──────────┘             │  ┌──────────────────────┐   │   │
+│                           │  │     PostgreSQL DB      │   │   │
+│                           │  └──────────────────────┘   │   │
+│                           └─────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────┘
 ```
 
 ### Component Responsibilities
 
-| Component | File | Responsibility |
-|---|---|---|
-| MQTT Subscriber | `backend/app/mqtt_client.py` | Subscribe to `farm/sensor`, persist readings, trigger threshold check |
-| Weather Scheduler | `backend/app/scheduler.py` | APScheduler cron job — fetch & upsert daily weather |
-| Weather Fetcher | `backend/app/services/weather_service.py` | Call OpenWeatherMap, compute rain + sunlight estimates |
-| AI Service | `backend/app/services/ai_service.py` | ML prediction + LLM advice (pluggable stubs) |
-| Alert Service | `backend/app/services/telegram_service.py` | Evaluate thresholds, send Telegram notifications |
-| REST API | `backend/app/routes/farms.py` | All farm/sensor/weather/insight endpoints |
-| Database Models | `backend/app/models.py` | SQLAlchemy ORM — 4 tables |
-| Dashboard | `frontend/src/app/page.tsx` | Main UI with polling, state, and modal |
-| Sensor Cards | `frontend/src/components/SensorCard.tsx` | Color-coded metric widgets |
-| AI Panel | `frontend/src/components/AIInsightPanel.tsx` | Render ML prediction + LLM advice |
-| Register Modal | `frontend/src/components/RegisterFarmModal.tsx` | Farm registration form |
+| Component | Role |
+|---|---|
+| **Mosquitto** | MQTT broker — receives sensor payloads from IoT devices |
+| **FastAPI** | REST API, MQTT subscriber, ML inference, LangChain RAG orchestration, APScheduler |
+| **PostgreSQL** | Stores farms, sensor readings, weather records, AI insight history |
+| **Next.js** | Real-time dashboard, simulator UI, farm registration |
+| **XGBoost** | On-device ML model for crop disease risk prediction |
+| **LangChain + FAISS** | Vector-based knowledge retrieval, embedded via Gemini Embedding API |
+| **Google Gemini** | LLM for generating actionable farming recommendations |
+| **OpenWeatherMap** | Daily weather forecast (rainfall, sunlight hours) per farm location |
 
 ---
 
 ## 🛠️ Tech Stack
 
 ### Backend
-| Layer | Technology |
-|---|---|
-| Framework | FastAPI 0.111 |
-| ORM | SQLAlchemy 2.0 |
-| Validation | Pydantic v2 + pydantic-settings |
-| Database | PostgreSQL 16 |
-| MQTT Client | Paho-MQTT 1.6 |
-| Scheduler | APScheduler 3.10 |
-| HTTP Client | httpx 0.27 |
-| Notifications | telegram-easy |
-| Runtime | Python 3.11+ / Uvicorn |
+| Library | Version | Purpose |
+|---|---|---|
+| FastAPI | ≥0.111 | REST API framework |
+| SQLAlchemy | ≥2.0 | ORM / database layer |
+| psycopg2 | ≥2.9 | PostgreSQL driver |
+| paho-mqtt | ≥1.6 | MQTT client |
+| APScheduler | ≥3.10 | Daily weather sync job |
+| XGBoost | ≥2.1 | ML disease prediction |
+| LangChain | ≥0.3 | RAG orchestration |
+| langchain-google-genai | ≥2.0 | Gemini LLM + Embeddings |
+| faiss-cpu | ≥1.8 | In-memory vector store |
+| httpx | ≥0.27 | Async HTTP (OpenWeatherMap, Geocoding) |
 
 ### Frontend
-| Layer | Technology |
-|---|---|
-| Framework | Next.js 14 (App Router) |
-| Language | TypeScript 5 |
-| Styling | TailwindCSS 3 |
-| Icons | lucide-react |
-| HTTP Client | Axios |
+| Library | Version | Purpose |
+|---|---|---|
+| Next.js | 14 | React framework |
+| TypeScript | 5 | Type safety |
+| Tailwind CSS | 3 | Utility-first styling |
+| Axios | latest | HTTP client |
+| Lucide React | latest | Icon set |
 
 ---
 
 ## 📁 Project Structure
 
 ```
-argomind/
+IBM_Hackathon/
+├── docker-compose.yml          # Full stack orchestration
+├── .env.docker.example         # Environment variable template
+├── start.bat / start.sh        # One-click startup scripts
+├── mosquitto/
+│   └── mosquitto.conf          # MQTT broker configuration
 │
 ├── backend/
-│   ├── main.py                          # FastAPI app — lifespan, CORS, router registration
+│   ├── Dockerfile
+│   ├── main.py                 # FastAPI app entry point
 │   ├── requirements.txt
-│   ├── .env.example
-│   │
-│   ├── app/
-│   │   ├── config.py                    # Pydantic Settings + storage path constants
-│   │   ├── database.py                  # SQLAlchemy engine, SessionLocal, init_db()
-│   │   ├── models.py                    # ORM models: Farm, SensorData, WeatherData, AIInsightHistory
-│   │   ├── schemas.py                   # Pydantic request/response schemas
-│   │   ├── mqtt_client.py               # Paho-MQTT subscriber (background thread)
-│   │   ├── scheduler.py                 # APScheduler — daily weather job
-│   │   │
-│   │   ├── routes/
-│   │   │   ├── health.py                # GET /health
-│   │   │   └── farms.py                 # POST /register, GET /sensors /weather /insight
-│   │   │
-│   │   └── services/
-│   │       ├── ai_service.py            # 🔧 PLUGGABLE: predict_disease() + get_llm_advice()
-│   │       ├── telegram_service.py      # Threshold evaluation + Telegram push
-│   │       └── weather_service.py       # OpenWeatherMap fetch + DB upsert
-│   │
-│   └── storage/
-│       ├── llm_responses/               # Raw JSON output from LLM calls
-│       └── ml/
-│           ├── training_data/           # CSV / Parquet datasets
-│           ├── models/                  # Trained model files (.pkl, .onnx)
-│           └── results/                 # Evaluation reports (accuracy, F1, etc.)
+│   └── app/
+│       ├── config.py           # Settings (pydantic-settings)
+│       ├── database.py         # SQLAlchemy engine + demo farm seed
+│       ├── models.py           # ORM models
+│       ├── schemas.py          # Pydantic request/response schemas
+│       ├── mqtt_client.py      # MQTT subscriber + message handler
+│       ├── scheduler.py        # APScheduler (daily weather + startup fetch)
+│       ├── routes/
+│       │   ├── farms.py        # Farm CRUD, sensor, weather, AI insight endpoints
+│       │   ├── health.py       # Health check + manual weather refresh trigger
+│       │   └── simulator.py    # Virtual sensor injection endpoint
+│       └── services/
+│           ├── ai_service.py       # ML prediction orchestration
+│           ├── langchain_service.py # RAG + LLM pipeline (FAISS cache + batch embed)
+│           └── weather_service.py  # OpenWeatherMap fetch + upsert
 │
-└── frontend/
-    ├── package.json
-    ├── next.config.js
-    ├── tailwind.config.js
-    ├── tsconfig.json
-    │
-    └── src/
-        ├── app/
-        │   ├── layout.tsx               # Root layout + font + global CSS
-        │   ├── globals.css              # Tailwind directives
-        │   └── page.tsx                 # Dashboard page — polling, state, layout
-        │
-        ├── components/
-        │   ├── SensorCard.tsx           # Reusable metric card with status colors
-        │   ├── AIInsightPanel.tsx       # AI insight section (ML + LLM output)
-        │   └── RegisterFarmModal.tsx    # Farm registration modal form
-        │
-        ├── lib/
-        │   └── api.ts                   # Axios API client functions
-        │
-        └── types/
-            └── index.ts                 # TypeScript interfaces
+├── frontend/
+│   ├── Dockerfile
+│   └── src/
+│       ├── app/
+│       │   ├── page.tsx            # Main dashboard (Demo + Hardware tabs)
+│       │   └── simulator/page.tsx  # IoT sensor simulator UI
+│       ├── components/
+│       │   ├── AIInsightPanel.tsx  # ML prediction + Gemini RAG advice panel
+│       │   ├── RegisterFarmModal.tsx # Farm registration (location autocomplete)
+│       │   ├── HardwareCodeModal.tsx # ESP32 code generator
+│       │   └── SensorCard.tsx      # Reusable sensor value card
+│       ├── lib/api.ts              # Axios API client
+│       └── types/index.ts          # TypeScript interfaces
+│
+└── hardware/
+    └── argomind_sensor/            # ESP32 Arduino sketch template
 ```
 
 ---
 
 ## 🗄️ Database Schema
 
-```
-┌──────────────────────────────────────────────────────────────────┐
-│  farms                                                           │
-│  ─────────────────────────────────────────────────────────────  │
-│  farm_id (PK)  VARCHAR   │  telegram_id  VARCHAR                │
-│  crop_type     VARCHAR   │  sowing_date  DATE                   │
-│  latitude      FLOAT     │  longitude    FLOAT                  │
-└─────────────────────────┬────────────────────────────────────────┘
-                          │ 1 : N (FK)
-          ┌───────────────┼───────────────────┐
-          │               │                   │
-          ▼               ▼                   ▼
-┌─────────────────┐ ┌─────────────────┐ ┌──────────────────────────┐
-│  sensor_data    │ │  weather_data   │ │  ai_insight_history      │
-│  ─────────────  │ │  ─────────────  │ │  ──────────────────────  │
-│  id (PK)        │ │  id (PK)        │ │  id (PK)                 │
-│  farm_id (FK)   │ │  farm_id (FK)   │ │  farm_id (FK)            │
-│  timestamp      │ │  date           │ │  timestamp               │
-│  soil_moisture  │ │  rainfall_mm    │ │  ml_disease_prediction   │
-│  soil_ph        │ │  sunlight_hours │ │  llm_advice              │
-│  temperature    │ └─────────────────┘ └──────────────────────────┘
-│  humidity       │
-└─────────────────┘
+```sql
+-- Registered farms
+CREATE TABLE farms (
+    farm_id      VARCHAR(64) PRIMARY KEY,
+    crop_type    VARCHAR(64),
+    sowing_date  DATE,
+    latitude     FLOAT NOT NULL,
+    longitude    FLOAT NOT NULL
+);
+
+-- IoT sensor readings (ingested via MQTT)
+CREATE TABLE sensor_data (
+    id            SERIAL PRIMARY KEY,
+    farm_id       VARCHAR(64) REFERENCES farms(farm_id),
+    timestamp     TIMESTAMPTZ DEFAULT now(),
+    soil_moisture FLOAT,
+    soil_ph       FLOAT,
+    temperature   FLOAT,
+    humidity      FLOAT
+);
+
+-- Daily weather records (OpenWeatherMap)
+CREATE TABLE weather_data (
+    id             SERIAL PRIMARY KEY,
+    farm_id        VARCHAR(64) REFERENCES farms(farm_id),
+    date           DATE NOT NULL,
+    rainfall_mm    FLOAT,
+    sunlight_hours FLOAT,
+    UNIQUE (farm_id, date)
+);
+
+-- AI insight history (ML + LLM results)
+CREATE TABLE ai_insight_history (
+    id                     SERIAL PRIMARY KEY,
+    farm_id                VARCHAR(64) REFERENCES farms(farm_id),
+    timestamp              TIMESTAMPTZ DEFAULT now(),
+    ml_disease_prediction  TEXT,
+    llm_advice             TEXT
+);
 ```
 
 ---
 
 ## 📡 API Reference
 
-Base URL: `http://localhost:8000`
-
 | Method | Endpoint | Description |
 |---|---|---|
-| `GET` | `/health` | Service liveness check |
+| `GET` | `/health` | Service health check |
+| `POST` | `/api/weather/refresh` | Manually trigger weather fetch for all farms |
+| `GET` | `/api/farms` | List all registered farms |
+| `GET` | `/api/farms/{id}` | Get single farm details |
 | `POST` | `/api/farms/register` | Register a new farm |
-| `GET` | `/api/farms/{farm_id}/sensors` | Latest sensor readings (`?limit=N`) |
-| `GET` | `/api/farms/{farm_id}/weather` | Today's weather data |
-| `GET` | `/api/farms/{farm_id}/insight` | Generate + persist AI insight |
-
-Interactive API docs available at **`http://localhost:8000/docs`** (Swagger UI) and **`http://localhost:8000/redoc`**.
+| `GET` | `/api/farms/{id}/sensors` | Get latest sensor readings |
+| `GET` | `/api/farms/{id}/weather` | Get today's weather data |
+| `GET` | `/api/farms/{id}/insight` | Get AI insight (ML + LLM) |
+| `GET` | `/api/simulator/presets` | List simulator scenario presets |
+| `POST` | `/api/simulator/send` | Send virtual sensor data |
 
 ### Example: Register a Farm
+
 ```bash
 curl -X POST http://localhost:8000/api/farms/register \
   -H "Content-Type: application/json" \
   -d '{
     "farm_id": "farm-001",
-    "telegram_id": "123456789",
-    "crop_type": "Padi",
-    "sowing_date": "2024-06-01",
-    "latitude": -6.9175,
-    "longitude": 107.6191
+    "crop_type": "Rice",
+    "location_name": "Bandung"
   }'
 ```
 
+> `location_name` is automatically geocoded to lat/lon via the OpenWeatherMap Geocoding API.
+> You may still provide `latitude` and `longitude` directly if preferred.
+
 ### Example: MQTT Sensor Payload
+
 ```json
 {
   "farm_id": "farm-001",
-  "soil_moisture": 18.4,
-  "soil_ph": 5.2,
-  "temperature": 39.1,
-  "humidity": 28.0
+  "soil_moisture": 48.5,
+  "soil_ph": 6.2,
+  "temperature": 29.0,
+  "humidity": 72.0
 }
 ```
-Topic: `farm/sensor`
+
+Publish to topic: `farm/sensor`
 
 ---
 
 ## 🔄 Data Flow & Workflows
 
 ### 1. Sensor Ingestion & Alert Flow
+
 ```
-IoT Device
-  │
-  └─▶ MQTT Broker (topic: farm/sensor)
-        │
-        └─▶ mqtt_client.py — on_message()
-              │
-              ├─▶ Validate farm_id exists in DB
-              ├─▶ INSERT into sensor_data
-              └─▶ check_and_notify()
-                    │
-                    ├─ soil_moisture < 20%  ──┐
-                    ├─ pH out of 5.5–7.5   ──┤─▶ send Telegram alert ▶ Farmer
-                    ├─ temperature > 38°C  ──┤
-                    └─ humidity < 30%      ──┘
+ESP32 / Simulator
+    │
+    │ MQTT publish → topic: farm/sensor
+    ▼
+Mosquitto Broker
+    │
+    │ on_message callback
+    ▼
+FastAPI MQTT Client
+    │
+    ├─▶ Validate JSON payload
+    ├─▶ Write SensorData to PostgreSQL
+    └─▶ Check alert thresholds
+            │
+            └─▶ (future) trigger Telegram / webhook alert
 ```
 
-### 2. Daily Weather Sync Flow
+### 2. Weather Sync Flow
+
 ```
-APScheduler (every day at 06:00 UTC)
-  │
-  └─▶ fetch_all_farms_weather()
-        │
-        └─▶ For each farm in DB:
-              │
-              ├─▶ GET OpenWeatherMap /forecast (8×3h blocks)
-              ├─▶ Calculate total rainfall_mm (sum of 3h rain)
-              ├─▶ Estimate sunlight_hours (clear blocks 06:00–18:00)
-              └─▶ UPSERT into weather_data
+App Startup  ──▶  fetch_all_farms_weather()  ──▶  OpenWeatherMap API
+                                                        │
+APScheduler (daily 06:00 UTC)  ─────────────────────────┘
+                                                        │
+                                              Upsert WeatherData
+                                              (rainfall_mm, sunlight_hours)
 ```
 
 ### 3. AI Insight Request Flow
+
 ```
-Farmer clicks "Perbarui Analisis" on Dashboard
-  │
-  └─▶ GET /api/farms/{farm_id}/insight
-        │
-        ├─▶ Fetch latest sensor snapshot from DB
-        ├─▶ Fetch today's weather snapshot from DB
-        │
-        ├─▶ predict_disease(sensor_dict)        ← ML model (pluggable)
-        │     └─▶ Returns disease risk label
-        │
-        ├─▶ get_llm_advice(context)             ← LangChain RAG + Gemini
-        │     └─▶ Returns natural-language recommendation
-        │
-        ├─▶ Save JSON response to storage/llm_responses/
-        ├─▶ INSERT into ai_insight_history
-        └─▶ Return AIInsightOut to frontend
+GET /api/farms/{id}/insight
+    │
+    ├─▶ Fetch latest SensorData snapshot
+    ├─▶ Fetch latest WeatherData
+    │
+    ├─▶ XGBoost ML prediction
+    │       └─▶ returns disease risk label + confidence
+    │
+    └─▶ LangChain RAG pipeline
+            │
+            ├─▶ Load FAISS vector store (from disk cache if available)
+            │       └─▶ If cache miss: batch-embed knowledge base
+            │           (20 chunks/batch, 65s delay → safe under free-tier quota)
+            │
+            ├─▶ Similarity search (k=4 relevant chunks)
+            │
+            ├─▶ Build prompt with sensor data + weather + retrieved context
+            │
+            └─▶ Google Gemini (gemini-3.1-flash-lite) → farming advice
+                    │
+                    └─▶ Save to AIInsightHistory + return to frontend
 ```
 
 ---
@@ -362,17 +376,10 @@ Farmer clicks "Perbarui Analisis" on Dashboard
 
 ### Prerequisites
 
-Make sure the following are installed on your machine:
-
-| Tool | Version | Install |
-|---|---|---|
-| Python | 3.11+ | [python.org](https://python.org) |
-| Node.js | 18+ | [nodejs.org](https://nodejs.org) |
-| PostgreSQL | 14+ | [postgresql.org](https://postgresql.org) |
-| Mosquitto (MQTT) | any | [mosquitto.org](https://mosquitto.org) |
-| Git | any | [git-scm.com](https://git-scm.com) |
-
----
+- Python 3.11+
+- Node.js 20+
+- PostgreSQL 15+
+- Docker Desktop (for MQTT broker) **or** local Mosquitto install
 
 ### Step 1 — Clone the Repository
 
@@ -381,331 +388,193 @@ git clone https://github.com/your-org/argomind.git
 cd argomind
 ```
 
----
-
 ### Step 2 — Set Up the Database
 
-Create a PostgreSQL database named `argomind`:
-
 ```bash
-# Using psql
+# Create the database
 psql -U postgres -c "CREATE DATABASE argomind;"
 ```
-
-> Tables are created automatically on first startup via `init_db()` — no migration needed for development.
-
----
 
 ### Step 3 — Configure the Backend
 
 ```bash
 cd backend
 cp .env.example .env
+# Edit .env — fill in GOOGLE_API_KEY and OPENWEATHER_API_KEY
 ```
-
-Open `.env` and fill in your credentials:
-
-```env
-DATABASE_URL=postgresql+psycopg2://postgres:YOUR_PASSWORD@localhost:5432/argomind
-OPENWEATHER_API_KEY=your_openweathermap_key
-TELEGRAM_BOT_TOKEN=your_telegram_bot_token
-MQTT_BROKER=localhost
-MQTT_PORT=1883
-```
-
-> See the full list of variables in the [Environment Variables](#-environment-variables) section.
-
----
 
 ### Step 4 — Install Backend Dependencies
 
 ```bash
-# Still inside backend/
 python -m venv .venv
-
-# Windows
-.venv\Scripts\activate
-
-# macOS / Linux
-source .venv/bin/activate
-
+source .venv/bin/activate      # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
-
----
 
 ### Step 5 — Start the MQTT Broker
 
 ```bash
-# If Mosquitto is installed as a service (Windows)
-net start mosquitto
-
-# macOS (Homebrew)
-brew services start mosquitto
-
-# Linux
-sudo systemctl start mosquitto
+# Using Docker:
+docker run -d -p 1883:1883 \
+  -v $(pwd)/../mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf \
+  eclipse-mosquitto:2
 ```
-
----
 
 ### Step 6 — Run the Backend
 
 ```bash
-# Inside backend/ with venv activated
-uvicorn main:app --reload --host 0.0.0.0 --port 8000
+cd backend
+uvicorn main:app --reload --port 8000
 ```
-
-Expected output:
-```
-INFO  ArgoMind starting up
-INFO  Database tables created
-INFO  MQTT client started — broker=localhost:1883
-INFO  APScheduler started — daily weather job registered at 06:00 UTC
-INFO  Uvicorn running on http://0.0.0.0:8000
-```
-
-Open **http://localhost:8000/docs** to verify the API is running.
-
----
 
 ### Step 7 — Configure the Frontend
 
 ```bash
-cd ../frontend
-cp .env.local.example .env.local
+cd frontend
+cp .env.example .env.local
+# NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
 ```
-
-`.env.local` should contain:
-```env
-NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
-```
-
----
 
 ### Step 8 — Install Frontend Dependencies & Run
 
 ```bash
-# Inside frontend/
 npm install
 npm run dev
 ```
 
-Open **http://localhost:3000** in your browser.
-
----
-
 ### Step 9 — Register a Test Farm
 
-In the dashboard, click **"Daftarkan Kebun"** and fill in:
-
-| Field | Example Value |
-|---|---|
-| Farm ID | `farm-001` |
-| Telegram Chat ID | `123456789` |
-| Crop Type | `Padi` |
-| Latitude | `-6.9175` |
-| Longitude | `107.6191` |
-
----
-
-### Step 10 — Simulate a Sensor Reading (Optional)
-
-Install `mosquitto_pub` or use any MQTT client, then publish:
-
 ```bash
-mosquitto_pub -h localhost -t "farm/sensor" -m '{
-  "farm_id": "farm-001",
-  "soil_moisture": 18.0,
-  "soil_ph": 6.2,
-  "temperature": 29.5,
-  "humidity": 62.0
-}'
+curl -X POST http://localhost:8000/api/farms/register \
+  -H "Content-Type: application/json" \
+  -d '{"farm_id": "test-farm", "crop_type": "Rice", "location_name": "Jakarta"}'
 ```
 
-The dashboard will update within 15 seconds. If `soil_moisture < 20`, a Telegram alert is sent automatically.
+### Step 10 — Simulate a Sensor Reading
+
+```bash
+# Via HTTP (simulator endpoint):
+curl -X POST http://localhost:8000/api/simulator/send \
+  -H "Content-Type: application/json" \
+  -d '{
+    "farm_id": "test-farm",
+    "soil_moisture": 45.0,
+    "soil_ph": 6.0,
+    "temperature": 30.0,
+    "humidity": 70.0
+  }'
+
+# Via MQTT (mosquitto_pub):
+mosquitto_pub -h localhost -t farm/sensor -m \
+  '{"farm_id":"test-farm","soil_moisture":45,"soil_ph":6.0,"temperature":30,"humidity":70}'
+```
 
 ---
 
 ## 🔐 Environment Variables
 
-| Variable | Default | Description |
-|---|---|---|
-| `DATABASE_URL` | `postgresql+psycopg2://...` | Full PostgreSQL connection string |
-| `MQTT_BROKER` | `localhost` | MQTT broker hostname or IP |
-| `MQTT_PORT` | `1883` | MQTT broker port |
-| `MQTT_TOPIC` | `farm/sensor` | MQTT topic to subscribe |
-| `MQTT_USERNAME` | *(empty)* | MQTT username (if broker requires auth) |
-| `MQTT_PASSWORD` | *(empty)* | MQTT password |
-| `OPENWEATHER_API_KEY` | *(empty)* | OpenWeatherMap API key |
-| `TELEGRAM_BOT_TOKEN` | *(empty)* | Telegram Bot token from @BotFather |
-| `SOIL_MOISTURE_MIN` | `20.0` | Alert threshold: minimum soil moisture (%) |
-| `SOIL_PH_MIN` | `5.5` | Alert threshold: minimum pH |
-| `SOIL_PH_MAX` | `7.5` | Alert threshold: maximum pH |
-| `TEMPERATURE_MAX` | `38.0` | Alert threshold: maximum temperature (°C) |
-| `HUMIDITY_MIN` | `30.0` | Alert threshold: minimum air humidity (%) |
-| `APP_HOST` | `0.0.0.0` | Uvicorn bind host |
-| `APP_PORT` | `8000` | Uvicorn bind port |
-| `DEBUG` | `false` | Enable debug mode |
+| Variable | Required | Default | Description |
+|---|---|---|---|
+| `POSTGRES_PASSWORD` | ✅ | `postgres` | PostgreSQL password |
+| `GOOGLE_API_KEY` | ✅ | — | Google Gemini API key ([get one free](https://aistudio.google.com/app/apikey)) |
+| `OPENWEATHER_API_KEY` | ✅ | — | OpenWeatherMap API key ([get one free](https://openweathermap.org/api)) |
+| `LANGCHAIN_MODEL` | ❌ | `gemini-3.1-flash-lite` | Gemini model name |
+| `LANGCHAIN_TEMPERATURE` | ❌ | `0.3` | LLM temperature (0.0–1.0) |
+| `MQTT_TOPIC` | ❌ | `farm/sensor` | MQTT topic to subscribe to |
+| `MQTT_USERNAME` | ❌ | — | MQTT broker username |
+| `MQTT_PASSWORD` | ❌ | — | MQTT broker password |
+| `BACKEND_PORT` | ❌ | `8000` | Backend exposed port |
+| `FRONTEND_PORT` | ❌ | `3000` | Frontend exposed port |
+| `NEXT_PUBLIC_API_BASE_URL` | ❌ | `http://localhost:8000` | Backend URL visible to the browser |
+| `DEBUG` | ❌ | `false` | Enable debug logging |
 
 ---
 
 ## 🚨 Alert Thresholds
 
-ArgoMind evaluates every incoming sensor reading against these thresholds. If any value is out of range, an alert is immediately sent to the farmer's Telegram.
-
-| Sensor | Condition | Alert Message |
+| Metric | Warning | Critical |
 |---|---|---|
-| Soil Moisture | `< 20%` | ⚠️ Kelembapan Tanah kritis |
-| Soil pH | `< 5.5` or `> 7.5` | ⚠️ pH Tanah di luar rentang normal |
-| Temperature | `> 38°C` | ⚠️ Suhu terlalu tinggi |
-| Air Humidity | `< 30%` | ⚠️ Kelembapan Udara rendah |
-
-All thresholds are configurable via `.env` — no code changes required.
+| Soil Moisture | < 35% | < 20% |
+| Soil pH | < 6.0 or > 7.2 | < 5.5 or > 7.5 |
+| Air Temperature | > 34°C | > 38°C |
+| Air Humidity | < 45% | < 30% |
 
 ---
 
 ## 🔧 Extending the AI Layer
 
-The AI integration is built on [`backend/app/services/ai_service.py`](backend/app/services/ai_service.py) with a pluggable ML layer and a LangChain RAG+LLM layer.
-
 ### ML Disease Prediction
 
-```python
-# backend/app/services/ai_service.py
-import joblib
-from app.config import ML_MODELS_DIR
+The ML pipeline lives in [`backend/app/services/ai_service.py`](backend/app/services/ai_service.py).
+The trained XGBoost model is loaded from `storage/ml/models/`.
 
-_model = joblib.load(ML_MODELS_DIR / "disease_classifier_v1.pkl")
-
-def predict_disease(sensor_payload: dict) -> str:
-    X = [[
-        sensor_payload["soil_moisture"],
-        sensor_payload["soil_ph"],
-        sensor_payload["temperature"],
-        sensor_payload["humidity"],
-    ]]
-    label = _model.predict(X)[0]
-    return f"Risiko terdeteksi: {label}"
+To retrain:
+```bash
+cd backend
+python ml/train.py
 ```
 
-Place trained model files in `backend/storage/ml/models/` and dataset files in `backend/storage/ml/training_data/`. Both directories are git-ignored by default.
+Features used: `soil_moisture`, `soil_ph`, `temperature`, `humidity`
 
 ---
 
 ## 🔀 LangChain Integration
 
-LangChain is the **LLM orchestration layer** inside ArgoMind — it takes raw sensor & weather context, retrieves relevant knowledge from the farming knowledge base, and produces **plain-language farming advice** for the farmer.
-
 ### Role in the Architecture
 
-```
-FastAPI Backend (ai_service.py)
-  │
-  └─▶ get_llm_advice(context)
-        │
-        └─▶ langchain_service.call_langchain(context)
-              │
-              ├─▶ FAISS similarity_search (top-4 chunks from kb_*.txt)
-              │
-              └─▶ PromptTemplate + ChatGoogleGenerativeAI (Gemini)
-                    │
-                    └─▶ Returns natural-language recommendation → Dashboard
-```
+ArgoMind uses a **Retrieval-Augmented Generation (RAG)** pipeline to ground Gemini's responses in domain-specific farming knowledge rather than relying on general training data.
 
 ### How It Works
 
-When a farmer clicks **"Perbarui Analisis"**, the backend bundles the latest sensor snapshot and today's weather data into a context dict, then calls the LangChain pipeline:
+1. **Knowledge Base** — Plain-text files (`kb_*.txt`) in `storage/llm_responses/` cover topics like irrigation, pH management, fertilisation, disease control, and weather handling for major Indonesian crops (rice, corn, chili, tomato, potato, soybean, melon).
 
-```python
-# backend/app/services/langchain_service.py
-from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain_community.vectorstores import FAISS
+2. **Embedding** — On first use, knowledge base chunks are embedded using `models/gemini-embedding-001` and stored in a **FAISS** vector index on disk (`storage/ml/models/faiss_index/`). Subsequent restarts load directly from cache — no re-embedding needed.
 
-# 1. Retrieve top-4 relevant knowledge chunks via FAISS
-docs = vector_store.similarity_search(query, k=4)
+3. **Rate-Limit Safety** — Embedding is batched (5 chunks per batch, 65-second delays) to stay within the Google free-tier limit of 100 requests/minute. If a 429 is returned, the delay is parsed from the `retryDelay` field and respected automatically.
 
-# 2. Fill prompt template and call Gemini
-llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", ...)
-advice = llm.invoke(filled_prompt).content
-```
+4. **Retrieval** — At inference time, the top-4 most relevant knowledge chunks are retrieved via cosine similarity search.
 
-- The **context** includes: `soil_moisture`, `soil_ph`, `temperature`, `humidity`, `rainfall_mm`, `sunlight_hours`, and `crop_type`
-- The **FAISS vector store** is built in-process from all `kb_*.txt` files — no external server needed
-- The returned **natural-language string** is saved to `backend/storage/llm_responses/` and the `ai_insight_history` table, then rendered in the AI Insight Panel on the dashboard
+5. **Generation** — The retrieved context, sensor snapshot, and weather data are assembled into a structured prompt. `gemini-3.1-flash-lite` generates a concise, actionable recommendation in under 15 seconds.
 
 ### Activation
 
-Set `GOOGLE_API_KEY` in your `.env`:
-```env
-GOOGLE_API_KEY=AIza...
-LANGCHAIN_MODEL=gemini-1.5-flash
-LANGCHAIN_TEMPERATURE=0.3
-```
-
-No additional server to run — the pipeline starts inside the FastAPI process.
+The RAG pipeline activates automatically when `GOOGLE_API_KEY` is set. No additional configuration required.
 
 ---
 
 ## 🏢 IBM Bob — AI Development Assistant
 
-**IBM Bob** is the AI coding assistant used throughout the development of ArgoMind as part of **IBM Hackathon 2024**.
+This project was built with the assistance of **IBM Bob**, an AI-powered software engineering assistant.
 
 ### What Bob Was Used For
 
-| Task | How Bob Helped |
-|---|---|
-| **Architecture Design** | Designed the full system architecture: MQTT pipeline, database schema, AI service layer |
-| **Code Generation** | Scaffolded FastAPI routes, SQLAlchemy models, Paho-MQTT subscriber, and APScheduler jobs |
-| **Frontend Components** | Generated Next.js + TailwindCSS components (`SensorCard`, `AIInsightPanel`, `RegisterFarmModal`) |
-| **Documentation** | Wrote and structured this entire README |
-| **Debugging** | Diagnosed and fixed issues across backend, frontend, and integration layers |
-| **AI Layer Planning** | Designed the pluggable `ai_service.py` stub pattern for ML + LLM decoupling |
+- Scaffolding the FastAPI backend and Next.js frontend structure
+- Debugging Docker Compose startup issues and container conflicts
+- Diagnosing and fixing Gemini API compatibility issues (model deprecations, response format changes, embedding rate limits)
+- Implementing the LangChain RAG pipeline with FAISS disk caching and batch embedding
+- Adding the OpenWeatherMap Geocoding integration (city name → coordinates)
+- Translating the entire frontend UI from Indonesian to English
+- Writing and maintaining this README
 
 ### IBM Watsonx as a Potential LLM Backend
 
-The `get_llm_advice()` function in [`backend/app/services/ai_service.py`](backend/app/services/ai_service.py) is **fully pluggable**. IBM Watsonx.ai (e.g., the Granite model family) can be dropped in as the LLM backend:
+While ArgoMind currently uses Google Gemini as the LLM provider, the LangChain abstraction makes it straightforward to swap in **IBM Watsonx** as the backend:
 
 ```python
-# Example: swap Google Gemini for IBM Watsonx.ai
-from ibm_watsonx_ai.foundation_models import ModelInference
+from langchain_ibm import WatsonxLLM
 
-model = ModelInference(
+llm = WatsonxLLM(
     model_id="ibm/granite-13b-instruct-v2",
-    credentials={"apikey": WATSONX_API_KEY, "url": WATSONX_URL},
-    project_id=WATSONX_PROJECT_ID,
+    url="https://us-south.ml.cloud.ibm.com",
+    project_id="YOUR_WATSONX_PROJECT_ID",
+    params={"max_new_tokens": 600, "temperature": 0.3},
 )
-
-def get_llm_advice(context: dict) -> str:
-    prompt = f"Kamu adalah asisten pertanian. Berikan saran singkat berdasarkan data ini: {context}"
-    return model.generate_text(prompt=prompt)
 ```
 
-Place the above in `backend/app/services/ai_service.py` and add the `ibm-watsonx-ai` package to `requirements.txt` — zero other changes required.
-
-### Tool Summary
-
-| Tool | Role in ArgoMind |
-|---|---|
-| **IBM Bob** | AI coding assistant used during all phases of development |
-| **LangChain + FAISS** | RAG pipeline — retrieves farming knowledge and generates natural-language advice |
-| **IBM Watsonx.ai** | Optional drop-in LLM backend (Granite model family) — pluggable via `ai_service.py` |
+This would make ArgoMind fully IBM-native — using Watsonx for LLM inference while keeping the same RAG + FAISS retrieval architecture.
 
 ---
 
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/your-feature-name`
-3. Commit your changes: `git commit -m 'feat: add your feature'`
-4. Push the branch: `git push origin feature/your-feature-name`
-5. Open a Pull Request
-
-Please follow [Conventional Commits](https://www.conventionalcommits.org/) for commit messages.
-
-
-<div align="center">
-
-Built with ❤️ for farmers everywhere — IBM Hackathon 2024
-
-</div>
+<p align="center">
+  Built with ❤️ for IBM Hackathon · Powered by FastAPI, Next.js, LangChain & Google Gemini
+</p>

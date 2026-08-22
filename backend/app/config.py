@@ -31,12 +31,9 @@ class Settings(BaseSettings):
     # OpenWeatherMap
     OPENWEATHER_API_KEY: str = ""
 
-    # Telegram
-    TELEGRAM_BOT_TOKEN: str = ""
-
     # Google Gemini (LangChain RAG + LLM)
     GOOGLE_API_KEY: str = ""          # https://aistudio.google.com/app/apikey
-    LANGCHAIN_MODEL: str = "gemini-1.5-flash"  # model Gemini yang digunakan
+    LANGCHAIN_MODEL: str = "gemini-3.1-flash-lite"  # model Gemini yang digunakan
     LANGCHAIN_TEMPERATURE: float = 0.3         # 0.0–1.0
 
     # App

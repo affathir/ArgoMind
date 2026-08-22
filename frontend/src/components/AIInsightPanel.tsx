@@ -71,21 +71,21 @@ function renderAdvice(text: string): React.ReactNode {
 }
 
 function MLBadge({ text }: { text: string }) {
-  if (/sehat/i.test(text))
+  if (/healthy|sehat/i.test(text))
     return (
       <span className="inline-flex items-center gap-1.5 rounded-full bg-green-100 px-3 py-0.5 text-xs font-semibold text-green-800">
-        <CheckCircle2 className="h-3.5 w-3.5" /> Tanaman Sehat
+        <CheckCircle2 className="h-3.5 w-3.5" /> Healthy Crop
       </span>
     );
-  if (/busuk|layu|fusarium/i.test(text))
+  if (/rot|wilt|fusarium|busuk|layu/i.test(text))
     return (
       <span className="inline-flex items-center gap-1.5 rounded-full bg-red-100 px-3 py-0.5 text-xs font-semibold text-red-800">
-        <AlertTriangle className="h-3.5 w-3.5" /> Risiko Kritis
+        <AlertTriangle className="h-3.5 w-3.5" /> Critical Risk
       </span>
     );
   return (
     <span className="inline-flex items-center gap-1.5 rounded-full bg-yellow-100 px-3 py-0.5 text-xs font-semibold text-yellow-800">
-      <Zap className="h-3.5 w-3.5" /> Perlu Perhatian
+      <Zap className="h-3.5 w-3.5" /> Needs Attention
     </span>
   );
 }
@@ -100,8 +100,8 @@ export default function AIInsightPanel({ insight, loading, onRefresh }: Props) {
             <Sparkles className="h-5 w-5 text-white" />
           </div>
           <div>
-            <h2 className="text-base font-bold text-indigo-900">Saran Pakar (AI Insight)</h2>
-            <p className="text-xs text-indigo-400">Analisis XGBoost ML + RAG Gemini</p>
+            <h2 className="text-base font-bold text-indigo-900">AI Expert Insight</h2>
+            <p className="text-xs text-indigo-400">XGBoost ML + RAG Gemini Analysis</p>
           </div>
         </div>
         <button
@@ -112,10 +112,10 @@ export default function AIInsightPanel({ insight, loading, onRefresh }: Props) {
           {loading ? (
             <span className="flex items-center gap-2">
               <Brain className="h-3.5 w-3.5 animate-pulse" />
-              Menganalisis…
+              Analyzing…
             </span>
           ) : (
-            "Perbarui Analisis"
+            "Refresh Analysis"
           )}
         </button>
       </div>
@@ -128,9 +128,9 @@ export default function AIInsightPanel({ insight, loading, onRefresh }: Props) {
             <Brain className="absolute inset-0 m-auto h-5 w-5 text-indigo-600" />
           </div>
           <p className="text-sm font-medium text-indigo-600 animate-pulse">
-            ArgoMind AI sedang menganalisis data kebun…
+            ArgoMind AI is analyzing farm data…
           </p>
-          <p className="text-xs text-gray-400">Proses RAG + LLM membutuhkan 5–15 detik</p>
+          <p className="text-xs text-gray-400">RAG + LLM pipeline takes 5–15 seconds</p>
         </div>
       )}
 
@@ -141,14 +141,14 @@ export default function AIInsightPanel({ insight, loading, onRefresh }: Props) {
           <div className="rounded-xl border border-indigo-100 bg-white p-4 shadow-sm">
             <div className="mb-3 flex items-center justify-between flex-wrap gap-2">
               <p className="text-xs font-bold uppercase tracking-widest text-indigo-400">
-                Prediksi Penyakit (XGBoost ML)
+                Disease Prediction (XGBoost ML)
               </p>
               {insight.ml_disease_prediction && (
                 <MLBadge text={insight.ml_disease_prediction} />
               )}
             </div>
             <p className="text-sm leading-relaxed text-gray-700">
-              {insight.ml_disease_prediction ?? "Belum ada prediksi penyakit."}
+              {insight.ml_disease_prediction ?? "No disease prediction available."}
             </p>
           </div>
 
@@ -159,19 +159,19 @@ export default function AIInsightPanel({ insight, loading, onRefresh }: Props) {
                 <Sparkles className="h-3.5 w-3.5 text-purple-600" />
               </div>
               <p className="text-xs font-bold uppercase tracking-widest text-purple-400">
-                Saran Tindakan (Gemini RAG)
+                Action Recommendations (Gemini RAG)
               </p>
             </div>
             {insight.llm_advice ? (
               <div className="space-y-3">{renderAdvice(insight.llm_advice)}</div>
             ) : (
-              <p className="text-sm text-gray-500">Belum ada saran dari AI.</p>
+              <p className="text-sm text-gray-500">No AI recommendations yet.</p>
             )}
           </div>
 
           <p className="text-right text-xs text-gray-400">
-            Diperbarui:{" "}
-            {new Date(insight.timestamp).toLocaleString("id-ID", {
+            Updated:{" "}
+            {new Date(insight.timestamp).toLocaleString("en-US", {
               day: "numeric",
               month: "short",
               year: "numeric",
@@ -189,13 +189,13 @@ export default function AIInsightPanel({ insight, loading, onRefresh }: Props) {
             <Brain className="h-7 w-7 text-indigo-400" />
           </div>
           <p className="text-sm font-medium text-gray-600">
-            Belum ada analisis AI untuk kebun ini.
+            No AI analysis available for this farm yet.
           </p>
           <p className="max-w-xs text-xs text-gray-400">
-            Klik{" "}
-            <span className="font-semibold text-indigo-500">"Perbarui Analisis"</span>{" "}
-            untuk mendapatkan prediksi penyakit (ML) dan saran tindakan (Gemini AI)
-            berdasarkan kondisi sensor terkini.
+            Click{" "}
+            <span className="font-semibold text-indigo-500">&quot;Refresh Analysis&quot;</span>{" "}
+            to get an ML disease prediction and Gemini AI recommendations
+            based on the latest sensor readings.
           </p>
         </div>
       )}

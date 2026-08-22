@@ -29,6 +29,13 @@ def start_scheduler() -> None:
     _scheduler.start()
     logger.info("APScheduler started — daily weather job registered at 06:00 UTC")
 
+    # Fetch weather immediately on startup so data is available right away
+    try:
+        logger.info("Running initial weather fetch on startup...")
+        fetch_all_farms_weather()
+    except Exception as exc:
+        logger.warning("Initial weather fetch failed (non-fatal): %s", exc)
+
 
 def stop_scheduler() -> None:
     global _scheduler

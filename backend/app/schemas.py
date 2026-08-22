@@ -10,16 +10,15 @@ from datetime import datetime, date
 
 class FarmRegister(BaseModel):
     farm_id: str = Field(..., min_length=1, max_length=64)
-    telegram_id: str = Field(..., min_length=1, max_length=64)
     crop_type: Optional[str] = None
     sowing_date: Optional[date] = None
-    latitude: float = Field(..., ge=-90, le=90)
-    longitude: float = Field(..., ge=-180, le=180)
+    location_name: Optional[str] = None          # "Bandung" → resolved to lat/lon by backend
+    latitude: Optional[float] = Field(None, ge=-90, le=90)
+    longitude: Optional[float] = Field(None, ge=-180, le=180)
 
 
 class FarmOut(BaseModel):
     farm_id: str
-    telegram_id: str
     crop_type: Optional[str]
     sowing_date: Optional[date]
     latitude: float

@@ -21,7 +21,6 @@ import paho.mqtt.client as mqtt  # type: ignore
 from app.config import get_settings
 from app.models import Farm, SensorData
 from app.database import SessionLocal
-from app.services.telegram_service import check_and_notify
 
 logger = logging.getLogger(__name__)
 settings = get_settings()
@@ -66,18 +65,6 @@ def _on_message(client: mqtt.Client, userdata, msg: mqtt.MQTTMessage) -> None:
         db.add(sensor)
         db.commit()
         logger.debug("Sensor data saved for farm %s", farm_id)
-
-        # Threshold check & Telegram notification
-        check_and_notify(
-            farm_id=farm_id,
-            telegram_id=str(farm.telegram_id),
-            sensor={
-                "soil_moisture": sensor.soil_moisture,
-                "soil_ph": sensor.soil_ph,
-                "temperature": sensor.temperature,
-                "humidity": sensor.humidity,
-            },
-        )
     except Exception as exc:
         db.rollback()
         logger.error("Error saving sensor data for farm %s: %s", farm_id, exc)

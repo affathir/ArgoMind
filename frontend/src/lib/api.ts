@@ -14,6 +14,11 @@ const BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000";
 
 const api = axios.create({ baseURL: BASE });
 
+export async function getFarms(): Promise<FarmOut[]> {
+  const res = await api.get<FarmOut[]>("/api/farms");
+  return res.data;
+}
+
 export async function getLatestSensor(farmId: string): Promise<SensorData | null> {
   const res = await api.get<SensorData[]>(`/api/farms/${farmId}/sensors?limit=1`);
   return res.data[0] ?? null;
