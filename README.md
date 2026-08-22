@@ -5,35 +5,6 @@
 
 ---
 
-## 🚀 Quick Start (Docker — Recommended)
-
-### Windows
-```bat
-REM Double-click or run from PowerShell:
-.\start.bat
-```
-
-### macOS / Linux
-```bash
-chmod +x start.sh && ./start.sh
-```
-
-The script will:
-1. Check that Docker Desktop is running
-2. Copy `.env.docker.example` → `.env` if missing and prompt you to fill in API keys
-3. Run `docker compose up --build`
-
-Once all containers are healthy, open:
-
-| Service | URL |
-|---|---|
-| 🌐 Dashboard | http://localhost:3000 |
-| ⚙️ API Docs (Swagger) | http://localhost:8000/docs |
-| 💚 Health Check | http://localhost:8000/health |
-| 📡 MQTT Broker | `localhost:1883` |
-
----
-
 ## 📋 Table of Contents
 
 - [Challenge Theme](#-challenge-theme)
@@ -369,6 +340,36 @@ GET /api/farms/{id}/insight
                     │
                     └─▶ Save to AIInsightHistory + return to frontend
 ```
+
+---
+
+## 🚀 Quick Start (Docker — Recommended)
+
+### Windows
+```bat
+REM Double-click or run from PowerShell:
+.\start.bat
+```
+
+### macOS / Linux
+```bash
+chmod +x start.sh && ./start.sh
+```
+
+The script will:
+1. Check that Docker Desktop is running
+2. Copy `.env.docker.example` → `.env` if missing and prompt you to fill in API keys
+3. Run `docker compose up --build`
+
+Once all containers are healthy, open:
+
+| Service | URL |
+|---|---|
+| 🌐 Dashboard | http://localhost:3000 |
+| ⚙️ API Docs (Swagger) | http://localhost:8000/docs |
+| 💚 Health Check | http://localhost:8000/health |
+| 📡 MQTT Broker | `localhost:1883` |
+
 
 ---
 
