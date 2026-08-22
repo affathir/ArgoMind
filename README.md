@@ -28,34 +28,31 @@
 
 ## 🏆 Challenge Theme
 
-**IBM Hackathon — AI for Good: Smart Agriculture**
+**Wildcard Challenge - Build Intelligent Systems for the Future of Work**
 
-Leveraging artificial intelligence and IoT to help smallholder farmers make better, faster, data-driven decisions that improve crop yield, reduce disease loss, and optimize resource usage.
+ArgoMind leverages artificial intelligence and IoT to help smallholder farmers make better, faster, and evidence-based decisions. It shifts the paradigm of agricultural work from manual, repetitive monitoring into an intelligent, outcome-driven orchestration system that improves crop yield and optimizes resource usage.
 
 ---
 
 ## ❗ Problem Statement
 
-Smallholder farmers in developing countries face three critical challenges:
+Smallholder farmers in developing countries face critical challenges that lead to billions in annual crop losses:
 
-1. **Delayed disease detection** — By the time symptoms are visible, crop loss is already significant
-2. **Inefficient resource use** — Overwatering, under-fertilising, or wrong-timing of inputs
-3. **Lack of expert access** — Agricultural advisors are expensive and geographically distant
+1. **The "Data-Rich, Decision-Poor" Gap:** Farmers increasingly have access to raw sensor data, but lack the technical expertise to translate numbers (e.g., "moisture: 22%, pH: 5.5") into immediate action.
+2. **Delayed Disease Detection:** By the time symptoms are visible to the human eye, crop loss is already significant.
+3. **Inefficient Workflow:** Traditional IoT dashboards are passive—they require constant manual monitoring, adding cognitive load rather than reducing it. 
 
-These problems cost billions in annual crop losses worldwide and disproportionately affect small-scale farmers.
-
+These problems persist because current systems stop at providing data, rather than orchestrating the workflow to solve the problem.
 ---
 
 ## 💡 Solution Overview
 
-ArgoMind provides an affordable, open-source IoT + AI stack that any farmer can deploy:
+ArgoMind provides an affordable, open-source AI copilot stack that automates the agricultural decision-making workflow:
 
-- **IoT sensors** (ESP32 + soil/temperature/humidity sensors) publish data via MQTT
-- **XGBoost ML model** runs disease risk prediction on every incoming reading
-- **LangChain RAG pipeline** retrieves relevant farming knowledge and generates actionable advice via Google Gemini
-- **Real-time dashboard** shows live sensor readings, weather forecasts, and AI recommendations
-- **Demo mode** lets anyone try the full system without hardware using the built-in simulator
-
+- **Ingest & Predict:** IoT sensors (ESP32) publish live field data via MQTT. An XGBoost ML model immediately evaluates this data for disease risk probabilities.
+- **Reason:** A LangChain RAG pipeline retrieves relevant agronomic knowledge and uses Google Gemini to contextually analyze the flagged data alongside daily weather forecasts.
+- **Orchestrate:** Instead of just showing a chart, the AI generates actionable tasks (e.g., "Apply dolomite lime tomorrow morning") delivered straight to a real-time Next.js dashboard.
+- **Accessible Testing:** A built-in simulator mode allows anyone to test the full data-to-decision pipeline without requiring physical hardware.
 ---
 
 ## ✨ Key Features
