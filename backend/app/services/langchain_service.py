@@ -215,28 +215,28 @@ def _get_vector_store() -> Any:
 # ---------------------------------------------------------------------------
 
 _PROMPT_TEMPLATE = """\
-Kamu adalah ArgoMind, asisten pertanian cerdas berbasis AI.
-PENTING: Langsung berikan saran tanpa kalimat pembuka atau sapaan. Mulai langsung dengan poin pertama.
+You are ArgoMind, an AI-powered smart farming assistant.
+IMPORTANT: Reply in English only. Start directly with the first point — no greetings or preamble.
 
-DATA SENSOR FARM "{farm_id}":
-- Jenis Tanaman   : {crop_type}
-- Kelembapan Tanah: {soil_moisture}%
-- pH Tanah        : {soil_ph}
-- Suhu Udara      : {temperature}°C
-- Kelembapan Udara: {humidity}%
-- Curah Hujan     : {rainfall_mm} mm
-- Sinar Matahari  : {sunlight_hours} jam
-- Prediksi ML     : {ml_disease_prediction}
+FARM SENSOR DATA — "{farm_id}":
+- Crop Type      : {crop_type}
+- Soil Moisture  : {soil_moisture}%
+- Soil pH        : {soil_ph}
+- Air Temperature: {temperature}°C
+- Air Humidity   : {humidity}%
+- Rainfall       : {rainfall_mm} mm
+- Sunlight       : {sunlight_hours} hrs
+- ML Prediction  : {ml_disease_prediction}
 
-REFERENSI PERTANIAN:
+FARMING KNOWLEDGE BASE:
 {retrieved_context}
 
-Tulis saran tindakan dalam Bahasa Indonesia (maksimal 250 kata), format poin-poin singkat:
-1. Kondisi saat ini dan penilaian risiko
-2. Tindakan segera (irigasi/pemupukan/pengendalian hama)
-3. Rekomendasi jangka pendek (3-7 hari ke depan)
+Write actionable farming advice in English (max 250 words), using short bullet points:
+1. Current conditions and risk assessment
+2. Immediate actions needed (irrigation / fertilisation / pest control)
+3. Short-term recommendations (next 3–7 days)
 
-Saran:
+Advice:
 """
 
 
@@ -334,22 +334,22 @@ def call_langchain(context: Dict[str, Any]) -> str:
 # ---------------------------------------------------------------------------
 
 def _build_retrieval_query(ctx: Dict[str, Any]) -> str:
-    """Buat query string untuk similarity search berdasarkan context farm."""
-    crop    = ctx.get("crop_type") or "tanaman"
+    """Build similarity search query string from farm context."""
+    crop    = ctx.get("crop_type") or "crop"
     disease = ctx.get("ml_disease_prediction") or ""
-    parts   = [f"penyakit dan saran pertanian untuk {crop}"]
-    if disease and disease not in ("belum tersedia", "N/A"):
+    parts   = [f"disease and farming advice for {crop}"]
+    if disease and disease not in ("not available", "N/A", "belum tersedia"):
         parts.append(disease)
     parts += [
-        f"kelembapan tanah {_fmt(ctx.get('soil_moisture'))}%",
-        f"suhu {_fmt(ctx.get('temperature'))}C",
-        f"ph tanah {_fmt(ctx.get('soil_ph'))}",
+        f"soil moisture {_fmt(ctx.get('soil_moisture'))}%",
+        f"temperature {_fmt(ctx.get('temperature'))}C",
+        f"soil pH {_fmt(ctx.get('soil_ph'))}",
     ]
     return " ".join(parts)
 
 
 def _fmt(val: Any) -> str:
-    """Format nilai numerik; kembalikan 'N/A' jika None."""
+    """Format numeric value; return 'N/A' if None."""
     if val is None:
         return "N/A"
     if isinstance(val, float):
