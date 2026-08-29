@@ -382,7 +382,7 @@ Once all containers are healthy, open:
 ### Step 1 — Clone the Repository
 
 ```bash
-git clone https://github.com/your-org/argomind.git
+git clone https://github.com/affathir/argomind.git
 cd argomind
 ```
 
