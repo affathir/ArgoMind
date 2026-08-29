@@ -41,31 +41,31 @@ SCENARIOS = {
         "temperature":   28.0,
         "humidity":      65.0,
     },
-    "kekeringan": {
+    "drought": {
         "soil_moisture": 12.0,
         "soil_ph":       6.2,
         "temperature":   37.0,
         "humidity":      28.0,
     },
-    "banjir": {
+    "flood": {
         "soil_moisture": 88.0,
         "soil_ph":       4.8,
         "temperature":   26.0,
         "humidity":      92.0,
     },
-    "panas_ekstrem": {
+    "extreme_heat": {
         "soil_moisture": 30.0,
         "soil_ph":       6.8,
         "temperature":   41.0,
         "humidity":      22.0,
     },
-    "ph_tinggi": {
+    "high_pH": {
         "soil_moisture": 50.0,
         "soil_ph":       8.2,
         "temperature":   30.0,
         "humidity":      60.0,
     },
-    "ph_rendah": {
+    "low_pH": {
         "soil_moisture": 48.0,
         "soil_ph":       4.5,
         "temperature":   29.0,
