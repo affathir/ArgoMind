@@ -1,8 +1,8 @@
 """
 simulator.py
 ------------
-Endpoint untuk mensimulasikan pengiriman data sensor IoT tanpa hardware nyata.
-Digunakan untuk demo dan testing di ArgoMind dashboard.
+Endpoint for simulating IoT sensor data transmission without actual hardware.
+Used for demo and testing in the ArgoMind dashboard.
 """
 import logging
 
@@ -20,11 +20,11 @@ router = APIRouter(prefix="/api/simulator", tags=["simulator"])
 # ── Schemas ───────────────────────────────────────────────────────────────────
 
 class SimulatorPayload(BaseModel):
-    farm_id: str = Field(..., description="Farm ID tujuan")
-    soil_moisture: float = Field(..., ge=0, le=100, description="Kelembapan tanah (%)")
-    soil_ph: float = Field(..., ge=0, le=14, description="pH tanah")
-    temperature: float = Field(..., ge=-10, le=60, description="Suhu udara (°C)")
-    humidity: float = Field(..., ge=0, le=100, description="Kelembapan udara (%)")
+    farm_id: str = Field(..., description="Target Farm ID")
+    soil_moisture: float = Field(..., ge=0, le=100, description="Soil moisture (%)")
+    soil_ph: float = Field(..., ge=0, le=14, description="Soil pH")
+    temperature: float = Field(..., ge=-10, le=60, description="Air temperature (°C)")
+    humidity: float = Field(..., ge=0, le=100, description="Air humidity (%)")
 
 
 class SimulatorOut(BaseModel):
@@ -41,46 +41,46 @@ class SimulatorOut(BaseModel):
         from_attributes = True
 
 
-# ── Preset skenario ───────────────────────────────────────────────────────────
+# ── Preset scenarios ──────────────────────────────────────────────────────────
 
 PRESETS = {
     "normal": {
-        "label": "Kondisi Normal",
+        "label": "Normal Conditions",
         "soil_moisture": 55.0,
         "soil_ph": 6.5,
         "temperature": 28.0,
         "humidity": 65.0,
     },
-    "kekeringan": {
-        "label": "Kekeringan (Kelembapan Kritis)",
+    "drought": {
+        "label": "Drought (Critical Moisture)",
         "soil_moisture": 12.0,
         "soil_ph": 6.2,
         "temperature": 37.0,
         "humidity": 28.0,
     },
-    "banjir": {
-        "label": "Potensi Busuk Akar (Terlalu Lembap)",
+    "flood_risk": {
+        "label": "Root Rot Risk (Too Wet)",
         "soil_moisture": 88.0,
         "soil_ph": 4.8,
         "temperature": 26.0,
         "humidity": 92.0,
     },
-    "panas_ekstrem": {
-        "label": "Suhu Ekstrem",
+    "extreme_heat": {
+        "label": "Extreme Heat",
         "soil_moisture": 30.0,
         "soil_ph": 6.8,
         "temperature": 41.0,
         "humidity": 22.0,
     },
-    "ph_tinggi": {
-        "label": "pH Tanah Terlalu Tinggi",
+    "high_ph": {
+        "label": "Soil pH Too High",
         "soil_moisture": 50.0,
         "soil_ph": 8.2,
         "temperature": 30.0,
         "humidity": 60.0,
     },
-    "ph_rendah": {
-        "label": "pH Tanah Terlalu Rendah",
+    "low_ph": {
+        "label": "Soil pH Too Low",
         "soil_moisture": 48.0,
         "soil_ph": 4.5,
         "temperature": 29.0,
@@ -91,9 +91,9 @@ PRESETS = {
 
 # ── Endpoints ─────────────────────────────────────────────────────────────────
 
-@router.get("/presets", summary="Dapatkan daftar preset skenario simulasi")
+@router.get("/presets", summary="Get list of simulation scenario presets")
 def get_presets():
-    """Kembalikan daftar preset skenario yang tersedia."""
+    """Return list of available simulation scenario presets."""
     return PRESETS
 
 
@@ -101,15 +101,15 @@ def get_presets():
     "/send",
     response_model=SimulatorOut,
     status_code=status.HTTP_201_CREATED,
-    summary="Kirim data sensor simulasi ke farm",
+    summary="Send simulated sensor data to farm",
 )
 def send_simulated_sensor(payload: SimulatorPayload, db: Session = Depends(get_db)):
-    """Simpan data sensor simulasi ke database seolah-olah dikirim dari perangkat IoT."""
+    """Save simulated sensor data to database as if sent from an IoT device."""
     farm = db.query(Farm).filter(Farm.farm_id == payload.farm_id).first()
     if not farm:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Farm '{payload.farm_id}' tidak ditemukan. Daftarkan farm terlebih dahulu.",
+            detail=f"Farm '{payload.farm_id}' not found. Please register the farm first.",
         )
 
     sensor = SensorData(
@@ -131,7 +131,7 @@ def send_simulated_sensor(payload: SimulatorPayload, db: Session = Depends(get_d
 
     return SimulatorOut(
         success=True,
-        message="Data sensor berhasil dikirim ke dashboard.",
+        message="Sensor data successfully sent to dashboard.",
         sensor_id=sensor.id,
         farm_id=sensor.farm_id,
         soil_moisture=sensor.soil_moisture,
