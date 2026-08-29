@@ -38,11 +38,11 @@ MODEL_VERSION: Optional[str] = None   # e.g. "disease_classifier_v2.pkl"
 
 # ── Risk label → human-readable message ──────────────────────────────────────
 LABEL_MESSAGES: Dict[str, str] = {
-    "Sehat":          "✅ Kondisi tanah SEHAT. Tidak ada indikasi penyakit saat ini.",
-    "Blast":          "⚠️ Risiko BLAST terdeteksi. Periksa daun padi dan pertimbangkan fungisida.",
-    "Bercak_Daun":    "⚠️ Risiko BERCAK DAUN terdeteksi. Kurangi kepadatan tanaman dan tingkatkan sirkulasi udara.",
-    "Busuk_Akar":     "🚨 Risiko BUSUK AKAR terdeteksi. Perbaiki drainase dan kurangi irigasi segera.",
-    "Layu_Fusarium":  "🚨 Risiko LAYU FUSARIUM terdeteksi. Cabut tanaman terinfeksi dan sterilkan media tanam.",
+    "Sehat":          "✅ Soil condition HEALTHY. No disease indications currently.",
+    "Blast":          "⚠️ BLAST risk detected. Check rice leaves and consider fungicide.",
+    "Bercak_Daun":    "⚠️ LEAF SPOT risk detected. Reduce plant density and increase air circulation.",
+    "Busuk_Akar":     "🚨 ROOT ROT risk detected. Improve drainage and reduce irrigation immediately.",
+    "Layu_Fusarium":  "🚨 FUSARIUM WILT risk detected. Remove infected plants and sterilize growing media.",
 }
 
 
@@ -81,8 +81,8 @@ class DiseasePredictor:
         proba    = self._model.predict_proba(X)[0]
         confidence = round(float(proba[encoded]) * 100, 1)
 
-        message = LABEL_MESSAGES.get(label, f"Terdeteksi: {label}")
-        return f"{message} (Keyakinan model: {confidence}%)"
+        message = LABEL_MESSAGES.get(label, f"Detected: {label}")
+        return f"{message} (Model confidence: {confidence}%)"
 
     def predict_raw(self, sensor: Dict[str, Any]) -> Dict[str, Any]:
         """Returns the full prediction dict with label, confidence, and all probabilities."""
@@ -99,7 +99,7 @@ class DiseasePredictor:
                 cls: round(float(p), 4)
                 for cls, p in zip(self._le.classes_, proba)
             },
-            "message": LABEL_MESSAGES.get(label, f"Terdeteksi: {label}"),
+            "message": LABEL_MESSAGES.get(label, f"Detected: {label}"),
         }
 
 
