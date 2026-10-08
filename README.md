@@ -22,7 +22,6 @@
 - [Alert Thresholds](#-alert-thresholds)
 - [Extending the AI Layer](#-extending-the-ai-layer)
 - [LangChain Integration](#-langchain-integration)
-- [IBM Bob — AI Development Assistant](#-ibm-bob--ai-development-assistant)
 
 ---
 
